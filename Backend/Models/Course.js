@@ -6,22 +6,19 @@ const courseSchema = new Schema({
         type : String,
         required : true,
         unique :true,
-        trim :true,
-        minLength :3
+        trim :true
     },
     subtitles :{
         type : String,
         required : true,
         unique :false,
-        trim :true,
-        minLength :3
+        trim :true
     },
     summary :{
         type : String,
         required : true,
         unique :false,
-        trim :true,
-        minLength :3
+        trim :true
     },
     price :{
         type : Number,
@@ -37,6 +34,17 @@ const courseSchema = new Schema({
         type :Number,
         required :false,
         unique :false
+    },
+    subject :{
+        type : String,
+        required : false,
+        unique :false,
+        trim :true
+    },
+    taughtby:{
+        type:mongoose.Schema.Types.ObjectId,ref:'Instructor',
+        required:false,
+        unique:true
     }
 
 
