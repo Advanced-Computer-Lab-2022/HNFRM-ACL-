@@ -7,7 +7,6 @@ const viewCourses = async (req, res) => {
     
     try{
         const courses = await Course.find().select('title rating credithours');
-        
         res.render("viewCourses",{alert:"",results2:courses})
     }catch(error){
         res.status(400).json({error:error.message})
@@ -20,6 +19,7 @@ const viewCourses = async (req, res) => {
     const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
     try{
         const courses = await Course.find({taughtby:instructorId}).select('title rating credithours');
+        
         res.render("viewCoursesInstructor",{alert:"",results2:courses})
     }catch(error){
         res.status(400).json({error:error.message})
@@ -53,7 +53,6 @@ const viewCourses = async (req, res) => {
             {taughtby:instructorId}
         ]
         });
-        console.log(courses);
         res.render("searchResults",{alert:"",results:courses})
     }catch(error){
         res.status(400).json({error:error.message})
@@ -69,7 +68,7 @@ const viewCourses = async (req, res) => {
         const course = await Course.findById(courseId).select('title price')
         var courses=[];
         courses.push(course);    
-        console.log(courses);
+        
 
         res.render("viewCoursePrice",{alert:"",results90:courses})
     }catch(error){
@@ -141,7 +140,8 @@ const filterCourse = async(req,res) =>{
 //filter the courses given by him/her based on a subject or price 'Instructor'
 const filterCourseInstructor = async(req,res) =>{
     const filter = req.body.filter;
-    const instructorId = mongoose.Types.ObjectId(req.params.instructorId);
+    const courseId = mongoose.Types.ObjectId(req.params.id);
+    
     if(req.body.price){
         const result = await Course.find({"$and":[
             {price:Number(filter)},
@@ -166,7 +166,7 @@ const filterCourseInstructor = async(req,res) =>{
 }
 
 
-module.exports = {createCourse,viewCourse,viewCourses,viewCoursePrice,viewCoursesInstructor,filterCourse,filterCourseInstructor,searchCourse,searchCourseInstructor};
+module.exports = {createCourse,viewCourses,viewCourse,viewCoursePrice,searchCourse,filterCourse,viewCoursesInstructor,filterCourseInstructor,searchCourseInstructor};
 
 
 

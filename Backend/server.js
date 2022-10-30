@@ -61,17 +61,11 @@ app.get('/search',function(req,res){
 });
 app.post('/search',searchCourse);
 
-
 app.get('/searchInstructor',function(req,res){
   
   res.render('searchInstructor',{alert:req.query.alert});
 });
 app.post('/searchInstructor',searchCourseInstructor);
-
-app.get('/filter',function(req,res){
-  res.render('filter',{alert:req.query.alert});
-});
-app.post('/filter',filterCourse);
 
 app.get('/filterInstructor',function(req,res){
   
@@ -81,8 +75,6 @@ app.post('/filterInstructor',filterCourseInstructor);
 
 app.get('/viewCourses',viewCourses)
 app.get('/viewCoursesInstructor',viewCoursesInstructor)
-
-
 app.get('/viewCoursePrice',viewCoursePrice)
 app.get('/viewCourse/:id',viewCourse)
 

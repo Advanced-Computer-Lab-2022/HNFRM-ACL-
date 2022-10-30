@@ -45,6 +45,11 @@ const courseSchema = new Schema({
         type: String,
         required:false,
         unique:true
+    },
+    exercises:{
+        type : String,
+        required:false,
+        unique:true
     }
 
 

@@ -10,6 +10,7 @@
     <ul>
         <% results2.forEach((result)=> { %>
             <li>
+                <div>
                 <h2>
                     <%= result.title %>
                 </h2>
@@ -19,6 +20,8 @@
                 <p2>
                     <%= result.rating %>
                 </p2>
+                <button onclick="location.href = '/viewCourse/<%= result.id %>';" id="course" class="btn btn-secondary ml-3"> View </button>
+                </div>
             </li>
             <hr />
         <% }) %>
