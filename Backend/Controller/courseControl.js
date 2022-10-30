@@ -7,7 +7,7 @@ const viewCourses = async (req, res) => {
     
     try{
         const courses = await Course.find().select('title rating credithours');
-        console.log(courses);
+        
         res.render("viewCourses",{alert:"",results2:courses})
     }catch(error){
         res.status(400).json({error:error.message})
@@ -20,8 +20,7 @@ const viewCourses = async (req, res) => {
     const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
     try{
         const courses = await Course.find({taughtby:instructorId}).select('title rating credithours');
-        console.log(courses);
-        res.render("viewCourses",{alert:"",results2:courses})
+        res.render("viewCoursesInstructor",{alert:"",results2:courses})
     }catch(error){
         res.status(400).json({error:error.message})
 
@@ -54,6 +53,7 @@ const viewCourses = async (req, res) => {
             {taughtby:instructorId}
         ]
         });
+        console.log(courses);
         res.render("searchResults",{alert:"",results:courses})
     }catch(error){
         res.status(400).json({error:error.message})
@@ -116,7 +116,7 @@ const createCourse = async(req,res) => {
 //filter the courses based on a subject and/or rating and price
 const filterCourse = async(req,res) =>{
     const filter = req.body.filter;
-    console.log(req.body.subject);
+    
     if(req.body.price){
         const result = await Course.find({price:Number(filter)}).populate('price');
         
@@ -129,9 +129,8 @@ const filterCourse = async(req,res) =>{
         res.render("filterResults",{alert:"",results00:result})
     }
     else if(req.body.subject){
-        console.log("Hano");
+        
         const result = await Course.find({subject:filter}).populate('subject');
-        console.log(result);
         res.render("filterResults",{alert:"",results00:result})
     }
     else{
@@ -142,10 +141,9 @@ const filterCourse = async(req,res) =>{
 //filter the courses given by him/her based on a subject or price 'Instructor'
 const filterCourseInstructor = async(req,res) =>{
     const filter = req.body.filter;
-    const courseId = mongoose.Types.ObjectId(req.params.id);
-    console.log(req.body.subject);
+    const instructorId = mongoose.Types.ObjectId(req.params.instructorId);
     if(req.body.price){
-        const result = await Course.find({"$or":[
+        const result = await Course.find({"$and":[
             {price:Number(filter)},
             {taughtby:instructorId}
         ]
@@ -154,12 +152,12 @@ const filterCourseInstructor = async(req,res) =>{
         res.render("filterResults",{alert:"",results00:result})
     }
     else if(req.body.subject){
-        const result = await Course.find({"$or":[
+        const result = await Course.find({"$and":[
             {subject:filter},
             {taughtby:instructorId}
         ]
         }).populate('subject');
-        console.log(result);
+        
         res.render("filterResults",{alert:"",results00:result})
     }
     else{
