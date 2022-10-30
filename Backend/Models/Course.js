@@ -42,7 +42,7 @@ const courseSchema = new Schema({
         trim :true
     },
     taughtby:{
-        type:mongoose.Schema.Types.ObjectId,ref:'Instructor',
+        type: String,
         required:false,
         unique:true
     }

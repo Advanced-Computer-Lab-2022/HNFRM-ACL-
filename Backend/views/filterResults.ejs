@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter results</title>
+</head>
+<body>
+    <ul>
+        <% results00.forEach((result)=> { %>
+            <li>
+                <div>
+                <h2>
+                    <%= result.title %>
+                </h2>
+                <button onclick="location.href = '/viewCourse/<%= result.id %>';" id="course" class="btn btn-secondary ml-3"> View </button>
+                </div>
+            </li>
+            <hr />
+        <% }) %>
+    </ul>
+</body>
+</html>

@@ -1,17 +1,16 @@
 const router = require('express').Router();
 let CorporateTrainee = require('../Models/CorporateTrainee');
 
-router.get('/',(req,res) =>{
-    CorporateTrainee.find()
-    .then(corporateTraineeControl => res.json(corporateTraineeControl)).catch(err => res.status(400).json('Error:'+err));
-});
-
-router.post('/add',(req,res) => {
+//add corporate trainees and create their usernames and passwords
+const createCorporateTrainee = async(req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    try{
+        const corporateTrainee = await CorporateTrainee.create({username, password});
+        res.status(200).json(corporateTrainee)
+    }catch(error){
+        res.status(400).json({error:error.message})
 
-    const newCorporateTrainee = new CorporateTrainee({username,password});
-    newCorporateTrainee.save()
-    .then(()=>res.json('Corporate Trainee Added')).catch(err => res.status(400).json('Error:'+err));
-});
-module.exports = router;
+    }
+}
+module.exports = {createCorporateTrainee};

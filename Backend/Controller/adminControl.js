@@ -1,17 +1,16 @@
 const router = require('express').Router();
 let Admin = require('../Models/Admin');
 
-router.get('/',(req,res) =>{
-    Admin.find()
-    .then(adminControl => res.json(adminControl)).catch(err => res.status(400).json('Error:'+err));
-});
-
-router.post('/add',(req,res) => {
+//add another administrator with a set username and password
+const createAdmin = async(req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    try{
+        const admin = await Admin.create({username, password});
+        res.status(200).json(admin)
+    }catch(error){
+        res.status(400).json({error:error.message})
 
-    const newAdmin = new Admin({username,password});
-    newAdmin.save()
-    .then(()=>res.json('Admin Added')).catch(err => res.status(400).json('Error:'+err));
-});
-module.exports = router;
+    }
+}
+module.exports = {createAdmin};

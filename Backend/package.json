@@ -1,6 +1,16 @@
 {
   "dependencies": {
     "body-parser": "^1.20.1",
-    "dotenv": "^16.0.3"
+    "country-select-js": "^2.1.0",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "flatted": "^3.2.7",
+    "jquery": "^3.6.1",
+    "jsdom": "^20.0.1",
+    "mobiscroll": "^3.0.0-beta6",
+    "react": "^18.2.0",
+    "react-select": "^5.5.7",
+    "react-select-country-list": "^2.2.3",
+    "window": "^4.2.7"
   }
 }
