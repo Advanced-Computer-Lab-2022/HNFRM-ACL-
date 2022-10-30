@@ -168,7 +168,7 @@ const filterCourseInstructor = async(req,res) =>{
 }
 
 
-module.exports = {createCourse,viewCourses,viewCourse,viewCoursePrice,searchCourse,filterCourse,viewCoursesInstructor,filterCourseInstructor,searchCourseInstructor};
+module.exports = {createCourse,viewCourse,viewCourses,viewCoursePrice,viewCoursesInstructor,filterCourse,filterCourseInstructor,searchCourse,searchCourseInstructor};
 
 
 
