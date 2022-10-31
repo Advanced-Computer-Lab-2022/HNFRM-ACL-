@@ -16,7 +16,7 @@ const viewCourses = async (req, res) => {
 
   //view all the titles of the courses given by him/her 'Instructor'
   const viewCoursesInstructor = async (req, res) => {
-    const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
+    const instructorId =req.params.id;
     try{
         const courses = await Course.find({taughtby:instructorId}).select('title rating credithours');
         
@@ -45,7 +45,7 @@ const viewCourses = async (req, res) => {
 
  //search for a course given by him/her based on course title or subject or instructor
  const searchCourseInstructor = async(req,res) => {
-    const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
+    const instructorId =req.params.id;
     try{
         const courses = await Course.find({"$or":[
             {title:{$regex:`${req.body.search}`}}, 
@@ -115,8 +115,16 @@ const createCourse = async(req,res) => {
 //filter the courses based on a subject and/or rating and price
 const filterCourse = async(req,res) =>{
     const filter = req.body.filter;
-    
-    if(req.body.price){
+    if(req.body.rating && req.body.subject){
+        const result = await Course.find({"$or":[
+            {price:Number(filter)},
+            {subject:filter}
+        ]
+        })
+        
+        res.render("filterResults",{alert:"",results00:result})
+    }
+    else if(req.body.price){
         const result = await Course.find({price:Number(filter)}).populate('price');
         
         res.render("filterResults",{alert:"",results00:result})
@@ -140,23 +148,23 @@ const filterCourse = async(req,res) =>{
 //filter the courses given by him/her based on a subject or price 'Instructor'
 const filterCourseInstructor = async(req,res) =>{
     const filter = req.body.filter;
-    const courseId = mongoose.Types.ObjectId(req.params.id);
-    
+    const instructorId =req.params.id;
     if(req.body.price){
         const result = await Course.find({"$and":[
             {price:Number(filter)},
-            {taughtby:instructorId}
+            {taughtby:req.query.instructorId}
         ]
-        }).populate('price');
+        });
         
         res.render("filterResults",{alert:"",results00:result})
     }
     else if(req.body.subject){
         const result = await Course.find({"$and":[
             {subject:filter},
-            {taughtby:instructorId}
+            {taughtby:req.query.instructorId}
         ]
-        }).populate('subject');
+        });
+        console.log(result);
         
         res.render("filterResults",{alert:"",results00:result})
     }

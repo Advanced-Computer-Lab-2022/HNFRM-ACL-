@@ -3,15 +3,11 @@
 
 <head>
     <style>
-        body {
-            background-image: url("background2.jpg");
-            background-repeat: no-repeat;
-            background-size: 100%;
-            }
+        
         h1 {
             color: white;
             text-align: center;
-            -webkit-text-stroke: 1px blue;
+            -webkit-text-stroke: 1px rgb(63, 63, 90);
         }
         .cont {
             position:relative;
@@ -31,10 +27,10 @@
 
 <body>
     <div class="container">
-        <h1>Search for a course</h1>
+        <h1>Filter Courses</h1>
     </div>
     <div class="cont">
-        <form method='post' action='/filterInstructor'>
+        <form method='post' action='/filterInstructor/:id'>
             Filter By Title , Subject , Price: 
             <input type="text" id="filter" name="filter"> <br>
             
@@ -44,9 +40,7 @@
                 <div class="checkbox">
                     <label><input type="checkbox" name="subject" id="subject" value="false">Subject</label>
                 </div>
-                <div class="checkbox">
-                    <label><input type="checkbox" name="rating" id="rating" value="false">Rating</label>
-                </div>
+                
             
             <input type="submit" id="simple_click" class="btn btn-secondary" value="Filter"> <br>
         </form>
