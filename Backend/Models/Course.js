@@ -47,7 +47,12 @@ const courseSchema = new Schema({
     subtitleslinks :{
         type:[String],
         required:false
+    },
+    descriptions :{
+        type:[String],
+        required:false
     }
+
 
 
 
