@@ -18,11 +18,6 @@ const instructorSchema = new Schema({
         unique :false,
         trim :true,
         minLength :3
-    },
-    course:{
-        type:mongoose.Schema.Types.ObjectId,ref:'Course',
-        required:false,
-        unique:true
     }
 }, { timestamps: true });
 const Instructor = mongoose.model('Instructor', instructorSchema);

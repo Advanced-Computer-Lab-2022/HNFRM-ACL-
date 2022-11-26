@@ -4,53 +4,51 @@ const Schema = mongoose.Schema;
 const courseSchema = new Schema({
     title :{
         type : String,
-        required : true,
-        unique :true,
-        trim :true
+        required : true
     },
     subtitles :{
-        type : String,
-        required : true,
-        unique :false,
-        trim :true
+        type : [String],
+        required : true
     },
     summary :{
         type : String,
-        required : true,
-        unique :false,
-        trim :true
+        required : true
     },
     price :{
         type : Number,
-        required : true,
-        unique :false
+        required : true
     },
     credithours :{
         type : Number,
-        required :false,
-        unique :false
+        required :false
     },
     rating :{
         type :Number,
-        required :false,
-        unique :false
+        required :false
     },
-    subject :{
-        type : String,
-        required : false,
-        unique :false,
-        trim :true
+    taughtBy :{
+        type: mongoose.Types.ObjectId,
+        ref:'Instructor'
     },
-    taughtby:{
-        type: String,
-        required:false,
-        unique:true
+    reviews :{
+        type : [String],
+        required:false
     },
-    exercises:{
-        type : String,
-        required:false,
-        unique:true
+    link :{
+        type: String
+            /*validate: {
+               validator: function(v) {
+                    return /^https:\/\/www.youtube.com\/.*$/.test(v);
+               },
+               message: props => `${props.value} is not a valid youtube link.`
+            }*/
+        
+    },
+    subtitleslinks :{
+        type:[String],
+        required:false
     }
+
 
 
 

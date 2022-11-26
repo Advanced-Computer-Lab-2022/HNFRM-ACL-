@@ -1,18 +1,13 @@
 const express = require("express");
 const mongoose = require('mongoose');
-const { openDelimiter } = require('ejs');
-var path = require('path');
+const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
+
 const port = process.env.PORT || "8000";
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-app.engine('ejs', require('ejs').__express);
-app.use(express.static(__dirname + '../public'));
+app.use(cors());
+app.use(express.json())
 
 MongoURI = process.env.ATLAS_URI;
 
@@ -25,61 +20,28 @@ mongoose.connect(MongoURI)
 })
 .catch(err => console.log(err));
 
-
-const {createAdmin} = require('./Controller/adminControl');
-app.get('/addAdmin',function(req,res){
-  
-  res.render('addAdmin',{alert:req.query.alert});
+app.get("/home", (req, res) => {
+  res.status(200).send("You have everything installed!");
 });
-app.post('/addAdmin',createAdmin);
 
-const {createInstuctor} = require('./Controller/instructorControl');
-app.get('/addInstructor',function(req,res){
-  
-  res.render('addInstructor',{alert:req.query.alert});
-});
-app.post('/addInstructor',createInstuctor);
+const {createAdmin,createInstructor,createCorporateTrainee}= require('./Controller/userControl');
+app.post("/addAdmin",createAdmin);
+app.post("/addInstructor",createInstructor);
+app.post("/addCorporateTrainee",createCorporateTrainee);
 
-const {createCorporateTrainee } = require('./Controller/corporateTraineeControl');
-app.get('/addCorporateTrainee',function(req,res){
-  
-  res.render('addCorporateTrainee',{alert:req.query.alert});
-});
-app.post('/addCorporateTrainee',createCorporateTrainee );
-
-
-const {createCourse,viewCourses,viewCoursePrice,searchCourse,viewCourse,filterCourse,viewCoursesInstructor,searchCourseInstructor,filterCourseInstructor} = require('./Controller/courseControl');
-app.get('/addCourse',function(req,res){
-  
-  res.render('addCourse',{alert:req.query.alert});
-});
-app.post('/addCourse',createCourse);
-
-app.get('/search',function(req,res){
-  
-  res.render('search',{alert:req.query.alert});
-});
-app.post('/search',searchCourse);
-
-app.get('/filter',function(req,res){
-  
-  res.render('filter',{alert:req.query.alert});
-});
-app.post('/filter',filterCourse);
-
-app.get('/viewCourses',viewCourses)
-app.get('/viewCoursePrice',viewCoursePrice)
-app.get('/viewCourse/:id',viewCourse)
-
+const {createCourse,instructorViewCourses,uploadVideo}= require('./Controller/courseControl');
+app.post("/createCourse",createCourse);
+app.get("/myCourses",instructorViewCourses);
+app.patch("/uploadVideo",uploadVideo);
 
 //To Select a country
-const countrySelection = async(req,res) =>{
-  count = req.body.country;
-  res.render('/',{alert:req.query.alert});
-};
+// const countrySelection = async(req,res) =>{
+//   count = req.body.country;
+//   res.render('/',{alert:req.query.alert});
+// };
 
-app.get('/countrySelect',function(req,res){
+// app.get('/countrySelect',function(req,res){
   
-  res.render('countrySelect',{alert:req.query.alert});
-});
-app.post('/countrySelect',countrySelection)
+//   res.render('countrySelect',{alert:req.query.alert});
+// });
+// app.post('/countrySelect',countrySelection)

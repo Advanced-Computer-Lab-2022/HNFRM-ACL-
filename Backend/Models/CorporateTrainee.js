@@ -6,16 +6,14 @@ const corporateTraineeSchema = new Schema({
         type : String,
         required : true,
         unique :true,
-        trim :true,
-        minLength :3
+        trim :true
 
     },
     password :{
         type : String,
         required : true,
         unique :false,
-        trim :true,
-        minLength :3
+        trim :true
     }
 }, { timestamps: true });
 const CorporateTrainee = mongoose.model('Corporate Trainee', corporateTraineeSchema);
