@@ -116,9 +116,9 @@ const createCourse = async(req,res) => {
 
 const uploadVideo =async (req,res) =>{
     const courseId = mongoose.Types.ObjectId(req.query.courseId);
-    const link = req.body.link;
+    const {link,subtitleslinks,descriptions} =req.body;
     try{
-        const course = await Course.findByIdAndUpdate(courseId,{link},{new:true});
+        const course = await Course.findByIdAndUpdate(courseId,{link,subtitleslinks,descriptions},{new:true});
         res.status(200).json(course)
     }
     catch(error){
