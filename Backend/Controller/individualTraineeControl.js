@@ -19,17 +19,17 @@ const viewGradeIndividual = async (req, res) => {
         let corpgrades = await IndividualTrainee.findById(req.query.individualTrainee).find({}).select('grade').sort({ createdAt: -1 })
         let grades = corpgrades[0].grade;
         let index=0;
-        let gradeVal=0;
-    for (index=0;index<grades.length;index++) {
-        if (grades[index].exam.equals(exam)) {
-            gradeVal=grades[index].value;
-             break;
-        }
-    }
-    res.status(200).json({"yourgrade":gradeVal})
+        let yourgrade=0;
+   for (index=0;index<grades.length;index++) {
+       if (grades[index].exam.equals(exam)) {
+           yourgrade=grades[index].value;
+            break;
+       }
+   }
+   res.status(200).json({yourgrade})
 }
-    catch (error){
-    res.status(400).json({error:error.message})
+   catch (error){
+   res.status(400).json({error:error.message})
 }
 }
 module.exports = {createIndividualTrainee,viewGradeIndividual};
