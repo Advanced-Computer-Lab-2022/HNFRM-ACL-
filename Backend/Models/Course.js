@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const{ObjectId}=mongoose.Schema;
 
 const courseSchema = new Schema({
     title :{
@@ -46,14 +47,7 @@ const courseSchema = new Schema({
         required:false,
         unique:true
     },
-    exercises:{
-        type : String,
-        required:false,
-        unique:true
-    }
-
-
-
-}, { timestamps: true });
+            }
+ ,{ timestamps: true });
 const Course = mongoose.model('Course', courseSchema);
 module.exports = Course;

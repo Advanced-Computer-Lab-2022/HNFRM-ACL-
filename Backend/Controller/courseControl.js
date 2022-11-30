@@ -7,7 +7,7 @@ const viewCourses = async (req, res) => {
     
     try{
         const courses = await Course.find().select('title rating credithours');
-        res.render("viewCourses",{alert:"",results2:courses})
+        res.status(200).json(courses)
     }catch(error){
         res.status(400).json({error:error.message})
 
@@ -19,8 +19,7 @@ const viewCourses = async (req, res) => {
     const instructorId =req.params.id;
     try{
         const courses = await Course.find({taughtby:instructorId}).select('title rating credithours');
-        
-        res.render("viewCoursesInstructor",{alert:"",results2:courses})
+        res.status(200).json(courses)
     }catch(error){
         res.status(400).json({error:error.message})
 
@@ -102,7 +101,7 @@ const createCourse = async(req,res) => {
     const price=Number(req.body.price);
     const summary=req.body.summary;
     const subject=req.body.subject;
-    const taughtby="635e5abd1b90b9fb2b0bd54f"
+    const taughtby=mongoose.Types.ObjectId.apply(req.query.instructorId);
     try{
         const course = await Course.create({title, subtitles ,price,summary,subject,taughtby});
         res.status(200).json(course)
@@ -148,7 +147,7 @@ const filterCourse = async(req,res) =>{
 //filter the courses given by him/her based on a subject or price 'Instructor'
 const filterCourseInstructor = async(req,res) =>{
     const filter = req.body.filter;
-    const instructorId =req.params.id;
+    const instructorId =req.query.id;
     if(req.body.price){
         const result = await Course.find({"$and":[
             {price:Number(filter)},
@@ -173,8 +172,20 @@ const filterCourseInstructor = async(req,res) =>{
     }
 }
 
+const rateCourse = async(req,res) => {
+    const courseId=req.query.courseId;
+    if(courseId){
+        const rating=Number(req.body.rating);
+        const course = await Course.findByIdAndUpdate(courseId,{rating:rating});
+        console.log(course);
+        res.status(200).json(course)
+    }else{
+    res.status(400).json({error:"course Id is not found"})
+} 
+}
 
-module.exports = {createCourse,viewCourses,viewCourse,viewCoursePrice,searchCourse,filterCourse,viewCoursesInstructor,filterCourseInstructor,searchCourseInstructor};
+
+module.exports = {createCourse,viewCourses,viewCourse,viewCoursePrice,searchCourse,filterCourse,viewCoursesInstructor,filterCourseInstructor,searchCourseInstructor,rateCourse};
 
 
 

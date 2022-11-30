@@ -14,4 +14,15 @@ const createInstuctor = async(req,res) => {
 
     }
 }
-module.exports = {createInstuctor};
+//rate of an instructor
+const rateInstructor = async(req,res) => {
+    const instructorId=req.query.instructorId;
+    if(instructorId){
+        const rating=Number(req.body.rating);
+        const instructor = await Instructor.findByIdAndUpdate(instructorId,{rating:rating});
+        res.status(200).json(instructor)  
+    }else{
+    res.status(400).json({error:"Instructor Id is not found"})
+} 
+}
+module.exports = {createInstuctor,rateInstructor};
