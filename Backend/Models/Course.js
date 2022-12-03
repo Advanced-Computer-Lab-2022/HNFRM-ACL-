@@ -31,17 +31,11 @@ const courseSchema = new Schema({
         ref:'Instructor'
     },
     reviews :{
-        type : [String],
+        type : String,
         required:false
     },
     link :{
         type: String
-            /*validate: {
-               validator: function(v) {
-                    return /^https:\/\/www.youtube.com\/.*$/.test(v);
-               },
-               message: props => `${props.value} is not a valid youtube link.`
-            }*/
         
     },
     subtitleslinks :{
@@ -51,10 +45,17 @@ const courseSchema = new Schema({
     descriptions :{
         type:[String],
         required:false
+    },
+    subject :{
+        type:String
+    },
+    instructorName :{
+        type: String
+    },
+    discount : {
+        type: mongoose.Types.ObjectId,
+        ref:'Instructor'
     }
-
-
-
 
 
 }, { timestamps: true });

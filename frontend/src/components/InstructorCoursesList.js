@@ -26,6 +26,7 @@ const { useState,useEffect } = require("react");
 
 const ViewCourses = () => { 
     const [courses,setCourses] = useState([]);
+    const [searchRes,setSearchRes] = useState([]);
     
 
     
@@ -39,6 +40,31 @@ const ViewCourses = () => {
         })}
          );
 
+      /*const search = async() =>{
+          await axios.get(`http://localhost:8000/search=${searchRes}`).then(
+            (res) => { 
+              const courses = res.data
+              console.log(courses)
+              setCourses(courses)
+              
+          }
+          )
+          console.log(res);
+      }*/
+      /*const filterPrice = async() =>{
+        await axios.get(`http://localhost:8000/search=${searchRes}`).then(
+          (res) => { 
+            const courses = res.data
+            console.log(courses)
+            setCourses(courses)
+            
+        }
+        )
+        console.log(res);
+    }*/
+
+      
+
     
     return(
       <Box sx={{ width: '100%', maxWidth: 500, bgcolor: 'background.paper' }}>
@@ -48,8 +74,9 @@ const ViewCourses = () => {
         </Box>
         {courses.map((course) =>(
           <Box sx={{ my: 3, mx: 2 }}>
-            <Grid container alignItems="center" onClick ={() => window.location.href=`/course?userId=${course._id}`}
+            <Grid container alignItems="center" onClick ={() => window.location.href=`/course?courseId=${course._id}`}
               key={course._id}>
+                <Grid>
             <Grid item xs>
             <Typography gutterBottom variant="h4" component="div">
               {course.title}
@@ -61,15 +88,21 @@ const ViewCourses = () => {
               {course.price} EGP
               </Typography>
               </Grid>
+              </Grid>
               <br></br>
-              <Grid item>
+              <Grid item xs>
+              <Grid item xs>
               <Typography gutterBottom variant="h6" component="div">
-              {course.credithours}
+              {course.credithours}  Hours
               </Typography>
               </Grid>
               <br></br>
               <Grid item>
+              <Typography gutterBottom variant="h7" component="div">
+              Rating
+              </Typography>
               <Rating name="Rating" value={course.rating} readOnly />
+              </Grid>
               </Grid>
             </Grid>
             <Divider variant="middle" >

@@ -10,10 +10,9 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-
-
-
-const { useState } = require("react");
+//const theme = createTheme();
+  
+const theme = createTheme();
 
 function Copyright(props) {
   return (
@@ -27,16 +26,18 @@ function Copyright(props) {
     </Typography>
   );
 }
+const { useState } = require("react");
 
-const theme = createTheme();
+const Changepassword = () => {
+   
+    const [newPassword, setPassword] = useState('');
+    
 
-const AddAdmin = () => {
-    const [usernameAdmin, setUsername] = useState('');
-    const [passwordAdmin, setPassword] = useState('');
-
-    const add = async () => {
-        let res = await axios.post('http://localhost:8000/addAdmin',{username : usernameAdmin , password : passwordAdmin})
-        console.log(res);
+    const action = async (req,res) => {
+       // const idd = req.query.id;
+        console.dir(req.query)
+        let result = await axios.post(`http://localhost:8000/ChangePassword?id=${req.query.id}`,{ password : newPassword})
+        console.log((result));
     }
 
     return (
@@ -71,28 +72,17 @@ const AddAdmin = () => {
               <AddCircleOutlineIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Add Admin
+                Change password
               </Typography>
-              <Box component="form" noValidate onSubmit={add} sx={{ mt: 1 }}>
+              <Box component="form" noValidate onSubmit={action} sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
                   required
                   fullWidth
-                  id="username"
-                  label="UserName"
-                  name="username"
-                  autoComplete=""
-                  autoFocus
-                  onChange ={e =>setUsername(e.target.value)}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
+                 // name="id"
+                  label="new Password"
                   type="password"
-                  id="password"
+                  id="new password"
                   autoComplete=""
                   onChange ={e =>setPassword(e.target.value)}
                 />
@@ -102,7 +92,7 @@ const AddAdmin = () => {
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
                 >
-                  Add
+                  change password
                 </Button>
                 <Copyright sx={{ mt: 5 }} />
               </Box>
@@ -112,4 +102,4 @@ const AddAdmin = () => {
       </ThemeProvider>
     );
 }
-export default AddAdmin;
+export default Changepassword;

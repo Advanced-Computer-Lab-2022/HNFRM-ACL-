@@ -38,11 +38,12 @@ const CreateCourse = () => {
     const [subtitle4Course, setSubtitles4] = useState('');
     const [priceCourse, setPrice] = useState('');
     const [summaryCourse, setSummary] = useState('');
+    const [subjectCourse, setSubject] = useState('');
 
     const add = async () => {
         let res = await axios.post('http://localhost:8000/createCourse',
         {title :titleCourse , subtitles : [subtitle1Course,subtitle2Course,subtitle3Course,subtitle4Course] , 
-            price : priceCourse ,summary : summaryCourse})
+            price : priceCourse ,summary : summaryCourse , subject:subjectCourse})
         console.log(res);
     }
     
@@ -154,6 +155,16 @@ const CreateCourse = () => {
                   id="summary"
                   autoComplete=""
                   onChange ={e =>setSummary(e.target.value)}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="subject"
+                  label="Subject"
+                  id="subject"
+                  autoComplete=""
+                  onChange ={e =>setSubject(e.target.value)}
                 />
 
                 <Button
