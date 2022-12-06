@@ -34,24 +34,26 @@ function Copyright(props) {
 const { useState,useEffect } = require("react");
 const theme = createTheme();
 
-const InstructorViewCourses = () => {
-    const params = new URLSearchParams(window.location.search);
-    const instructorId = params.get('instructorId')
+const InstructorResults = () => {
     const [courses,setCourses] = useState([]);
     const [search,setSearch] = useState([]);
     const [filter,setfilter] = useState([]);
     const [filterConst,setfilterConst] = useState([]);
+    const params = new URLSearchParams(window.location.search);
+    const filterRes = params.get('filter');
+    const check = params.get('check');
+    const instructorId = params.get('instructorId');
 
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/mycourses?instructorId=${instructorId}`).then(
+        axios.get(`http://localhost:8000/instructorresults?filter=${filterRes}&check=${check}&instructorId=${instructorId}`).then(
         (res) => { 
             const courses = res.data
             console.log(courses)
             setCourses(courses)
             
         })}
-         );
+         )
         return(
             <Grid item xs={12} sm={8} md={1} elevation={6} square>
             <Box
@@ -103,7 +105,7 @@ const InstructorViewCourses = () => {
                     theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                     
                 }}
-                onClick ={() => window.location.href=`/myCourse?courseId=${course._id}`}
+                onClick ={() => window.location.href=`/course?courseId=${course._id}`}
               key={course._id}
               style = {{marginLeft:-2}}
               >
@@ -147,4 +149,4 @@ const InstructorViewCourses = () => {
         )
 
 }
-export default InstructorViewCourses;
+export default InstructorResults;

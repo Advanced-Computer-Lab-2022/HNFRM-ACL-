@@ -88,6 +88,13 @@ const ViewGradeCorporate = () => {
                   >
                  Load Grade
                 </Button>
+                <Button
+                  variant="contained"
+                  onClick ={() => window.location.href=`/viewQuestionAnswers?examId=${exam}`}
+                  sx={{ mt: 3, mb: 2 }}
+                  >
+                 Correct Answers
+                </Button>
                 <Copyright sx={{ mt: 5 }} />
               </Box>
             </Box>

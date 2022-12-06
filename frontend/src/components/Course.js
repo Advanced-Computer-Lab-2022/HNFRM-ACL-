@@ -35,6 +35,7 @@ const ViewCourse = () => {
     const [courseSubtitles,setCourseSubtitles] = useState(" ");
     const [CourseRate,setCourseRate] = useState ("");
     const [InstructorRate,setInstructorRate] = useState ("");
+    const [instructorId,setInstructorId] = useState ("");
     const params = new URLSearchParams(window.location.search)
     const courseId = params.get('courseId')
 
@@ -49,6 +50,7 @@ const ViewCourse = () => {
             console.log(course)
             setCourse(course)
             setCourseSubtitles(courseSubtitles)
+            setInstructorId(course.taughtBy)
             })
         });
 
@@ -58,7 +60,7 @@ const ViewCourse = () => {
       }
 
       const rateInstructor = async () => {
-        let res = await axios.patch(`http://localhost:8000/rateInstructor?courseId=${courseId}`,{rating:InstructorRate})
+        let res = await axios.patch(`http://localhost:8000/rateInstructor?instructorId=${instructorId}`,{rating:InstructorRate})
         console.log(res);
     }
     
@@ -98,7 +100,6 @@ const ViewCourse = () => {
             <Typography component="h1" variant="h3" color="inherit" gutterBottom>
               {course.title}
             </Typography>
-            
             <Typography variant="h4" color="inherit" paragraph>
                 {course.credithours} Hours
             </Typography>
@@ -139,7 +140,10 @@ const ViewCourse = () => {
     </Grid>
       </Grid>
     <br></br>
-    <Button variant="outlined" fullWidth>View Exercises </Button>
+    <Button variant="outlined" fullWidth onClick={() => window.location.href=`/viewExercies?courseId=${course._id}`}>View Exercises</Button>
+    <br></br>
+    <br></br>
+    <Button variant="outlined" onClick={() => window.location.href=`/discount?courseId=${course._id}`} >Define Discount</Button>
     <br></br>
     <br></br>
     <Grid container spacing={4}>

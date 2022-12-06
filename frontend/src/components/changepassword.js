@@ -4,15 +4,14 @@ import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
-//const theme = createTheme();
-  
-const theme = createTheme();
+import EditIcon from '@mui/icons-material/AddCircleOutline';
+
+
 
 function Copyright(props) {
   return (
@@ -26,21 +25,25 @@ function Copyright(props) {
     </Typography>
   );
 }
+
+const theme = createTheme();
+
 const { useState } = require("react");
 
-const Changepassword = () => {
+const Changepassword=()=>{
+   const params = new URLSearchParams(window.location.search)
+   const userId = params.get('userId')
+   const type = params.get('type')
+   const [username,setUsername]=useState('');
+   const [newPassword,setNewPassword]=useState('');
+
+   const changePassword = async () => {
+      let res = await axios.patch(`http://localhost:8000/changepassword?type=${type}`,
+      {username:username,password:newPassword})
+      console.log(res);
+  } 
    
-    const [newPassword, setPassword] = useState('');
-    
-
-    const action = async (req,res) => {
-       // const idd = req.query.id;
-        console.dir(req.query)
-        let result = await axios.post(`http://localhost:8000/ChangePassword?id=${req.query.id}`,{ password : newPassword})
-        console.log((result));
-    }
-
-    return (
+  return (
       <ThemeProvider theme={theme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
@@ -48,9 +51,8 @@ const Changepassword = () => {
             item
             xs={false}
             sm={4}
-            md={7}
+            md={3.5}
             sx={{
-              backgroundImage: 'url(https://source.unsplash.com/random)',
               backgroundRepeat: 'no-repeat',
               backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -68,31 +70,45 @@ const Changepassword = () => {
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-              <AddCircleOutlineIcon />
+              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <EditIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
                 Change password
               </Typography>
-              <Box component="form" noValidate onSubmit={action} sx={{ mt: 1 }}>
+              <Box component="form"  sx={{ mt: 1 }}>
+
+              <TextField
+                  margin="normal"
+                  
+                  fullWidth
+                  name="username"
+                  label="Username"
+                  type="username"
+                  id="username"
+                  autoComplete=""
+                  onChange ={e =>setUsername(e.target.value)}
+                />
+                
                 <TextField
                   margin="normal"
-                  required
+                  
                   fullWidth
-                 // name="id"
-                  label="new Password"
+                  name="password"
+                  label="New Password"
                   type="password"
-                  id="new password"
+                  id="password"
                   autoComplete=""
-                  onChange ={e =>setPassword(e.target.value)}
+                  onChange ={e =>setNewPassword(e.target.value)}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={changePassword}
                 >
-                  change password
+                  Submit
                 </Button>
                 <Copyright sx={{ mt: 5 }} />
               </Box>
@@ -102,4 +118,5 @@ const Changepassword = () => {
       </ThemeProvider>
     );
 }
+
 export default Changepassword;

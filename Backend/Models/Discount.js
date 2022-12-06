@@ -1,9 +1,11 @@
-const mongoose = require('mongoose');
+var mongoose = require('mongoose')
+require('mongoose-double')(mongoose);
 const Schema = mongoose.Schema;
-
+var SchemaTypes = mongoose.Schema.Types;
 const discountSchema = new Schema({
+
     amount :{
-        type : mongoose.Schema.Type.Double,
+        type : SchemaTypes.Double,
         required : true
 
     },

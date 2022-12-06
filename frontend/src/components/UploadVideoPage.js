@@ -43,7 +43,7 @@ const UploadVideo = () =>{
     console.log(courseId);
 
     const upload = async() =>{
-        let res = await axios.patch(`http://localhost:8000/UploadVideo?courseId=${courseId}`,{link : courseLink, subtitleslink :[subtitle1Link,subtitle2Link,subtitle3Link,subtitle4Link],descriptions :[description1,description2,description3,description4]})
+        let res = await axios.patch(`http://localhost:8000/UploadVideo?courseId=${courseId}`,{link : courseLink, subtitleslinks :[subtitle1Link,subtitle2Link,subtitle3Link,subtitle4Link],descriptions :[description1,description2,description3,description4]})
         console.log(res);
     }
     return (

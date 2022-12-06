@@ -20,6 +20,17 @@ const createExam = async(req,res) => {
 }
 }
 
+const viewExams = async (req, res) => {
+    const courseId =mongoose.Types.ObjectId(req.query.courseId);
+    try{
+        const exams = await Exam.find({course:courseId});
+        res.status(200).json(exams)
+    }catch(error){
+        res.status(400).json({error:error.message})
+    
+    }
+}
+
 const createQuestion = async(req,res) => {
     const exam=mongoose.Types.ObjectId(req.query.examId);
     const ques = req.body.ques;
@@ -192,4 +203,4 @@ const checkAnswer = async (req, res) => {
         res.status(400).json({ error: error.message })
     }
 }
-module.exports = {createExam,createQuestion,getQuestion,getQuestionAnswers,createAnswer, checkAnswer};
+module.exports = {createExam,createQuestion,getQuestion,getQuestionAnswers,createAnswer, checkAnswer,viewExams};

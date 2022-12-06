@@ -49,7 +49,6 @@ const AddInstructor = () => {
             sm={4}
             md={7}
             sx={{
-              backgroundImage: 'url(https://source.unsplash.com/random)',
               backgroundRepeat: 'no-repeat',
               backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -67,7 +66,7 @@ const AddInstructor = () => {
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
               <AddCircleOutlineIcon />
               </Avatar>
               <Typography component="h1" variant="h5">

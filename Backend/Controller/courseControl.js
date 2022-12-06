@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Course = require('../Models/Course');
-const { default: mongoose } = require('mongoose');
+const mongoose = require('mongoose')
+require('mongoose-double')(mongoose);
 const Instructor = require('../Models/Instructor');
 const Discount = require('../Models/Discount');
 
@@ -15,7 +16,7 @@ const createCourse = async(req,res) => {
     const rating = '5';
     const credithours = '4';
     const link=" ";
-    const reviews = req.body.reviews;
+    const reviews = "Gameed ehh el3azma deeh"
     const subject = req.body.subject;
     const instructorName = instructor.username;
     try{
@@ -230,7 +231,7 @@ const rateCourse = async(req,res) => {
 
 const discount = async(req,res)=> {
     const courseId=mongoose.Types.ObjectId(req.query.courseId);
-    const amount = mongoose.Schema.Type.Double(req.body.amount)
+    const amount = mongoose.Types.Double(req.body.amount)
     const howLong = Number(req.body.howLong)
     try{
         const result = await Discount.create({amount:amount , howLong:howLong , courseId:courseId})

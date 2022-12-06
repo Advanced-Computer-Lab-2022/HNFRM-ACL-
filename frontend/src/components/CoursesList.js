@@ -131,12 +131,6 @@ const ViewCourses = () => {
                       <Typography variant="subtitle1" component="div">
                         {course.price} EGP
                       </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                          Reviews
-                        </Typography>
-                      <Typography variant="body2" gutterBottom >
-                          {course.reviews}
-                        </Typography>
                     </Grid>
                   </Grid>
                 </Grid>

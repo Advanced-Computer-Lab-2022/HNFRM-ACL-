@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "body-parser": "^1.20.1",
     "cors": "^2.8.5",
     "country-select-js": "^2.1.0",
@@ -9,6 +10,7 @@
     "jquery": "^3.6.1",
     "jsdom": "^20.0.1",
     "mobiscroll": "^3.0.0-beta6",
+    "mongoose-double": "^0.0.1",
     "react": "^18.2.0",
     "react-select": "^5.5.7",
     "react-select-country-list": "^2.2.3",

@@ -39,9 +39,11 @@ const CreateCourse = () => {
     const [priceCourse, setPrice] = useState('');
     const [summaryCourse, setSummary] = useState('');
     const [subjectCourse, setSubject] = useState('');
+    const params = new URLSearchParams(window.location.search);
+    const instructorId = params.get('instructorId')
 
     const add = async () => {
-        let res = await axios.post('http://localhost:8000/createCourse',
+        let res = await axios.post(`http://localhost:8000/createCourse?instructorId=${instructorId}`,
         {title :titleCourse , subtitles : [subtitle1Course,subtitle2Course,subtitle3Course,subtitle4Course] , 
             price : priceCourse ,summary : summaryCourse , subject:subjectCourse})
         console.log(res);
@@ -58,7 +60,6 @@ const CreateCourse = () => {
             sm={4}
             md={7}
             sx={{
-              backgroundImage: 'url(https://source.unsplash.com/random)',
               backgroundRepeat: 'no-repeat',
               backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

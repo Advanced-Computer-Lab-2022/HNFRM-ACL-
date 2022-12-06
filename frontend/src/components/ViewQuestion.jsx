@@ -70,8 +70,17 @@ const ViewQuestion = () => {
                 >
               Submit
               </Button>
+              
                 </div>
             ))}
+            <Button
+                variant="contained"
+                margin="normal"
+                padding="normal"
+                onClick ={() => window.location.href=`/viewGrade?exam=${exam}&corporateTrainee=${corporateTrainee}`}
+                >
+              Submit and View Grade
+              </Button>
             </Box>  
             </Paper>
         )

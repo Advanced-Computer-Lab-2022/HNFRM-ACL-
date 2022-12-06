@@ -18,7 +18,7 @@ function Copyright(props) {
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
         <Link color="inherit" href="https://mui.com/">
-          Your Website
+          HNFRM
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
@@ -51,7 +51,6 @@ function Copyright(props) {
             sm={2}
             md={3}
             sx={{
-              backgroundImage: 'url(https://source.unsplash.com/random)',
               backgroundRepeat: 'no-repeat',
               backgroundColor: (t) =>
                 t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],

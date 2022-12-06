@@ -3,6 +3,7 @@ let Admin = require('../Models/Admin');
 let Instructor = require('../Models/Instructor');
 let CorporateTrainee = require('../Models/CorporateTrainee');
 let IndividualTrainee = require('../Models/IndividualTrainee');
+const bcrypt = require('bcrypt')
 const { default: mongoose } = require('mongoose');
 
 
@@ -26,9 +27,10 @@ const createInstructor = async(req,res) => {
     const email =req.body.email;
     const biography = req.body.biography
     const rating ="5"
-    const reviews=["Great Prof","Best Prof","Prof Zebalas"]
+    const reviews=["Great Prof","Best Prof","Prof Zebalas"];
+    const contract = "false"
     try{
-        const instructor = await Instructor.create({username, password,email,biography,rating,reviews});
+        const instructor = await Instructor.create({username, password,email,biography,rating,reviews,contract});
         res.status(200).json(instructor)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -150,7 +152,37 @@ const viewGradeIndividual = async (req, res) => {
 
 
 //Change password 
-const changePassword = async(req,res, next )=>{ 
+
+const changePassword = async(req,res) =>{
+    //const userId = mongoose.Types.ObjectId(req.query.userId);
+    const type = req.query.type;
+    const username = req.body.username;
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password,salt);
+    try{
+        if(type=='instructor'){
+            const user = await Instructor.findOneAndUpdate({username:username},{password},{new:true})
+            //const user = await Instructor.findByIdAndUpdate({_id:userId},{password},{new:true});
+            res.status(200).json(user);
+        }
+        else if(type=='corporateTrainee'){
+            const user = await CorporateTrainee.findOneAndUpdate({username:username},{password},{new:true})
+            //const user = await CorporateTrainee.findByIdAndUpdate({_id:userId},{password},{new:true});
+            res.status(200).json(user);
+        }
+        else if(type=='individualTrainee'){
+            const user = await IndividualTrainee.findOneAndUpdate({username:username},{password},{new:true})
+            //const user = await IndividualTrainee.findByIdAndUpdate({_id:userId},{password},{new:true});
+            res.status(200).json(user);
+        }
+        
+    }
+    catch(error){
+        res.status(400).json({status:false, error: error.message}); 
+    }
+
+}
+/*const changePassword = async(req,res, next )=>{ 
     try{
         const userID = mongoose.Types.ObjectId(req.query.id)
         const salt = await bcrypt.genSalt(10);
@@ -177,7 +209,7 @@ const changePassword = async(req,res, next )=>{
     catch(error){
         return res.status(400).json({status:false, error: error.message}); 
     }
-}
+}*/
 
 const resetPassword = async (req,res)=>{
     const email = req.body.email;
@@ -215,8 +247,9 @@ const resetPassword = async (req,res)=>{
 }
 
 const contract = async(req,res)=> {
-    const id = mongoose.Types.ObjectId(req.query.id)
-    const inst =await Instructor.findByIdAndUpdate(({_id: id},{contract:"true"}))
+    const instructorId = mongoose.Types.ObjectId(req.query.instructorId)
+    const accept = "true";
+    const inst =await Instructor.findByIdAndUpdate({_id: instructorId},{contract:accept},{new:true})
     res.status(200).json(inst);
 }
 

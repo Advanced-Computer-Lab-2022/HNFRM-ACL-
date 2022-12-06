@@ -9,9 +9,13 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Icon from '@mui/material/Icon';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
+
+
 const { useState } = require("react");
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -27,21 +31,22 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-const Discount = () => { 
-    const params = new URLSearchParams(window.location.search);
-    const courseId = params.get('courseId')
-    const [periodofdiscount, setPeriodofdiscount] = useState('');
-    const [discount, setDiscount] = useState('');
+const CreateExam = () => {
+  const params = new URLSearchParams(window.location.search);
+  const courseId = params.get('courseId');
+  const [name, setName] = useState('');
+  const [examId, setExamId] = useState('');
 
-
-    const add = async () => {
-        let res = await axios.post(`http://localhost:8000/discount?courseId=${courseId}`,{amount : discount , howLong : periodofdiscount})
-        console.log(res);
-    }
-
-
-    return (
- 
+  const addExam = async () => {
+    let res = await axios.post(`http://localhost:8000/createExam?courseId=${courseId}`,
+      {
+        name:name
+      })
+    setExamId(res._id);
+    
+    console.log(res);
+  }
+  return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
         <CssBaseline />
@@ -49,7 +54,7 @@ const Discount = () => {
           item
           xs={false}
           sm={4}
-          md={7}
+          md={3.5}
           sx={{
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
@@ -69,35 +74,38 @@ const Discount = () => {
             }}
           >
             <Typography component="h1" variant="h5">
-              Define a discount
+              Create Exam
             </Typography>
+            <Box component="form" noValidate   onSubmit={addExam} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                label="Discount %"
-                name="discount"
-                id="discount"
-                onChange ={e =>setDiscount(e.target.value)}
+                id="exam"
+                label="Exam Name"
+                name="exam"
+                autoFocus
+                onChange={e => setName(e.target.value)}
               />
-              <Box component="form" noValidate onSubmit={add} sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                label="Period of discount"
-                name="period"
-                id="period"
-                onChange ={e =>setPeriodofdiscount(e.target.value)}
-              />
+              <br></br>
+              
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
-              >
-                Submit
+                >
+                Add
               </Button>
+              <Button
+               variant="outlined" 
+                fullWidth
+                sx={{ mt: 3, mb: 2 }}
+                onClick={() => window.location.href=`/createQuestion?examId=${examId}`}
+                >
+                Create Questions
+              </Button>
+              <Copyright sx={{ mt: 5 }} />
             </Box>
           </Box>
         </Grid>
@@ -105,4 +113,4 @@ const Discount = () => {
     </ThemeProvider>
   );
 }
-export default Discount;
+export default CreateExam;

@@ -10,6 +10,9 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 
@@ -32,6 +35,9 @@ const theme = createTheme();
 
 const Results = () => {
     const [courses,setCourses] = useState([]);
+    const [search,setSearch] = useState([]);
+    const [filter,setfilter] = useState([]);
+    const [filterConst,setfilterConst] = useState([]);
 
     const params = new URLSearchParams(window.location.search);
     const filterRes = params.get('filter');
@@ -59,6 +65,34 @@ const Results = () => {
                 alignItems: 'center',
               }}
             >
+              <TextField
+                  id="search"
+                  label="Search"
+                  name="search"
+                  onChange ={e =>setSearch(e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      window.location.href=`/results?filter=${search}`
+                    }
+                  }}
+                />
+                <br></br>
+                <TextField
+                  id="filter"
+                  label="Filter By"
+                  name="filter"
+                  onChange ={e =>setfilter(e.target.value)}
+                />
+
+                <FormGroup>
+                    <FormControlLabel control={<Checkbox onChange = {e =>setfilterConst("price")}/>} label="Price" />
+                    <FormControlLabel control={<Checkbox onChange = {e =>setfilterConst("subject")} />} label="Subject" />
+                </FormGroup>
+                <Button variant="text" onClick ={() => window.location.href=`/instructorresults?filter=${filter}&check=${filterConst}}`}
+              key={filter}>
+                filter
+                </Button>
+            <br></br>
             <br></br>
             <Divider></Divider>  
             <br></br>  

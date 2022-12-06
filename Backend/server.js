@@ -37,7 +37,7 @@ app.patch("/rateInstructor",rateInstructor)
 app.patch("/edit",editInstructor)
 app.patch("/changepassword", changePassword );   
 app.post("/resetpassword",resetPassword);
-app.post("/Contract",contract);
+app.patch("/contract",contract);
 
 
 
@@ -56,7 +56,7 @@ app.get("/instructorresults",filterInstructor)
 app.patch("/rateCourse",rateCourse)
 app.post("/discount",discount)
 
-const {createExam,createQuestion,createAnswer,getQuestion,getQuestionAnswers,checkAnswer} = require("./Controller/examControl");
+const {createExam,createQuestion,createAnswer,getQuestion,getQuestionAnswers,checkAnswer,viewExams} = require("./Controller/examControl");
 
 app.post('/createExam',createExam);
 app.post('/createQuestion',createQuestion);
@@ -64,6 +64,7 @@ app.post('/createAnswer',createAnswer);
 app.get('/getQuestion',getQuestion);
 app.get('/getQuestionAnswers',getQuestionAnswers);
 app.post('/checkAnswer',checkAnswer);
+app.get('/viewExams',viewExams);
 
 
 

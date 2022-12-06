@@ -31,12 +31,12 @@ const { useState } = require("react");
 const Edit=()=>{
      const params = new URLSearchParams(window.location.search)
      const instructorId = params.get('instructorId')
-     const [email,setEmail]=useState(instructorId.email);
-     const [biography,setBio]=useState(instructorId.biography);
+     const [email,setEmail]=useState('');
+     const [biography,setBio]=useState('');
 
      const edit = async () => {
-        let res = await axios.post(`http://localhost:8000/edit?instructorId=${instructorId}`,
-        {email:email , biography : biography})
+        let res = await axios.patch(`http://localhost:8000/edit?instructorId=${instructorId}`,
+        {email:email , biography:biography})
         console.log(res);
     } 
      

@@ -16,16 +16,17 @@ function Copyright(props) {
       <Typography variant="body2" color="text.secondary" align="center" {...props}>
         {'Copyright © '}
         <Link color="inherit" href="https://mui.com/">
-          Your Website
+          HNFRM
         </Link>{' '}
         {new Date().getFullYear()}
         {'.'}
       </Typography>
     );
   }
-  const theme = createTheme();
+
 
 const { useState,useEffect } = require("react");
+const theme = createTheme();
 
 const ViewInstructor = () => { 
     const [instructor,setinstructor] = useState(" ");
@@ -42,6 +43,7 @@ const ViewInstructor = () => {
                 })
         });
         return(
+          
           <ThemeProvider theme={theme}>
               <CssBaseline />
               <Container maxWidth="lg">

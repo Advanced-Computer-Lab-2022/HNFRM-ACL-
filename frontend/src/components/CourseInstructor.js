@@ -93,7 +93,7 @@ function Copyright(props) {
           </Grid>
         </Paper>
         <br></br>
-        <Button variant="outlined" >Create Exercises </Button>
+        <Button variant="outlined" onClick={() => window.location.href=`/createExam?courseId=${course._id}`}>Create Exercises </Button>
         <br></br>
         <br></br>
         <br></br>

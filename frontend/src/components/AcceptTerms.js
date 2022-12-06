@@ -11,9 +11,15 @@ import axios from "axios";
 const { useState } = require("react");
 const theme = createTheme();
   
- function Message() {
-  
+ function Contract() {
+    const params = new URLSearchParams(window.location.search)
+    const instructorId = params.get('instructorId')
+
     
+    const acceptContract = async () => {
+        let res = await axios.patch(`http://localhost:8000/contract?instructorId=${instructorId}`)
+        console.log(res);
+    } 
     return (
           <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
             <Box
@@ -26,15 +32,16 @@ const theme = createTheme();
               }}
             >
               <Typography component="h1" variant="h5">
-                You received an email to change your password 
+              Contract which includes all the rights to the posted videos and 
+              materials as well as the % taken by the company on each video per registered trainee
               </Typography>
                 <Button
                   type="submit"
-                  fullWidth
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={acceptContract}
                 >
-                  Return to the main page
+                  Accept
                 </Button>
                 
               </Box>
@@ -44,5 +51,4 @@ const theme = createTheme();
     )
   
             }
-export default Message;
-
+export default Contract;
