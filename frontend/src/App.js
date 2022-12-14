@@ -26,7 +26,13 @@ import ViewQuestion from './components/ViewQuestion';
 import ViewGradeCorporate from './components/ViewGradeCorporate';
 import ViewQuestionAnswers from './components/ViewQuestionAnswers';
 import Contract from './components/AcceptTerms';
+import Reset from './components/resetpassbutton';
 import InstructorResults from './components/FilterResultsInstructor';
+import CountrySelector from './components/SelectCountry';
+import SignUp from './components/SignUp';
+import ButtonAppBar from './Headers/guest';
+import InstructorButtonAppBar from './Headers/instructor';
+
 
 function App() {
   return (
@@ -83,6 +89,16 @@ function App() {
         element={<ViewQuestionAnswers/>}/>
       <Route path="/acceptTerms"
         element={<Contract/>}/>
+      <Route path="/reset"
+        element={<Reset/>}/>
+      <Route path="/countrySelector"
+        element={<CountrySelector/>}/>
+      <Route path="/SignUp"
+        element={<SignUp/>}/>
+      <Route path="/guest"
+        element={<ButtonAppBar/>}/>
+      <Route path="/instructor"
+        element={<InstructorButtonAppBar/>}/>
       </Routes>
       
       

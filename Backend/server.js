@@ -1,13 +1,17 @@
 const express = require("express");
 const mongoose = require('mongoose');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
 require('dotenv').config();
+const { requireAuth } = require('./Middleware/authMiddleware');
 
 const app = express();
 
 const port = process.env.PORT || "8000";
 app.use(cors());
-app.use(express.json())
+app.use(express.json());
+app.use(cookieParser());
 
 MongoURI = process.env.ATLAS_URI;
 
@@ -24,30 +28,31 @@ app.get("/home", (req, res) => {
   res.status(200).send("You have everything installed!");
 });
 
-const {createAdmin,createCorporateTrainee,createIndividualTrainee,createInstructor,viewInstructor,viewGradeIndividual,viewGradeCorporate,rateInstructor,editInstructor,changePassword,resetPassword,contract}= require('./Controller/userControl');
+const {login,createAdmin,createCorporateTrainee,createIndividualTrainee,createInstructor,viewInstructor,viewGradeIndividual,viewGradeCorporate,rateInstructor,editInstructor,changePassword,resetPassword,contract,policy}= require('./Controller/userControl');
 
+app.post("/login",login)
 app.post("/addAdmin",createAdmin)
 app.post("/addCorporateTrainee",createCorporateTrainee)
 app.post("/addIndividualTrainee",createIndividualTrainee)
 app.post("/addInstructor",createInstructor)
-app.get("/viewInstructor",viewInstructor)
-app.get("/viewGradeIndividual",viewGradeIndividual)
-app.get("/viewGradeCorporate",viewGradeCorporate)
-app.patch("/rateInstructor",rateInstructor)
-app.patch("/edit",editInstructor)
-app.patch("/changepassword", changePassword );   
+app.get("/viewInstructor",requireAuth,viewInstructor)
+app.get("/viewGradeIndividual",requireAuth,viewGradeIndividual)
+app.get("/viewGradeCorporate",requireAuth,viewGradeCorporate)
+app.patch("/rateInstructor",requireAuth,rateInstructor)
+app.patch("/edit",requireAuth,editInstructor)
+app.patch("/changepassword", requireAuth,changePassword );   
 app.post("/resetpassword",resetPassword);
-app.patch("/contract",contract);
-
+app.patch("/contract",requireAuth,contract);
+app.patch("/policy",requireAuth,policy);
 
 
 const {createCourse,viewCourse,viewCourses,viewSubtitle,instructorViewCourses,uploadVideo,searchAll,searchInstructor,filter,filterInstructor,rateCourse,discount}= require('./Controller/courseControl');
 
-app.post("/createCourse",createCourse)
+app.post("/createCourse",requireAuth,createCourse)
 app.get("/course",viewCourse)
 app.get("/courses",viewCourses)
-app.get("/viewVideo",viewSubtitle)
-app.get("/myCourses",instructorViewCourses)
+app.get("/viewVideo",requireAuth,viewSubtitle)
+app.get("/myCourses",requireAuth,instructorViewCourses)
 app.patch("/uploadVideo",uploadVideo)
 app.get("/searchResults",searchAll)
 app.get("/instructorsearchResults",searchInstructor)

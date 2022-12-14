@@ -5,8 +5,6 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
 import Link from '@mui/material/Link';
-import EditTwoToneIcon from '@mui/icons-material/EditTwoTone';
-import Avatar from '@mui/material/Avatar';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -30,6 +28,7 @@ const theme = createTheme();
 
 const ViewInstructor = () => { 
     const [instructor,setinstructor] = useState(" ");
+    const [reviews,setReviews] = useState(" ");
     const params = new URLSearchParams(window.location.search)
     const instructorId = params.get('instructorId')
      
@@ -39,11 +38,12 @@ const ViewInstructor = () => {
             (res) => { 
                 const instructor = res.data
                 console.log(instructor)
+                setReviews(instructor.reviews)
                 setinstructor(instructor)
                 })
         });
+
         return(
-          
           <ThemeProvider theme={theme}>
               <CssBaseline />
               <Container maxWidth="lg">
@@ -75,42 +75,31 @@ const ViewInstructor = () => {
                           p: { xs: 3, md: 6 },
                           pr: { md: 0 },
               }}>
-                <Avatar sx={{ m: 2, bgcolor: 'primary.main' }} onClick={() => window.location.href=`/edit?instructorId=${instructor._id}`}>
-                  <EditTwoToneIcon />
-              </Avatar>
               <Typography component="h1" variant="h3" color="inherit" gutterBottom>
                 Welcome back, {instructor.username}
               </Typography>
-              
-              
               <Typography variant="h4" color="inherit" paragraph>
                   {instructor.email} 
               </Typography>
               <Rating name="rating" value={instructor.rating} readOnly/>
+              <Typography variant="h4" color="inherit" paragraph>
+                  Amount Owned per Month
+              </Typography>
+              <Typography variant="h6" color="inherit" paragraph>
+                  {instructor.amountOwned} 
+              </Typography>
+              
             </Box>
           </Grid>
         </Grid>
       </Paper>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
 
       <Grid item xs={12} md={4}>
        <Paper elevation={0} sx={{ p: 2, bgcolor: 'grey.200' }}>
       <Typography variant="h4" gutterBottom>
         Reviews
       </Typography>
-        {
-          instructor.reviews.map((review) =>(
-            <Typography variant="body1" gutterBottom>
-
-              {review}
-              </Typography>
-          )
-          )
-        }
+        
       </Paper>
       </Grid>
       

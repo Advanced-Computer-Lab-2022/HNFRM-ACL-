@@ -5,32 +5,19 @@ const{ObjectId}=mongoose.Schema;
 const questionSchema = new Schema(
     {
    exam:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:'Exam'
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'Exam'
     },
-        ques :{
+    ques :{
         type : String,
         required : true
-    },
-    choice1 :{
-        type : String,
-        required : true
-    },
-    choice2 :{
-        type : String,
-        required : true
-    },
-    choice3 :{
-        type : String,
-        required : true
-    },
-    choice4 :{
-        type : String,
-        required : true
-    },
+    }, 
+    choices:{
+        type :[String]
+    }
+    ,
     correctAnswer :{
         type :String,
-        required :true
 }
     }  
 );

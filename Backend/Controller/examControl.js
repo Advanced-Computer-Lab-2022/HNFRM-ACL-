@@ -4,8 +4,7 @@ let Question = require('../Models/Question')
 let Answer = require('../Models/Answer')
 let Grade = require('../Models/Grade')
 let Course = require('../Models/Course')
-let IndividualTrainee = require('../Models/IndividualTrainee');
-let CorporateTrainee = require('../Models/CorporateTrainee');
+let User= require('../Models/User');
 const { default: mongoose } = require('mongoose');
 
 const createExam = async(req,res) => {
@@ -27,7 +26,6 @@ const viewExams = async (req, res) => {
         res.status(200).json(exams)
     }catch(error){
         res.status(400).json({error:error.message})
-    
     }
 }
 
@@ -38,9 +36,10 @@ const createQuestion = async(req,res) => {
     const choice2 = req.body.choice2;
     const choice3 = req.body.choice3;
     const choice4 = req.body.choice4;
+    const choices = [choice1,choice2,choice3,choice4];
     const correctAnswer = req.body.correctAnswer;
     try{
-        const question = await Question.create({exam,ques,choice1,choice2,choice3,choice4,correctAnswer});
+        const question = await Question.create({exam,ques,choices,correctAnswer});
         res.status(200).json(question)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -50,7 +49,7 @@ const createQuestion = async(req,res) => {
 const getQuestion = async (req, res) => {
     const exam =mongoose.Types.ObjectId(req.query.examId);
     try{
-        const questions = await Question.find({exam:exam}).select('ques choice1 choice2 choice3 choice4');
+        const questions = await Question.find({exam:exam}).select('ques choices');
         res.status(200).json(questions)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -62,6 +61,7 @@ const getQuestionAnswers = async(req,res) =>{
     const exam =mongoose.Types.ObjectId(req.query.examId);
     try{
         const questions = await Question.find({exam:exam}).select('ques correctAnswer');
+        const answers = await Answer.find({})
         res.status(200).json(questions)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -101,16 +101,14 @@ const checkAnswer = async (req, res) => {
     if (corporateTrainee) {
         const answer = await Answer.create({ question, corporateTrainee, studentAnswer });
         res.status(200).json(answer)
-            let corpgrades = await CorporateTrainee.findById(req.query.corporateTrainee).find({}).select('grade').sort({ createdAt: -1 })
+            let corpgrades = await User.findById(req.query.corporateTrainee).find({}).select('grade').sort({ createdAt: -1 })
             let grades = corpgrades[0].grade;
 
         if (studentAnswer == correctAnswer) {
             // console.log(grades)
             let index = 0;
             for (index = 0; index < grades.length; index++) {
-                // console.log("ana hna")
                 console.log(grades[index].exam + " exam index")
-                //console.log(exam)
                 if (grades[index].exam.equals(exam)) {
                     console.log("ana hna aho")
                     grades[index].value = (grades[index].value) + 1;
@@ -123,9 +121,8 @@ const checkAnswer = async (req, res) => {
                     exam: exam
                 }
                 grades.push(newgrade);
-                // console.log(grades.length)
             }
-            const corporateTrainee = await CorporateTrainee.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
+            const corporateTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
         }
 
         else {
@@ -145,13 +142,13 @@ const checkAnswer = async (req, res) => {
                 grades.push(newgrade);
                 console.log(grades.length)
             }
-            const corporateTrainee = await CorporateTrainee.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
+            const corporateTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
         }
     }
     else if (individualTrainee) {
         const answer = await Answer.create({ question, corporateTrainee, studentAnswer });
         res.status(200).json(answer)
-        let corpgrades = await IndividualTrainee.findById(req.query.individualTrainee).find({}).select('grade').sort({ createdAt: -1 })
+        let corpgrades = await User.findById(req.query.individualTrainee).find({}).select('grade').sort({ createdAt: -1 })
         let grades = corpgrades[0].grade;
         if (studentAnswer == correctAnswer) {
             
@@ -175,7 +172,7 @@ const checkAnswer = async (req, res) => {
                 grades.push(newgrade);
                 // console.log(grades.length)
             }
-            const individualTrainee = await IndividualTrainee.findByIdAndUpdate(req.query.individualTrainee, { grade: grades });
+            const individualTrainee = await User.findByIdAndUpdate(req.query.individualTrainee, { grade: grades });
         }
 
         else {
@@ -195,7 +192,7 @@ const checkAnswer = async (req, res) => {
                 grades.push(newgrade);
                 console.log(grades.length)
             }
-            const individualTrainee = await IndividualTrainee.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
+            const individualTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
         }
     }
     

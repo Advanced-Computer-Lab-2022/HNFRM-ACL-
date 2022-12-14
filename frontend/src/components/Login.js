@@ -1,4 +1,4 @@
-import * as React from 'react';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+const { useState } = require("react");
 
 function Copyright(props) {
   return (
@@ -28,15 +29,14 @@ function Copyright(props) {
 
 const theme = createTheme();
 
-export default function SignIn() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+const SignIn = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const signin = async () => {
+    let res = await axios.post(`http://localhost:8000/login`,{username : username , password : password})
+    console.log(res);
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -50,21 +50,22 @@ export default function SignIn() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Login
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" onSubmit={signin} noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
               fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
+              id="username"
+              label="Username"
+              name="username"
+              autoComplete="username"
+              onChange ={e =>setUsername(e.target.value)}
               autoFocus
             />
             <TextField
@@ -75,6 +76,7 @@ export default function SignIn() {
               label="Password"
               type="password"
               id="password"
+              onChange ={e =>setPassword(e.target.value)}
               autoComplete="current-password"
             />
             <FormControlLabel
@@ -108,3 +110,5 @@ export default function SignIn() {
     </ThemeProvider>
   );
 }
+
+export default SignIn;

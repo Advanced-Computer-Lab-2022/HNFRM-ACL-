@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+require('mongoose-double')(mongoose);
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
@@ -28,7 +29,7 @@ const courseSchema = new Schema({
     },
     taughtBy :{
         type: mongoose.Types.ObjectId,
-        ref:'Instructor'
+        ref:'User'
     },
     reviews :{
         type : String,
@@ -54,7 +55,19 @@ const courseSchema = new Schema({
     },
     discount : {
         type: mongoose.Types.ObjectId,
-        ref:'Instructor'
+        ref:'Discount'
+    },
+    certificate :{
+        type: String
+    },
+    notes :{
+        type :[String]
+    },
+    promotion :{
+        type : mongoose.Schema.Types.Double
+    },
+    numberOfRates : {
+        type :Number
     }
 
 

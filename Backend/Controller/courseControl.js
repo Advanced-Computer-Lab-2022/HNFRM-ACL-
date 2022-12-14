@@ -2,7 +2,8 @@ const router = require('express').Router();
 let Course = require('../Models/Course');
 const mongoose = require('mongoose')
 require('mongoose-double')(mongoose);
-const Instructor = require('../Models/Instructor');
+const jwt = require('jsonwebtoken');
+const User = require('../Models/User');
 const Discount = require('../Models/Discount');
 
 //create a new course
@@ -10,8 +11,11 @@ const createCourse = async(req,res) => {
     const title = req.body.title;
     const subtitles = req.body.subtitles;
     const price=Number(req.body.price);
-    const taughtBy = mongoose.Types.ObjectId(req.query.instructorId)
-    const instructor = await Instructor.findOne({_id:taughtBy}).select("username")
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const taughtBy = mongoose.Types.ObjectId(decodedToken)
+    //const taughtBy = mongoose.Types.ObjectId(req.query.instructorId)
+    const instructor = await User.findOne({_id:taughtBy}).select("username")
     const summary=req.body.summary;
     const rating = '5';
     const credithours = '4';
@@ -106,7 +110,9 @@ const filter = async(req,res) =>{
 
 // View Instructor courses
 const instructorViewCourses = async (req, res) => {
-    const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
     try{
         const courses = await Course.find({taughtBy:instructorId}).select('title rating price credithours');
         res.status(200).json(courses)
@@ -119,7 +125,9 @@ const instructorViewCourses = async (req, res) => {
 //Search from instructor courses
 const searchInstructor = async(req,res) => {
     const filter = req.query.filter;
-    const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
 
         try{
             const courses = await Course.find({"or$":[
@@ -137,7 +145,9 @@ const searchInstructor = async(req,res) => {
 
 //Filter from instructor courses
 const filterInstructor = async(req,res) =>{
-    const instructorId = mongoose.Types.ObjectId(req.query.instructorId);
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
     const check = req.query.check;
     if(check=="price"){
         try{
@@ -221,9 +231,12 @@ const rateCourse = async(req,res) => {
     const courseId=mongoose.Types.ObjectId(req.query.courseId);
     try{
         const rating=Number(req.body.rating);
-        const course = await Course.findByIdAndUpdate(courseId,{rating:rating},{new:true});
-        console.log(course);
-        res.status(200).json(course)
+        const course = await Course.findOne({_id:courseId});
+        const number = course.numberOfRates;
+        const averageRate = (course.rating + rating) / number;
+        const result = await Course.findByIdAndUpdate(courseId,{rating:averageRate},{new:true});
+        console.log(result);
+        res.status(200).json(result)
     }catch(error){
         res.status(400).json({error:error.message})
     }
@@ -242,6 +255,22 @@ const discount = async(req,res)=> {
     }
 
   }
+
+const register = async(req,res) =>{
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    const courseId=mongoose.Types.ObjectId(req.query.courseId);
+    try{
+        const user = await User.find({_id:userId});
+        user.registeredCourses[user.registeredCourse.size()]=courseId;
+    }catch(error){
+
+    }
+}
+
+const writeNotes = async(req,res) =>{
+}
 module.exports = {createCourse,viewCourse,rateCourse,instructorViewCourses,uploadVideo,searchAll,filter,viewSubtitle,viewCourses,discount,searchInstructor,filterInstructor};
 
 

@@ -10,10 +10,16 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Icon from '@mui/material/Icon';
+import  FormControl from '@mui/material/FormControl';
+import  FormLabel from '@mui/material/FormLabel';
+import  RadioGroup from '@mui/material/RadioGroup';
+import  Radio from '@mui/material/Radio';
+import  FormControlLabel from '@mui/material/FormControlLabel';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { useDeferredValue } from 'react';
 
 
-const { useState } = require("react");
+const { useState ,useEffect} = require("react");
 const ViewQuestion = () => { 
     const [questions, setQuestions] = useState([])
     const [StudentAnswer, setStudentAnswer] = useState('');
@@ -22,56 +28,47 @@ const ViewQuestion = () => {
     const corporateTrainee = params.get('corporateTrainee');
     const individualTrainee = params.get('individualTrainee');
 
-    
-    const viewQuestion=  async () => {
-        await axios.get(`http://localhost:8000/getQuestion?examId=${exam}`).then(
-            (res) => { 
-                const questions = res.data
-                console.log(questions)
-                setQuestions(questions)  
-            }
-             );    
+    useEffect(() => {
+      axios.get(`http://localhost:8000/getQuestion?examId=${exam}`).then(
+      (res) => { 
+        const questions = res.data
+        console.log(questions)
+        setQuestions(questions)  
+      })}
+       );
 
-    }
-
-        return(
-            //button that will display questions
-            <Paper>
-            <Box sx={{marginBottom: 2}}>
-            <Button variant="contained"
-            onClick={viewQuestion}
-            margin="normal"
-            padding="normal"
-            >Load Questions</Button>
+      return(
+        <Paper>
+          <Box >
             {questions.map((question) =>(
-                <div>
-                <h1>{question.ques}</h1>
-                <p>{question.choice1} </p>
-                <p>{question.choice2} </p>
-                <p>{question.choice3} </p>
-                <p>{question.choice4} </p>
-                <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="studentAnswer"
-                label="Your Answer (Exactly as written in the Exam)"
-                name="studentAnswer"
-                autoComplete=""
-                autoFocus
-                onChange={e => setStudentAnswer(e.target.value)}
-              />
-                <Button
-                variant="contained"
-                onClick ={axios.get(`http://localhost:8000/checkAnswers?question=${question._id}&corporateTrainee=${corporateTrainee}&individualTrainee=${individualTrainee}`,
-                {studentAnswer:StudentAnswer})}
-                margin="normal"
-                padding="normal"
+              <Grid>
+              <Box  >
+                <Paper 
+                style = {{marginBottom:8 }}
+                
                 >
-              Submit
-              </Button>
-              
-                </div>
+                  <Paper sx ={{margin: 'auto',maxWidth :500 ,
+               mb: 4,
+               backgroundSize: 'cover',}} style ={{marginLeft :-1 }} >
+                <FormControl>
+                   <Typography variant ="h8" >
+                    {question.ques}
+                   </Typography>
+                       <RadioGroup
+                          aria-labelledby="demo-radio-buttons-group-label"
+                          name="radio-buttons-group"
+                          //onChange={e => setStudentAnswer(e.target.value)}
+                          >
+                          <FormControlLabel value={question.choice1} control={<Radio />} label={question.choice1}  />
+                          <FormControlLabel value={question.choice2} control={<Radio />} label={question.choice2} />
+                          <FormControlLabel value={question.choice3} control={<Radio />} label={question.choice3} />
+                          <FormControlLabel value={question.choice4} control={<Radio />} label={question.choice4} />
+                        </RadioGroup>
+                    </FormControl>
+                    </Paper>
+                    </Paper>
+              </Box>
+              </Grid>
             ))}
             <Button
                 variant="contained"
@@ -79,8 +76,9 @@ const ViewQuestion = () => {
                 padding="normal"
                 onClick ={() => window.location.href=`/viewGrade?exam=${exam}&corporateTrainee=${corporateTrainee}`}
                 >
-              Submit and View Grade
+              Submit
               </Button>
+              <br></br>
             </Box>  
             </Paper>
         )

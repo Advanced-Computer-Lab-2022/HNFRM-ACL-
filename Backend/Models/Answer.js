@@ -4,21 +4,11 @@ const{ObjectId}=mongoose.Schema;
 
 
 const answerSchema = new Schema({
-    question:{
-        type:mongoose.Schema.Types.ObjectId,ref:'Question',
-        required:true
+    exam:{
+        type:mongoose.Schema.Types.ObjectId,ref:'Exam'
     },
-    studentAnswer:{
-        type:String,
-        required:true
-    },
-    corporateTrainee:{
-        type:mongoose.Schema.Types.ObjectId,ref:'CorporateTrainee',
-        required:false
-    },
-    individualTrainee:{
-        type:mongoose.Schema.Types.ObjectId,ref:'IndividualTrainee',
-        required:false
+    studentAnswers:{
+        type:[String]
     }
 }, { timestamps: true });
 const Answer = mongoose.model('Answer', answerSchema);

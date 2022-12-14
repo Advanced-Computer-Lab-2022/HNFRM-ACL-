@@ -10,10 +10,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Icon from '@mui/material/Icon';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import GradeIcon from '@mui/icons-material/Grade';;
 
 
-const { useState } = require("react");
+const { useState, useEffect } = require("react");
 
 function Copyright(props) {
     return (
@@ -34,36 +34,22 @@ const ViewGradeCorporate = () => {
     const exam = params.get('exam');
     const corporateTrainee = params.get('corporateTrainee');
     const [grade, setGrade] = useState('')
-    const viewGradeCorporate=  async () => {
-        await axios.get(`http://localhost:8000/viewGradeCorporate?exam=${exam}&corporateTrainee=${corporateTrainee}`).then(
-            (res) => { 
-                const grade = res.data
+
+    useEffect(() => {
+      axios.get(`http://localhost:8000/viewGradeCorporate?exam=${exam}&corporateTrainee=${corporateTrainee}`).then(
+      (res) => { 
+        const grade = res.data
                 console.log(grade)
                 setGrade(grade)  
-            }
-             );    
-
-    }
+      })}
+       );
 
     
     return( <ThemeProvider theme={theme}>
         <Grid container component="main" sx={{ height: '100vh' }}>
           <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={3.5}
-            sx={{
-              backgroundImage: 'url(https://source.unsplash.com/random)',
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          
+          
             <Box
               sx={{
                 my: 8,
@@ -74,20 +60,13 @@ const ViewGradeCorporate = () => {
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                <AddCircleOutlineIcon />
+                <GradeIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-          <h1>YOUR EXAM GRADE IS:</h1>
-          <h1>{grade.yourgrade}</h1>
+          <h4>Your Exam Grade is:</h4>
+          <h6>{grade.yourgrade}</h6>
               </Typography>
               <Box component="form" noValidate   sx={{ mt: 1 }}>
-                <Button
-                  variant="contained"
-                  onClick={viewGradeCorporate}
-                  sx={{ mt: 3, mb: 2 }}
-                  >
-                 Load Grade
-                </Button>
                 <Button
                   variant="contained"
                   onClick ={() => window.location.href=`/viewQuestionAnswers?examId=${exam}`}
@@ -95,10 +74,13 @@ const ViewGradeCorporate = () => {
                   >
                  Correct Answers
                 </Button>
-                <Copyright sx={{ mt: 5 }} />
+                
               </Box>
+              <Copyright sx={{ mt: 5 }} />
             </Box>
-          </Grid>
+            
+          
+          
         </Grid>
       </ThemeProvider>
   )

@@ -11,37 +11,33 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
 
-const { useState } = require("react");
+const { useState , useEffect} = require("react");
 const ViewQuestionAnswers = () => { 
     const [questions, setQuestionsAnswers] = useState([])
     const params = new URLSearchParams(window.location.search);
     const exam = params.get('examId');
     console.log(exam);
-    
-    const viewQuestionAnswers=  async () => {
-        await axios.get(`http://localhost:8000/getQuestionAnswers?examId=${exam}`).then(
-            (res) => { 
-                const questions = res.data
-                console.log(questions)
-                setQuestionsAnswers(questions)  
-            }
-             );    
 
-    }
+    useEffect(() => {
+        axios.get(`http://localhost:8000/getQuestionAnswers?examId=${exam}`).then(
+        (res) => { 
+            const questions = res.data
+            console.log(questions)
+            setQuestionsAnswers(questions) 
+        })}
+         );
+    
         return(
             //button that will display questions
             <div className="ViewQuestionAnswers">
             <Box sx={{marginBottom: 2}}>
-            <Button variant="contained"
-            onClick={viewQuestionAnswers}
-            margin="normal"
-            padding="normal"
-            >Load Answers</Button>
+            
             {questions.map((question) =>(
-                <div>
-                <h1>{question.ques}</h1>
-                <p>{question.correctAnswer} </p>
-                </div>
+                <Paper>
+                <h3>{question.ques}</h3>
+                <p> Your Answer : {question.correctAnswer} </p>
+                <p> The Correct Answer : {question.correctAnswer} </p>
+                </Paper>
             ))}
             </Box>  
             </div>
