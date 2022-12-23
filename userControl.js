@@ -1,18 +1,45 @@
-const nodemailer = require ('nodemailer')
 const router = require('express').Router();
-let Admin = require('../Models/Admin');
-let Instructor = require('../Models/Instructor');
-let CorporateTrainee = require('../Models/CorporateTrainee');
-const bcrypt = require("bcryptjs");
-const { UserInfo } = require('git');
-const IndividualTrainee = require('../Models/IndividualTrainee');
-const { find } = require('../Models/Admin');
+let User = require('../Models/User');
+const { default: mongoose } = require('mongoose');
+const express = require("express");
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+const nodemailer = require ('nodemailer');
+const PDFDcoument = require("pdfkit");
+const Course = require('../Models/Course');
+const { default: jsPDF } = require('jspdf');
+const { Certificate } = require('crypto');
+let fs = require('fs');
 
+//Token 
+const maxAge = 3 * 24 * 60 * 60;
+const createToken = (id) => {
+    return jwt.sign({ id }, 'supersecret', {
+        expiresIn: maxAge
+    });
+};
+
+//Login 
+const login = async (req, res) => {
+    const { username, password } = req.body;
+    const user = await User.findOne({ username: username});
+    if (await bcrypt.compare(password, user.password)){
+            const token = createToken(user._id);
+            res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 });
+            res.status(200).json(user)
+        } else {
+            res.send("not logged ")  
+        }
+}
+
+
+// Add Admin 
 const createAdmin = async(req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const type = "Admin"
     try{
-        const admin = await Admin.create({username, password});
+        const admin = await User.create({username, password , type});
         res.status(200).json(admin)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -20,12 +47,22 @@ const createAdmin = async(req,res) => {
     }
 }
 
-
+//Add Instructor
 const createInstructor = async(req,res) => {
     const username = req.body.username;
-    const password = req.body.password;
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+    const email ="";
+    const biography = ""
+    const rating ="5"
+    const reviews=["Great Prof","Best Prof","Prof Zebalas"];
+    const contract = "false"
+    const type ="Instructor"
+    const policy ="false"
+    const wallet ="0"
+
     try{
-        const instructor = await Instructor.create({username, password});
+        const instructor = await User.create({username, password:hashedPassword,email,biography,rating,reviews,contract,type,policy,wallet});
         res.status(200).json(instructor)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -34,12 +71,13 @@ const createInstructor = async(req,res) => {
 }
 
 
-
+// Add Corporate Trainee
 const createCorporateTrainee = async(req,res) => {
     const username = req.body.username;
     const password = req.body.password;
+    const type ="Corporate Trainee"
     try{
-        const corporateTrainee = await CorporateTrainee.create({username, password});
+        const corporateTrainee = await User.create({username, password,type});
         res.status(200).json(corporateTrainee)
     }catch(error){
         res.status(400).json({error:error.message})
@@ -47,56 +85,208 @@ const createCorporateTrainee = async(req,res) => {
     }
 }
 
-//////////////////////////////////////////Mohab/////////////////////////////////////////////////
-const ChangePassword = async(req,res, next )=>{         //change password for instructor
-    
-    
+// Add Individual Trainee  Using SignUp
+const createIndividualTrainee = async(req,res) =>{
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = req.body.password;
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const gender = req.body.gender;
+    const type="Individual Trainee"
     try{
-        
-        const userID = req.query.id ;
         const salt = await bcrypt.genSalt(10);
-        const password = await bcrypt.hash(req.body.password,salt);
-       
-        const instructor = await Instructor.find({_id: userID});
-        const individual = await IndividualTrainee.findByIdAndUpdate({_id: userID},{password:password},{new:true});
-        const corporateTrainee = await CorporateTrainee.findByIdAndUpdate({_id: userID},{password:password},{new:true});
-        //console.log(userID+ "hey");
-       if(instructor!=""){
-        await Instructor.findByIdAndUpdate({_id: userID},{password:password},{new:true});
-        console.log("change password successfully");
-        return res.status(200).json({status: true});
-       }
-       else
-       if(individual!=""){
-        await IndividualTrainee.findByIdAndUpdate({_id: userID},{password:password},{new:true});
-        return res.status(200).json({status: true});
-       }
-       else
-       if(corporateTrainee!=""){
-        await CorporateTrainee.findByIdAndUpdate({_id: userID},{password:password},{new:true});
-        return res.status(200).json({status: true});
-       }
+        const hashedPassword = await bcrypt.hash(password, salt);
+        const individualTrainee = await User.create({username, email , password:hashedPassword ,firstName,lastName,gender,type})
+        const token = createToken(individualTrainee.username);
+        res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge * 1000 })
+        res.status(200).json(individualTrainee)
+    }catch(error){
+        res.status(400).json({error:error.message})
 
+    }
+
+}
+
+//Log Out
+const logout = async (req, res) => {
+    try{
+        res.cookie('jwt', "", { httpOnly: true, maxAge: maxAge * 1000 });
+        res.status(200).json("Logged Out")
     }
     catch(error){
-        return res.status(400).json({status:false, error: error.message}); 
+        res.status(400).json({ error: error.message })
     }
+}
+
+// Edit Instructor email and biography
+const editInstructor = async(req,res) =>{
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
+    const {email,biography} = req.body;
+    try{
+        const instructor = await User.findByIdAndUpdate({_id:instructorId},{email,biography},{new:true});
+        res.status(200).json(instructor)
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+}
+
+// View Instructor Info
+const viewInstructor =async(req,res) =>{
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
+    try{
+        const instructor = await User.findOne({_id:instructorId});
+        res.status(200).json(instructor)
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+    
+}
+
+// Trainee rate instructor
+const rateInstructor = async(req,res) => {
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const instructorId = mongoose.Types.ObjectId(decodedToken)
+    try{
+        const rating=Number(req.body.rating);
+        const instructor = await User.findByIdAndUpdate({_id:instructorId},{rating:rating});
+        res.status(200).json(instructor)  
+    }catch(error){
+    res.status(400).json({error:error.message})
 } 
+}
+
+// View grade of corporate trainee
+const viewGradeCorporate = async (req, res) => {
+    const {corporateTrainee, exam } = req.query;
+    try{
+        let corpgrades = await User.findById(corporateTrainee).find({}).select('grade').sort({ createdAt: -1 })
+        let grades=corpgrades[0].grade;
+         let index=0;
+         let yourgrade=0;
+    for (index=0;index<grades.length;index++) {
+        if (grades[index].exam.equals(exam)) {
+            yourgrade=grades[index].value;
+             break;
+        }
+    }
+    res.status(200).json({yourgrade})
+}
+    catch (error){
+    res.status(400).json({error:error.message})
+}
+}
+
+//View Grade of Individual Trainee
+const viewGradeIndividual = async (req, res) => {
+    const { individualTrainee, exam } = req.query;
+    try{
+        let corpgrades = await User.findById(individualTrainee).find({}).select('grade').sort({ createdAt: -1 })
+        let grades = corpgrades[0].grade;
+        let index=0;
+        let yourgrade=0;
+   for (index=0;index<grades.length;index++) {
+       if (grades[index].exam.equals(exam)) {
+           yourgrade=grades[index].value;
+            break;
+       }
+   }
+   res.status(200).json({yourgrade})
+}
+   catch (error){
+   res.status(400).json({error:error.message})
+}
+}
 
 
+//Change password 
+
+const changePassword = async(req,res) =>{
+    const username = req.body.username;
+    const salt = await bcrypt.genSalt(10);
+    const password = await bcrypt.hash(req.body.password,salt);
+    try{
+        const user = await User.findOneAndUpdate({username:username},{password},{new:true})
+        res.status(200).json(user);
+    }catch(error){
+        res.status(400).json({status:false, error: error.message});
+    }
+}
 
 
- const ResetPassword = async (req,res)=>{
-const Email = req.body.Email;
-await Instructor.find({Email: Email}).then(async (result)=>{
-const neew = "1234_12345";
-await Instructor.findByIdAndUpdate(result._id,{password:neew}).then((result)=>{
+const resetPassword = async (req,res)=>{
+    const Email = req.body.Email;
+    await User.find({Email: Email}).then(async (result)=>{
+    const neew = "1234_12345";
+    await User.findByIdAndUpdate(result._id,{password:neew}).then((result)=>{
+        const mail = {
+            from: process.env.AUTH_EMAIL,
+            to: Email,
+            subject: "Password Reset",
+            html: `<p>Nset elpassword yghaby ?.</p>
+                 <p>khod el password da mashy nafsak beh <strong> ${neew} </strong> w mtdhosh lhad <3.</p>`
+        }
+    
+        let transporter = nodemailer.createTransport({
+            service: 'hotmail',
+            auth: {
+                user: process.env.AUTH_EMAIL,
+                pass: process.env.AUTH_PASS
+            }
+        })
+    
+        transporter.sendMail(mail).then(()=>{
+            return res.status(200).json({status:true,Message:"eldnya zy elfol"})
+        }).catch((error) => {
+            return res.status(400).json({status:false, error:error.message ,Message:"Error while sending an email"})
+        })
+    }).catch((error)=>{
+        return res.status(400).json({status:false, error:error.message,Message:"Error while updating the password"})
+    })
+    }).catch((error)=>{
+        return res.status(400).json({status:false, error:error .message,Message:"this Email is not found or undefined"})
+    });
+    
+    
+    }
+
+
+const sendingCertificate = async(req,res)=>{
+
+    const student=await User.findById(req.body.stdId);
+    const course=await Course.findById(req.body.courseId);
+   
+if (student&&course){
+var doc = new jsPDF();
+doc.text(90,10,"Certificate") // 50 x axis
+doc.text(50,20,"Certificate of completion the course, CONGRATULATION!")
+doc.text(50,30,student.username);
+doc.text(50,40,"Has successfully completed");
+doc.text(50,50,course.title);
+doc.text(50,60,"which taught by");
+doc.text(50,70,course.instructorName);
+doc.save("Certificate.pdf");
+
+const Email = student.email;
+await User.find({Email: Email}).then(async (result)=>{
+await User.findByIdAndUpdate(result._id).then((result)=>{
     const mail = {
         from: process.env.AUTH_EMAIL,
         to: Email,
-        subject: "Password Reset",
-        html: `<p>Nset elpassword yghaby ?.</p>
-             <p>khod el password da mashy nafsak beh <strong> ${neew} </strong> w mtdhosh lhad <3.</p>`
+        subject: "Certificate",
+        html: `<p>Here is ur certificate</p>`,
+        attachments: [{
+            filename: "Certificate.pdf",
+            contentType: 'application/pdf', 
+             path: './Certificate.pdf' 
+        }]
     }
 
     let transporter = nodemailer.createTransport({
@@ -107,7 +297,7 @@ await Instructor.findByIdAndUpdate(result._id,{password:neew}).then((result)=>{
         }
     })
 
-    transporter.sendMail(mail).then((result)=>{
+    transporter.sendMail(mail).then(()=>{
         return res.status(200).json({status:true,Message:"eldnya zy elfol"})
     }).catch((error) => {
         return res.status(400).json({status:false, error:error.message ,Message:"Error while sending an email"})
@@ -116,18 +306,173 @@ await Instructor.findByIdAndUpdate(result._id,{password:neew}).then((result)=>{
     return res.status(400).json({status:false, error:error.message,Message:"Error while updating the password"})
 })
 }).catch((error)=>{
-    return res.status(400).json({status:false, error:error .message,Message:"this Email is not found or undefined"})
+    return res.status(400).json({status:false, error: error.message,Message:"this Email is not found or undefined"})
 });
-
-
 }
-
-const Contract = async(req,res)=> {
-    const id = await Instructor.findById(req.params.id);
-    await Instructor.findByIdAndUpdate(({_id: id},{Contract:"true"}))
+else{
+return res.status(400).json({status:false ,Message:"Either username or course not found"})
+}   
     }
 
 
-//////////////////////////////////////////Mohab////////////////////////////////////////////////
 
-module.exports = {createAdmin,createInstructor,createCorporateTrainee,ChangePassword,ResetPassword,Contract};
+
+
+const downloadCertificate = async (req, res) =>{
+    const student=await User.findById(req.body.stdId);
+    const course=await Course.findById(req.body.courseId);
+   
+if (student&&course){
+var doc = new jsPDF();
+doc.text(90,10,"Certificate") // 50 x axis
+doc.text(50,20,"Certificate of completion the course, CONGRATULATION!")
+doc.text(50,30,student.username);
+doc.text(50,40,"Has successfully completed");
+doc.text(50,50,course.title);
+doc.text(50,60,"which taught by");
+doc.text(50,70,course.instructorName);
+doc.save("Certificate.pdf");
+
+
+    var file = fs.createReadStream('./certificate.pdf');
+res.setHeader('Content-Type', 'application/pdf');
+res.setHeader('Content-Disposition', 'attachment; filename=Certificate.pdf');
+file.pipe(res);
+}else{
+    return res.status(400).json({status:false ,Message:"Either username or course not found"})
+    
+    }
+
+ }
+
+const viewMyWallet = async (req, res) => {
+        const Wallet = mongoose.Types.ObjectId(req.query.courseId);
+        try{
+            const user =await User.findOne(Wallet)
+      res.status(200).json(user);
+    } catch (error) {
+      console.log();
+      return res.status(402).json({ error: "Your wallet is empty"});
+    }
+  };
+
+
+const contract = async(req,res)=> {
+    const instructorId = mongoose.Types.ObjectId(req.query.instructorId)
+    const accept = "true";
+    const inst =await User.findByIdAndUpdate({_id: instructorId},{contract:accept},{new:true})
+    res.status(200).json(inst);
+}
+
+
+const WriteNotes = async(req,res)=>{
+const userid = await User.findById(req.body);
+const notes = await User.findByIdAndUpdate({_id: userid},{notes:notes})
+res.status(200);
+}
+
+
+const DownloadNotes = async(req,res)=>{
+    const notes=await User.findById(req.body.notes);
+    try{
+var doc = new jsPDF();
+doc.text(10,10,notes);
+doc.save("notes.pdf");
+
+
+    var file = fs.createReadStream('./notes.pdf');
+res.setHeader('Content-Type', 'application/pdf');
+res.setHeader('Content-Disposition', 'attachment; filename=notes.pdf');
+file.pipe(res);
+}catch(error) {
+    return res.status(400).json({status:false ,Message:"no notes found"})
+    
+    }
+
+}
+
+
+
+
+const stripe = require('stripe')('your_stripe_secret_key');
+async function refundAmount(amount, UserID) {
+  try {
+    const refund = await stripe.refunds.create({
+      amount: amount,
+      payment_intent: UserID,
+    });
+    console.log(`Successfully refunded ${refund.amount} to trainee with ID ${UserID}`);
+  } catch (error) {
+    console.error(`Error issuing refund: ${error.message}`);
+  }
+}
+
+
+
+
+
+
+
+const policy = async(req,res)=> {
+    const token = req.cookies.jwt;
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    const accept = "true";
+    const inst =await User.findByIdAndUpdate({_id: userId},{policy:accept},{new:true})
+    res.status(200).json(inst);
+}
+
+
+
+ const pay= async(req,res)=>{
+        const stripe = require("stripe");
+      
+        const {email, token } = req.body;
+        const Paycourses=mongoose.Types.ObjectId(req.query.courseId);
+        const course = await Course.findById(Paycourses);
+        //console.log(course)
+       const user=await User.findOne({Course:course})
+        if(user)
+          res.status(200).json("you already registered before for this course")
+        
+        const trainee=await User.findOneAndUpdate({email},{$addToSet:{Course:course}});
+        console.log(User.wallet)
+        var x=(parseFloat(course.price) * 100)-((trainee.wallet)*100)
+        if(x<0){
+        var y=((trainee.wallet)*100)-(parseFloat(course.price) * 100)}
+        else {
+        y=0;}
+        await User.findOneAndUpdate({email},{wallet:(y/ 100)});
+        if (y>0){
+        return res.status(200).json(" payed from succesfully")}
+        stripe.customers
+        .create({
+          email: email,
+          source: token.id,
+          name: token.card.name,
+        })
+        .then((customer) => {
+          return stripe.charges.create({
+         //const token1 = req.body.stripeToken;
+          // const charge=await stripe.charges.create({
+              amount: (parseFloat(course.price) * 100)-((trainee.wallet)*100),
+              description: `Payment for USD ${parseFloat(course.price) * 100}`,
+              currency: "USD",
+              customer: customer.id,
+            });
+          })
+          .then((charge) => res.status(200).send(charge))
+          .catch((err) => console.log(err));
+      };
+      
+       
+
+
+
+
+module.exports = {login,createAdmin,createInstructor,
+    createCorporateTrainee,viewInstructor,editInstructor,
+    rateInstructor,createIndividualTrainee,viewGradeCorporate
+    ,viewGradeIndividual,changePassword,resetPassword,
+    contract,policy,sendingCertificate,viewMyWallet,
+    downloadCertificate,WriteNotes,DownloadNotes,refundAmount,pay};
