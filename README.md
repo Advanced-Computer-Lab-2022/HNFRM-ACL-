@@ -321,12 +321,12 @@ Login
 }
 - Response Body
 {
-   {
-      "auth": true,
+    
+     "auth": true,
 
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjA5NGNmY2I2ZjBhZGI3ZWI3ZTFhNSIsImlhdCI6MTY3MjYwOTkxNywiZXhwIjoxNjcyODY5MTE3fQ.30oXcBa6jVE2B-pSutsPqjHvDZfXvGxmwwTmk3kWFK4",
-     
-      "result": {
+     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjA5NGNmY2I2ZjBhZGI3ZWI3ZTFhNSIsImlhdCI6MTY3MjYwOTkxNywiZXhwIjoxNjcyODY5MTE3fQ.30oXcBa6jVE2B-pSutsPqjHvDZfXvGxmwwTmk3kWFK4",
+       "result": {
+
         "_id": "63b094cfcb6f0adb7eb7e1a5",
         "username": "Haneen1",
         "password": "$2b$10$ZkYlAO3cTwzumqrRXB7xSuoP3BxABLMrfmid5ivzYTI5OupJLGaPC",
@@ -336,7 +336,7 @@ Login
         "createdAt": "2022-12-31T20:00:15.414Z",
         "updatedAt": "2022-12-31T20:00:15.414Z",
         "__v": 0
-    }
+    
 }
 }
 2) Logout
@@ -354,9 +354,10 @@ Login
 - Route /course/
 - Request Type Get
 - Response Body
-{
 
-    "course": {
+{
+    
+     "course": {
         "_id": "63b095db52b47810343520b8",
         "title": "Embedded Systems",
         "summary": "BLABLABLA",
@@ -379,6 +380,7 @@ Login
         "updatedAt": "2023-01-01T21:15:22.167Z",
         "__v": 0
     },
+
     "discount": {
         "_id": "63b0b392d3a254c7d5d599f6",
         "amount": 70,
@@ -390,6 +392,7 @@ Login
         "__v": 0
     }
 }
+
 3) rate course 
 
 - Route /ratecourse/
