@@ -3,87 +3,108 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddIcon from '@mui/icons-material/Add';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import Dialog from '@mui/material/Dialog';
+import PageNotFound from './PageNotFound'
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        HNFRM
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import Header from '../Headers/header';
+import Footer from '../Headers/footer';
 
 
-const { useState } = require("react");
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
 
-const CreateCourse = () => {
+
+
+const { useState , useEffect } = require("react");
+
+
+
+
+
+const Check = () =>{
+
     const [titleCourse, setTitle] = useState('');
-    const [subtitle1Course, setSubtitles1] = useState('');
-    const [subtitle2Course, setSubtitles2] = useState('');
-    const [subtitle3Course, setSubtitles3] = useState('');
-    const [subtitle4Course, setSubtitles4] = useState('');
     const [priceCourse, setPrice] = useState('');
     const [summaryCourse, setSummary] = useState('');
     const [subjectCourse, setSubject] = useState('');
-    const params = new URLSearchParams(window.location.search);
-    const instructorId = params.get('instructorId')
+    const [linkCourse, setLink] = useState('');
+    const [status, setStatus] = useState('');
+    const [id, setId] = useState('');
+
 
     const add = async () => {
-        let res = await axios.post(`http://localhost:8000/createCourse?instructorId=${instructorId}`,
-        {title :titleCourse , subtitles : [subtitle1Course,subtitle2Course,subtitle3Course,subtitle4Course] , 
-            price : priceCourse ,summary : summaryCourse , subject:subjectCourse})
-        console.log(res);
+        await axios.post('http://localhost:8000/createCourse',
+        {
+        title :titleCourse  , 
+        defaultPrice : priceCourse ,summary : summaryCourse , subject:subjectCourse , link:linkCourse},
+            { headers: {"token" :  localStorage.getItem("token")} } )
+            .then((res) =>{
+              setStatus(true)
+              setId(res.data._id)
+            })
+          
     }
+
+    useEffect(()=>{
+      if(status){
+        window.location.href=`/createSubtitle?courseId=${id}`
+      }
+      });
     
 
     return (
       <ThemeProvider theme={theme}>
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Header/>
+        <Container component="main" >
           <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={7}
-            sx={{
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid item sx= {{height:'100%' , width :'100%'}}>
             <Box
               sx={{
-                my: 8,
-                mx: 4,
+                mt:10,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-                <AddCircleOutlineIcon />
+              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+                <AddIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
-                Add courses
+              <Typography component="h2" variant="h5">
+                Create New Course
               </Typography>
-              <Box component="form" noValidate onSubmit={add} sx={{ mt: 1 }}>
+              <Box component="form"  sx={{ mt: 1 }}>
                 <TextField
                   margin="normal"
                   required
@@ -94,59 +115,61 @@ const CreateCourse = () => {
                   autoComplete=""
                   autoFocus
                   onChange ={e =>setTitle(e.target.value)}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  name="subtitles1"
-                  label="Subtitle 1"
-                  id="subtitles1"
-                  sx ={{right :10}}
-                  autoComplete=""
-                  onChange ={e =>setSubtitles1(e.target.value)}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  name="subtitles2"
-                  label="Subtitle 2"
-                  id="subtitles2"
-                  sx ={{left :10}}
-                  autoComplete=""
-                  onChange ={e =>setSubtitles2(e.target.value)}
+                  sx={{mb:3}}
+                  
                 />
                 <br></br>
-                <TextField
-                  margin="normal"
-                  required
-                  name="subtitles3"
-                  label="Subtitle 3"
-                  id="subtitles3"
-                  autoComplete=""
-                  sx ={{right :10}}
-                  onChange ={e =>setSubtitles3(e.target.value)}
-                />
-                <TextField
-                  margin="normal"
-                  required
-                  name="subtitles4"
-                  label="Subtitle 4"
-                  id="subtitles4"
-                  autoComplete=""
-                  sx ={{left :10}}
-                  onChange ={e =>setSubtitles4(e.target.value)}
-                />
+                <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" required>Subject</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={subjectCourse}
+                  onChange ={e =>setSubject(e.target.value)}
+          
+                  label="Subject"
+                >
+                  <MenuItem value={"Arts and Humanities"}>Arts and Humanities</MenuItem>
+                  <MenuItem value={"Data Science"}>Data Science</MenuItem>
+                  <MenuItem value={"Computer Science"}>Computer Science</MenuItem>
+                  <MenuItem value={"Language Learning"}>Language Learning</MenuItem>
+                  <MenuItem value={"Physical Science and Engineering"}>Physical Science and Engineering</MenuItem>
+                  <MenuItem value={"Health"}>Health</MenuItem>
+                  <MenuItem value={"Math and Logic"}>Math and Logic</MenuItem>
+                  <MenuItem value={"Social Sciences"}>Social Sciences</MenuItem>
+                  <MenuItem value={"Business"}>Business</MenuItem>
+                  <MenuItem value={"Information Technology"}>Information Technology</MenuItem>
+                  <MenuItem value={"Personal Development"}>Personal Development</MenuItem>
+                </Select>
+                </FormControl>
                 <br></br>
-                <TextField
-                  margin="normal"
-                  fullWidth
-                  required
-                  name="price"
-                  label="Price"
-                  id="price"
-                  autoComplete=""
+                <br></br>
+                <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label" required>Price</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={priceCourse}
                   onChange ={e =>setPrice(e.target.value)}
-                />
+          
+                  label="Price"
+                >
+                  <MenuItem value={"Free"}>Free</MenuItem>
+                  <MenuItem value={"1000"}>1000</MenuItem>
+                  <MenuItem value={"1500"}>1500</MenuItem>
+                  <MenuItem value={"2000"}>2000</MenuItem>
+                  <MenuItem value={"2500"}>2500</MenuItem>
+                  <MenuItem value={"3000"}>3000</MenuItem>
+                  <MenuItem value={"3500"}>3500</MenuItem>
+                  <MenuItem value={"4000"}>4000</MenuItem>
+                  <MenuItem value={"4500"}>4500</MenuItem>
+                  <MenuItem value={"5000"}>5000</MenuItem>
+                  <MenuItem value={"5500"}>5500</MenuItem>
+                  <MenuItem value={"6000"}>6000</MenuItem>
+                  <MenuItem value={"6500"}>6500</MenuItem>
+                  <MenuItem value={"7000"}>7000</MenuItem>
+                </Select>
+                </FormControl>
                 <TextField
                   margin="normal"
                   required
@@ -155,33 +178,71 @@ const CreateCourse = () => {
                   label="Summary"
                   id="summary"
                   autoComplete=""
+                  multiline
+                  rows={2}
+                  sx={{mt:3}}
                   onChange ={e =>setSummary(e.target.value)}
                 />
+                <br></br>
                 <TextField
                   margin="normal"
                   required
                   fullWidth
-                  name="subject"
-                  label="Subject"
-                  id="subject"
+                  id="link"
+                  label="Link"
+                  name="link"
                   autoComplete=""
-                  onChange ={e =>setSubject(e.target.value)}
+                  autoFocus
+                  
+                  onChange ={e =>setLink(e.target.value)}
+                  
                 />
+                
 
                 <Button
-                  type="submit"
-                  fullWidth
+                  //type="submit"
                   variant="contained"
                   sx={{ mt: 3, mb: 2 }}
+                  onClick={add}
                 >
                   Create
                 </Button>
-                <Copyright sx={{ mt: 5 }} />
               </Box>
             </Box>
           </Grid>
-        </Grid>
+        </Container>
+        <Footer/>
       </ThemeProvider>
     );
+}
+
+const CreateCourse = () => {
+  
+  const [type, setType] = useState('');
+  useEffect(()=>{
+    axios.get('http://localhost:8000/isLogin' ,{
+        headers: {
+            "token" :  localStorage.getItem("token")
+        },
+    }).then(
+    (res) => { 
+        const user = res.data;
+        setType(user.type)
+        })
+    });
+
+    let Add;
+    if(type=='Instructor'){
+      Add =<Check></Check>
+    }
+    else{
+      Add =<PageNotFound></PageNotFound>
+    }
+
+    return(
+      <Box>
+        {Add}
+      </Box>
+    )
 }
 export default CreateCourse;

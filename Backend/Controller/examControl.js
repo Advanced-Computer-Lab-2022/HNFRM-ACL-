@@ -1,17 +1,17 @@
 const router = require('express').Router()
 let Exam = require('../Models/Exam')
 let Question = require('../Models/Question')
-let Answer = require('../Models/Answer')
-let Grade = require('../Models/Grade')
-let Course = require('../Models/Course')
 let User= require('../Models/User');
+const StudentAnswer = require('../Models/StudentAnswer')
 const { default: mongoose } = require('mongoose');
+const jwt = require('jsonwebtoken');
 
+
+//create a multiple choice exam with 4 choices per question (Req 26) Post
 const createExam = async(req,res) => {
-    const name=req.body.name;
-    const course=mongoose.Types.ObjectId(req.query.courseId);
+   const subtitle = req.body.subtitle;
    try{
-    const exam = await Exam.create({name,course});
+    const exam = await Exam.create({subtitle});
     res.status(200).json(exam)
 }catch(error){
     res.status(400).json({error:error.message})
@@ -19,185 +19,157 @@ const createExam = async(req,res) => {
 }
 }
 
-const viewExams = async (req, res) => {
-    const courseId =mongoose.Types.ObjectId(req.query.courseId);
+
+//set the answers (Req 27) post
+const createQuestion = async(req,res) =>{
+    const examId= mongoose.Types.ObjectId(req.query.examId);
     try{
-        const exams = await Exam.find({course:courseId});
-        res.status(200).json(exams)
+        const question = req.body.question
+        const choices = req.body.choices
+        const correctAnswer = req.body.correctAnswer
+        const result = await Question.create({examId,question,choices,correctAnswer});
+        const examRes = await Exam.findById(examId).select('questions correctAnswers')
+        const questions = examRes.questions;
+        const correctAnswers = examRes.correctAnswers
+        questions[questions.length] = result._id
+        correctAnswers[correctAnswers.length] = correctAnswer
+        try{
+            const resi = await Exam.findByIdAndUpdate({_id:examId},{questions:questions,correctAnswers:correctAnswers})
+            res.status(200).json(resi)
+        }catch(error){
+            res.status(400).json({error:error.message})
+        }
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+}
+
+
+//solve a multiple choice exercise by choosing the correct answer (Req 35) get
+const viewExam = async (req, res) => {
+    //const subtitle =req.query.subtitle;
+    const examId= mongoose.Types.ObjectId(req.query.examId);
+    try{
+        const exam = await Exam.findOne({_id:examId});
+        let questions = exam.questions;
+        let result =[]
+        for(let i=0;i<questions.length;i++){
+            result[i]= await Question.findById({_id:questions[i]}) 
+        }
+        //const questions = await Question.findById({exam:id})
+        res.status(200).json(result)
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+}
+
+
+//submit the answers to the exercise after completing it (Req 36) post
+const createStudentAnswer = async(req,res) =>{
+    const examId=mongoose.Types.ObjectId(req.query.examId);
+    const token = req.headers['token']
+    const decodedToken = jwt.verify(token, "supersecret");
+    //const decodedToken = '63b0c5f4035969ab0bb5912a'; 
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    try{
+        let grade=0;
+        const studentAnswer = await StudentAnswer.create({answers:[],grade:grade,exam:examId,user:userId});
+        res.status(200).json(studentAnswer)
+    } 
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+}
+
+
+//patch
+const addToStudentAnswers = async(req,res) =>{
+    const examId=mongoose.Types.ObjectId(req.query.examId);
+    const token = req.headers['token']
+    const decodedToken = jwt.verify(token, "supersecret") 
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    const answer = req.body.answer
+    const student = await StudentAnswer.findOne({examId:examId,userId:userId})
+    const studentAnswers = student.answers
+    const id =  student._id
+
+    try{
+        studentAnswers[studentAnswers.length] = answer;
+        const result = await StudentAnswer.findByIdAndUpdate(id,{answers:studentAnswers},{new:true})
+
+        res.status(400).json(result)
+
     }catch(error){
         res.status(400).json({error:error.message})
     }
 }
 
-const createQuestion = async(req,res) => {
-    const exam=mongoose.Types.ObjectId(req.query.examId);
-    const ques = req.body.ques;
-    const choice1 = req.body.choice1;
-    const choice2 = req.body.choice2;
-    const choice3 = req.body.choice3;
-    const choice4 = req.body.choice4;
-    const choices = [choice1,choice2,choice3,choice4];
-    const correctAnswer = req.body.correctAnswer;
+
+//Patch
+const checkAnswers = async(req,res) =>{
+    const examId=mongoose.Types.ObjectId(req.query.examId);
+    const token = req.headers['token']
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    const exams= await Exam.findOne({_id:examId}).select('correctAnswers')
+    const correctAnswers = exams.correctAnswers;
+
+    const studentAnswer = await StudentAnswer.findOne({examId:examId,userId:userId});
+    const studentAnswers = studentAnswer.answers;
+    var grade= studentAnswer.grade;
+    const id = studentAnswer._id;
+
     try{
-        const question = await Question.create({exam,ques,choices,correctAnswer});
-        res.status(200).json(question)
-    }catch(error){
+        for(let i=0;i<correctAnswers.length;i++){
+            if(correctAnswers[i]==studentAnswers[i]){
+                grade++;
+            }
+                
+        }
+        const update = await StudentAnswer.findByIdAndUpdate(id,{grade:grade},{new:true});
+
+        res.status(200).json(update)
+
+    }
+    catch(error){
         res.status(400).json({error:error.message})
-    }
-}
-
-const getQuestion = async (req, res) => {
-    const exam =mongoose.Types.ObjectId(req.query.examId);
-    try{
-        const questions = await Question.find({exam:exam}).select('ques choices');
-        res.status(200).json(questions)
-    }catch(error){
-        res.status(400).json({error:error.message})
-    
-    }
-} 
-
-const getQuestionAnswers = async(req,res) =>{
-    const exam =mongoose.Types.ObjectId(req.query.examId);
-    try{
-        const questions = await Question.find({exam:exam}).select('ques correctAnswer');
-        const answers = await Answer.find({})
-        res.status(200).json(questions)
-    }catch(error){
-        res.status(400).json({error:error.message})
-    
-    }
-}
-const createAnswer = async (req, res) => {
-    const question = mongoose.Types.ObjectId(req.query.question);
-    const corporateTrainee = mongoose.Types.ObjectId(req.query.corporateTrainee);
-    const individualTrainee = mongoose.Types.ObjectId(req.query.individualTrainee);
-    const studentAnswer = req.body.studentAnswer;
-    if (corporateTrainee) {
-        const answer = await Answer.create({ question, corporateTrainee, studentAnswer });
-
-        res.status(200).json(answer)
-    }
-    else if (individualTrainee != null) {
-        const answer = await Answer.create({ question, individualTrainee, studentAnswer });
-        res.status(200).json(answer)
-    }
-    else {
-        res.status(400).json({ error: error.message })
-    }
-}
-
-const checkAnswer = async (req, res) => {
-    const { corporateTrainee, question, individualTrainee } = req.query;
-    const studentAnswer = req.body.studentAnswer;
-
-    //get the exam ID
-    const { exam } = await Question.findById(question).select('exam');
-    console.log(exam)
-    //correct answer
-    let { correctAnswer } = await Question.findById(question).select('correctAnswer');
-    //console.log(correctAnswer)
-
-    if (corporateTrainee) {
-        const answer = await Answer.create({ question, corporateTrainee, studentAnswer });
-        res.status(200).json(answer)
-            let corpgrades = await User.findById(req.query.corporateTrainee).find({}).select('grade').sort({ createdAt: -1 })
-            let grades = corpgrades[0].grade;
-
-        if (studentAnswer == correctAnswer) {
-            // console.log(grades)
-            let index = 0;
-            for (index = 0; index < grades.length; index++) {
-                console.log(grades[index].exam + " exam index")
-                if (grades[index].exam.equals(exam)) {
-                    console.log("ana hna aho")
-                    grades[index].value = (grades[index].value) + 1;
-                    break;
-                }
-            }
-            if (index == grades.length) {
-                const newgrade = {
-                    value: 1,
-                    exam: exam
-                }
-                grades.push(newgrade);
-            }
-            const corporateTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
-        }
-
-        else {
-            console.log("ana msh hna")
-            let index = 0
-            for (index = 0; index < grades.length; index++) {
-                console.log("ana msh hna")
-                if (grades[index].exam.equals(exam)) {
-                    break;
-                }
-            }
-            if (index == grades.length) {
-                const newgrade = {
-                    value: 0,
-                    exam: exam
-                }
-                grades.push(newgrade);
-                console.log(grades.length)
-            }
-            const corporateTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
-        }
-    }
-    else if (individualTrainee) {
-        const answer = await Answer.create({ question, corporateTrainee, studentAnswer });
-        res.status(200).json(answer)
-        let corpgrades = await User.findById(req.query.individualTrainee).find({}).select('grade').sort({ createdAt: -1 })
-        let grades = corpgrades[0].grade;
-        if (studentAnswer == correctAnswer) {
-            
-            // console.log(grades)
-            let index = 0;
-            for (index = 0; index < grades.length; index++) {
-                // console.log("ana hna")
-                console.log(grades[index].exam + " exam index")
-                //console.log(exam)
-                if (grades[index].exam.equals(exam)) {
-                    console.log("ana hna aho")
-                    grades[index].value = (grades[index].value) + 1;
-                    break;
-                }
-            }
-            if (index == grades.length) {
-                const newgrade = {
-                    value: 1,
-                    exam: exam
-                }
-                grades.push(newgrade);
-                // console.log(grades.length)
-            }
-            const individualTrainee = await User.findByIdAndUpdate(req.query.individualTrainee, { grade: grades });
-        }
-
-        else {
-            console.log("ana msh hna")
-            let index = 0
-            for (index = 0; index < grades.length; index++) {
-                console.log("ana msh hna")
-                if (grades[index].exam.equals(exam)) {
-                    break;
-                }
-            }
-            if (index == grades.length) {
-                const newgrade = {
-                    value: 0,
-                    exam: exam
-                }
-                grades.push(newgrade);
-                console.log(grades.length)
-            }
-            const individualTrainee = await User.findByIdAndUpdate(req.query.corporateTrainee, { grade: grades });
-        }
     }
     
-    else {
-        res.status(400).json({ error: error.message })
+
+
+}
+
+
+//view his/her grade from the exercise (Req 37) get
+const studentAnswer= async(req,res) =>{
+    const examId=mongoose.Types.ObjectId(req.query.examId);
+    const token = req.headers['token']
+    const decodedToken = jwt.verify(token, "supersecret");  
+    const userId = mongoose.Types.ObjectId(decodedToken)
+    try{
+        const result = await StudentAnswer.findOne({exam:examId,user:userId});
+        res.status(200).json(result)
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
+    }
+     
+}
+
+
+// view the questions with the correct solution to view the incorrect answers (Req 38) get
+const correctAnswers = async(req,res) =>{
+    const examId=mongoose.Types.ObjectId(req.query.examId);
+    try{
+        const result = await Exam.findOne(examId);
+        res.status(200).json(result)
+    }
+    catch(error){
+        res.status(400).json({error:error.message})
     }
 }
-module.exports = {createExam,createQuestion,getQuestion,getQuestionAnswers,createAnswer, checkAnswer,viewExams};
+
+
+module.exports = {createExam,createQuestion,viewExam,createStudentAnswer,addToStudentAnswers,checkAnswers,studentAnswer,correctAnswers};

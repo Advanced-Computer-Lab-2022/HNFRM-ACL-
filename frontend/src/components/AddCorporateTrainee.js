@@ -3,77 +3,79 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
+import PageNotFound from './PageNotFound'
 
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        HNFRM
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-const theme = createTheme();
+import Header from '../Headers/header';
 
 
 
-const { useState } = require("react");
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
 
-const AddCorporateTraninee = () => {
-    const [usernameCorporateTrainee, setUsername] = useState('');
-    const [passwordCorporateTrainee, setPassword] = useState('');
+const { useState , useEffect} = require("react");
+
+const Check = () =>{
+
+  const [usernameCorporateTrainee, setUsername] = useState('');
+  const [passwordCorporateTrainee, setPassword] = useState('');
+  const [corporateCompany, setCorporateCompany] = useState('');
 
     const add = async () => {
-        let res = await axios.post('http://localhost:8000/addCorporateTrainee',{username : usernameCorporateTrainee , password : passwordCorporateTrainee})
+        let res = await axios.post('http://localhost:8000/addCorporateTrainee',{username : usernameCorporateTrainee , password : passwordCorporateTrainee , company:corporateCompany})
         console.log(res);
     }
 
     return (
       <ThemeProvider theme={theme}>
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Header/>
+        <Container>
           <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={7}
-            sx={{
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid item sx= {{height:'100%' , width :'100%'}}>
             <Box
               sx={{
-                my: 8,
-                mx: 4,
+                my: 9,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
               }}
             >
-              <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <Avatar sx={{ mt:10, bgcolor: 'primary.main' }}>
               <AddCircleOutlineIcon />
               </Avatar>
-              <Typography component="h1" variant="h5">
+              <Typography component="h1" variant="h4"  sx={{mt:2}}>
                 Add Corporate Trainee
               </Typography>
-              <Box component="form" noValidate onSubmit={add} sx={{ mt: 1 }}>
+              <Box component="form" noValidate onSubmit={add} sx={{ mt: 5 }}>
                 <TextField
                   margin="normal"
                   required
@@ -96,6 +98,24 @@ const AddCorporateTraninee = () => {
                   autoComplete=""
                   onChange ={e =>setPassword(e.target.value)}
                 />
+                <br></br>
+                <br></br>
+                <FormControl variant="filled" fullWidth>
+                <InputLabel id="demo-simple-select-label" required>Company</InputLabel>
+                <Select
+                  labelId="demo-simple-select-standard-label"
+                  id="demo-simple-select-standard"
+                  value={corporateCompany}
+                  onChange ={e =>setCorporateCompany(e.target.value)}
+          
+                  label="Company"
+                >
+                  <MenuItem value={"Company 1"}>Company 1</MenuItem>
+                  <MenuItem value={"Company 2"}>Company 2</MenuItem>
+                  <MenuItem value={"Company 3"}>Company 3</MenuItem>
+                  <MenuItem value={"Company 4"}>Company 4</MenuItem>
+                </Select>
+                </FormControl>
                 <Button
                   type="submit"
                   fullWidth
@@ -104,12 +124,44 @@ const AddCorporateTraninee = () => {
                 >
                   Add
                 </Button>
-                <Copyright sx={{ mt: 5 }} />
               </Box>
             </Box>
           </Grid>
-        </Grid>
+        </Container>
+        <br></br>
+        <br></br>
+        <br></br>
       </ThemeProvider>
     );
+}
+
+const AddCorporateTraninee = () => {
+  const [type, setType] = useState('');
+  useEffect(()=>{
+    axios.get('http://localhost:8000/isLogin' ,{
+        headers: {
+            "token" :  localStorage.getItem("token")
+        },
+    }).then(
+    (res) => { 
+        const user = res.data;
+        setType(user.type)
+        })
+    });
+
+    let Add;
+    if(type=='Admin'){
+      Add =<Check></Check>
+    }
+    else{
+      Add =<PageNotFound></PageNotFound>
+    }
+
+    return(
+      <Box>
+        {Add}
+      </Box>
+    )
+
 }
 export default AddCorporateTraninee;

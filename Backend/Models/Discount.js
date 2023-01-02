@@ -3,17 +3,18 @@ require('mongoose-double')(mongoose);
 const Schema = mongoose.Schema;
 var SchemaTypes = mongoose.Schema.Types;
 const discountSchema = new Schema({
-
     amount :{
         type : SchemaTypes.Double,
         required : true
 
     },
-    howLong:{
-        type : Number,
-        required : true
+    startDate :{
+        type: String
     },
-    courseId :{
+    endDate:{
+        type:String
+    },
+    course :{
         type : mongoose.Types.ObjectId,
         ref:'Course'
     }

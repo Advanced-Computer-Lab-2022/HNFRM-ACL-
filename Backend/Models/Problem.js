@@ -9,11 +9,18 @@ const problemSchema = new Schema({
         type : String
     },
     followUp:{
-        type: String
+        type: [String]
     },
     course :{
         type: mongoose.Types.ObjectId ,
         ref: 'Course'
+    },
+    user :{
+        type: mongoose.Types.ObjectId ,
+        ref: 'User'
+    },
+    theProblem:{
+        type:String
     }
 
 }, { timestamps: true });

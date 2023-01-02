@@ -28,48 +28,83 @@ app.get("/home", (req, res) => {
   res.status(200).send("You have everything installed!");
 });
 
-const {login,createAdmin,createCorporateTrainee,createIndividualTrainee,createInstructor,viewInstructor,viewGradeIndividual,viewGradeCorporate,rateInstructor,editInstructor,changePassword,resetPassword,contract,policy}= require('./Controller/userControl');
+
+
+const {login,isLogin,logout,createIndividualTrainee,policy,contract,changePrice,writeReviewInstructor,editInstructor,changePassword,resetPassword,rateInstructor,viewpreviouslyRepotedProblems,requestFollowUp,viewReportedProblems,solveProblem,refund,viewRefundRequest,createAdmin,createInstructor,createCorporateTrainee,viewCoursesRequest,grant,viewInstructor,trainee}= require('./Controller/userControl');
 
 app.post("/login",login)
-app.post("/addAdmin",createAdmin)
-app.post("/addCorporateTrainee",createCorporateTrainee)
-app.post("/addIndividualTrainee",createIndividualTrainee)
-app.post("/addInstructor",createInstructor)
-app.get("/viewInstructor",requireAuth,viewInstructor)
-app.get("/viewGradeIndividual",requireAuth,viewGradeIndividual)
-app.get("/viewGradeCorporate",requireAuth,viewGradeCorporate)
-app.patch("/rateInstructor",requireAuth,rateInstructor)
-app.patch("/edit",requireAuth,editInstructor)
-app.patch("/changepassword", requireAuth,changePassword );   
-app.post("/resetpassword",resetPassword);
-app.patch("/contract",requireAuth,contract);
-app.patch("/policy",requireAuth,policy);
+app.get("/isLogin",requireAuth,isLogin)
+app.get('/logout',logout)
+app.post('/addIndividualTrainee',createIndividualTrainee)
+app.patch('/policy',requireAuth,policy)
+app.patch('/contract',requireAuth,contract)
+app.patch('/change',changePrice)
+app.patch('/writeReviewInstructor',writeReviewInstructor)
+app.patch('/edit',requireAuth,editInstructor)
+app.patch('/changePassword',changePassword)
+app.post('/recievePassword',resetPassword)
+app.patch('/rateInstructor',rateInstructor)
+app.get('/prevReportedProblems',requireAuth,viewpreviouslyRepotedProblems)
+app.patch('/followUp',requestFollowUp)
+app.get('/reportedProblems',viewReportedProblems)
+app.patch('/solveProblem',solveProblem)
+app.get('/refundRequests',viewRefundRequest)
+app.post('/addAdmin',createAdmin)
+app.post('/addInstructor',createInstructor)
+app.post('/addCorporateTrainee',createCorporateTrainee)
+app.get('/courseRequests',viewCoursesRequest)
+app.patch('/grant',grant)
+app.get('/view',requireAuth,viewInstructor)
+app.patch('/refund',refund)
+app.get('/trainee',trainee)
 
 
-const {createCourse,viewCourse,viewCourses,viewSubtitle,instructorViewCourses,uploadVideo,searchAll,searchInstructor,filter,filterInstructor,rateCourse,discount}= require('./Controller/courseControl');
 
-app.post("/createCourse",requireAuth,createCourse)
-app.get("/course",viewCourse)
-app.get("/courses",viewCourses)
-app.get("/viewVideo",requireAuth,viewSubtitle)
-app.get("/myCourses",requireAuth,instructorViewCourses)
-app.patch("/uploadVideo",uploadVideo)
-app.get("/searchResults",searchAll)
-app.get("/instructorsearchResults",searchInstructor)
-app.get("/results",filter)
-app.get("/instructorresults",filterInstructor)
-app.patch("/rateCourse",rateCourse)
-app.post("/discount",discount)
+const {viewCourses,filter,searchAll,viewCourse,register,isRegisted,mostEnrolled,paid,viewSubtitle,instructorViewCourses,filterInstructor,searchInstructor,writeReviewCourse,createCourse,createSubtitle,uploadVideo,discount,rateCourse,sendingCertificate,downloadCertificate,writeNotes,downloadNotes,requestRefund,traineeViewCourses,reportProblem,requestAccess,progressIncrease, isTaught,viewVideo,getProgress}= require('./Controller/courseControl');
 
-const {createExam,createQuestion,createAnswer,getQuestion,getQuestionAnswers,checkAnswer,viewExams} = require("./Controller/examControl");
+app.get('/courses',viewCourses)
+app.get('/filter',filter)
+app.get('/search',searchAll)
+app.get('/course',viewCourse)
+app.patch('/register',requireAuth,register)
+app.get('/isRegistered',requireAuth,isRegisted)
+app.get('/enrolled',mostEnrolled)
+app.patch('/pay',paid)
+app.get('/viewSubtitle',viewSubtitle)
+app.get('/myCourses',requireAuth,instructorViewCourses)
+app.get('/filterInstructor',requireAuth,filterInstructor)
+app.get('/searchInstructor',requireAuth,searchInstructor)
+app.patch('/writeReviewCourse',writeReviewCourse)
+app.post('/createCourse',requireAuth,createCourse)
+app.post('/createSubtitle',createSubtitle)
+app.post('/uploadVideo',uploadVideo)
+app.post('/discount',discount)
+app.patch('/rateCourse',rateCourse)
+app.get('/recieveCertificate',requireAuth,sendingCertificate)
+app.get('/downloadCertificate',downloadCertificate)
+app.post('/writeNotes',requireAuth,writeNotes)
+app.get('/downloadNote',downloadNotes)
+app.post('/requestRefund',requireAuth,requestRefund)
+app.get('/traineeViewCourses',requireAuth,traineeViewCourses)
+app.post('/reportProblem',requireAuth,reportProblem)
+app.post('/requestAccess',requestAccess)
+app.patch('/calculate',requireAuth,progressIncrease)
+app.get('/isTaught',requireAuth,isTaught)
+app.get('/viewVideo',viewVideo)
+app.get('/getProgress',requireAuth,getProgress)
 
-app.post('/createExam',createExam);
-app.post('/createQuestion',createQuestion);
-app.post('/createAnswer',createAnswer);
-app.get('/getQuestion',getQuestion);
-app.get('/getQuestionAnswers',getQuestionAnswers);
-app.post('/checkAnswer',checkAnswer);
-app.get('/viewExams',viewExams);
+
+const {createExam,createQuestion,viewExam,createStudentAnswer,addToStudentAnswers,checkAnswers,studentAnswer,correctAnswers} = require("./Controller/examControl")
+
+app.post('/createExam',createExam)
+app.post('/createQuestion',createQuestion)
+app.get('/viewExam',viewExam)
+app.post('/createStudentAnswer',requireAuth,createStudentAnswer)
+app.patch('/addStudentAnswer',requireAuth,addToStudentAnswers)
+app.patch('/checkAnswers',requireAuth,checkAnswers)
+app.get('/studentAnswers',requireAuth,studentAnswer)
+app.get('/correctAnswers',correctAnswers)
+
 
 
 

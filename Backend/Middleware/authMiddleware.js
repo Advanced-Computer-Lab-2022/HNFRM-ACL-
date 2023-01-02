@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 const requireAuth = (req, res, next) => {
-  const token = req.cookies.jwt;
+  const token = req.headers["token"];
     
   // check json web token exists & is verified
   if (token) {
@@ -9,7 +9,6 @@ const requireAuth = (req, res, next) => {
       if (err) {
         res.status(401).json({message:"You are not logged in."})
       } else {
-        console.log(decodedToken);
         next();
       }
     });

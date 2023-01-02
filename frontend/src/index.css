@@ -23,13 +23,13 @@ code {
 }
 
 .wrapper .form{
-  width : 80%;
+  width : 60%;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
 }
 .wrapper .youtube-box{
-    width :80%;
+    width :70%;
     height : 450px;
     background-color: #e4e4e4;
 }

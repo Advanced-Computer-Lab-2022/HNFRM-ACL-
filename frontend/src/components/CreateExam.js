@@ -1,35 +1,43 @@
 import axios from 'axios';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
+import { Avatar, Button , CssBaseline, TextField, Link,Box,Grid,Typography,Icon , Container} from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import Icon from '@mui/material/Icon';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 
 
 
 const { useState } = require("react");
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        HNFRM
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
 
-const theme = createTheme();
+const commonStyles = {
+  bgcolor: 'background.paper',
+  borderColor: 'text.primary',
+  m: 1,
+  border: 1,
+  width: '71rem',
+  height: '22rem',
+};
 
 const CreateExam = () => {
   const params = new URLSearchParams(window.location.search);
@@ -37,7 +45,7 @@ const CreateExam = () => {
   const [name, setName] = useState('');
   const [examId, setExamId] = useState('');
 
-  const addExam = async () => {
+  /*const addExam = async () => {
     let res = await axios.post(`http://localhost:8000/createExam?courseId=${courseId}`,
       {
         name:name
@@ -45,42 +53,22 @@ const CreateExam = () => {
     setExamId(res._id);
     
     console.log(res);
-  }
+  }*/
   return (
     <ThemeProvider theme={theme}>
-      <Grid container component="main" sx={{ height: '100vh' }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={3.5}
-          sx={{
-            backgroundRepeat: 'no-repeat',
-            backgroundColor: (t) =>
-              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
-            sx={{
-              my: 8,
-              mx: 4,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
+      <Container maxHeight>
+            <CssBaseline />
+                <Box sx={{ ...commonStyles, borderRadius: '16px' }}> 
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <QuestionMarkIcon/>
+            </Avatar>
             <Typography component="h1" variant="h5">
-              Create Exam
+              Create New Exam
             </Typography>
-            <Box component="form" noValidate   onSubmit={addExam} sx={{ mt: 1 }}>
+            <Grid>
               <TextField
                 margin="normal"
                 required
-                fullWidth
                 id="exam"
                 label="Exam Name"
                 name="exam"
@@ -91,26 +79,130 @@ const CreateExam = () => {
               
               <Button
                 type="submit"
-                fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
                 >
-                Add
+                Create
               </Button>
+              <Grid>
               <Button
-               variant="outlined" 
-                fullWidth
-                sx={{ mt: 3, mb: 2 }}
+               variant="contained" 
+                sx={{ mt: 2, mb: 2 }}
                 onClick={() => window.location.href=`/createQuestion?examId=${examId}`}
                 >
-                Create Questions
-              </Button>
-              <Copyright sx={{ mt: 5 }} />
-            </Box>
+                Set Questions
+                </Button>
+                </Grid>  
+  
+              
+            </Grid>
+            
           </Box>
-        </Grid>
-      </Grid>
+              </Container>
     </ThemeProvider>
   );
+  /*return (
+    <ThemeProvider theme={theme}>
+      <Container width={'100'} maxHeight>
+            <CssBaseline />
+                <Box sx={{ ...commonStyles, borderRadius: '16px' }}> 
+            <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+              <QuestionMarkIcon/>
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create Multiple Choice Question
+            </Typography>
+            <Grid>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="ques"
+                label="Question"
+                name="ques"
+                autoComplete=""
+                autoFocus
+                multiline
+                rows={2}
+                onChange={e => setQues(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                name="choice1"
+                label="1st choice"
+                id="choice1"
+                sx={{ right: 10 }}
+                autoComplete=""
+                onChange={e => setChoice1(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                name="choice2"
+                label="2nd choice"
+                id="choice2"
+                sx={{ left: 10 }}
+                autoComplete=""
+                onChange={e => setChoice2(e.target.value)}
+              />
+              <br></br>
+              <TextField
+                margin="normal"
+                required
+                name="choice3"
+                label="3rd choice"
+                id="choice3"
+                autoComplete=""
+                sx={{ right: 10 }}
+                onChange={e => setChoice3(e.target.value)}
+              />
+              <TextField
+                margin="normal"
+                required
+                name="choice4"
+                label="4th choice"
+                id="choice4"
+                autoComplete=""
+                sx={{ left: 10 }}
+                onChange={e => setChoice4(e.target.value)}
+              />
+              <br></br>
+              <TextField
+                margin="normal"
+                required
+                name="correctAnswer"
+                label="Correct Answer"
+                id="correctAnswer"
+                autoComplete=""
+                onChange={e => setCorrectAnswer(e.target.value)}
+              />
+              <Grid>
+              <Button
+                type="submit"
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+                 >
+                Add
+                {console.log(examID)}
+                {console.log(Ques)}
+              </Button>
+              </Grid>
+              
+            </Grid>
+            
+          </Box>
+          <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt:2, mb: 2 }}
+                onClick ={() => window.location.href=`/createQuestion?exam=${examID}`}
+                key={examID}>
+                Finish
+              </Button>
+      </Container>
+    </ThemeProvider>
+  );*/
 }
 export default CreateExam;

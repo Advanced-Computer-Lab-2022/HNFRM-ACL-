@@ -1,4 +1,5 @@
 import * as React from 'react';
+import axios from 'axios';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -17,6 +18,8 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+const { useState , useEffect} = require("react");
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -30,17 +33,58 @@ function Copyright(props) {
   );
 }
 
-const theme = createTheme();
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [gender, setGender] = useState('');
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('');
+  
+
+  const add = async () => {
+    axios.post('http://localhost:8000/addIndividualTrainee',
+    {username : username , password : password , firstName:firstName , lastName:lastName , gender:gender ,email:email })
+    .then((res) => {
+      if(!res.data.auth){
+        setStatus(false);
+      }
+      else{
+        localStorage.setItem("token", res.data.token);
+        setStatus(true);
+      }
+    })
+   
+  }
+useEffect(()=>{
+  if(status){
+    window.location.href=`/policy`
+  }
+  });
 
   return (
     <ThemeProvider theme={theme}>
@@ -61,7 +105,7 @@ export default function SignUp() {
             Sign up
           </Typography>
           
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
+          <Box component="form" sx={{ mt: 2 }}>
             <Grid container spacing={2}>
             <Grid item xs={12} >
                 <TextField
@@ -71,6 +115,7 @@ export default function SignUp() {
                   fullWidth
                   id="userName"
                   label="Username"
+                  onChange ={e =>setUsername(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -82,6 +127,7 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onChange ={e =>setFirstName(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -93,6 +139,7 @@ export default function SignUp() {
                   label="Last Name"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange ={e =>setLastName(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -103,6 +150,7 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  onChange ={e =>setEmail(e.target.value)}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -114,6 +162,7 @@ export default function SignUp() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange ={e =>setPassword(e.target.value)}
                 />
               </Grid>
               
@@ -124,30 +173,27 @@ export default function SignUp() {
                                   row
                                   aria-labelledby="demo-row-radio-buttons-group-label"
                                   name="row-radio-buttons-group"
+                                  onChange ={e =>setGender(e.target.value)}
                                 >
                       <FormControlLabel value="female" control={<Radio />} label="Female" />
                       <FormControlLabel value="male" control={<Radio />} label="Male" />
       </RadioGroup>
     </FormControl>
               </Grid>
-              <Grid item xs={12}>
-                <FormControlLabel
-                  control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
-                />
-              </Grid>
             </Grid>
             <Button
-              type="submit"
+              //type="submit"
               fullWidth
               variant="contained"
+              
               sx={{ mt: 3, mb: 2 }}
+              onClick = {add}
             >
               Sign Up
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="#" variant="body2" onClick={() => window.location.href=`/login`}>
                   Already have an account? Sign in
                 </Link>
               </Grid>

@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-let {gradeSchema} = require('../Models/Grade');
-let {courseSchema} = require('../Models/Course');
 
 const userSchema = new Schema({
     username :{
@@ -18,9 +16,6 @@ const userSchema = new Schema({
     type :{
         type :String,
         required : true
-    },
-    grade:{
-        type:[gradeSchema]
     },
     email:{
         type:String
@@ -47,15 +42,28 @@ const userSchema = new Schema({
         type:String
     },
     registeredCourses : {
-        type: [courseSchema]
+        type:[mongoose.Types.ObjectId],
+        ref:'Course'
     },
     wallet :{
+        type:Number
+    },
+    defaultWallet :{
         type:Number
     },
     policy:{
         type:String
     },
-    amountOwned:{
+    company:{
+        type:String
+    },
+    numberofRates:{
+        type:Number
+    },
+    loggedFirst:{
+        type:String
+    },
+    numberOfRates:{
         type:Number
     }
 

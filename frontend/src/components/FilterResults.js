@@ -3,53 +3,76 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Rating from '@mui/material/Rating';
-import Divider from '@mui/material/Divider';
-import Link from '@mui/material/Link';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import CssBaseline from '@mui/material/CssBaseline';
+
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardActionArea from '@mui/material/CardActionArea';
+import CardMedia from '@mui/material/CardMedia';
 
 
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
+
+import Header from '../Headers/header'
+import Footer from '../Headers/footer';
+
+
 
 
 const { useState,useEffect } = require("react");
-const theme = createTheme();
 
-const Results = () => {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
+
+const FilterResults = () => {
     const [courses,setCourses] = useState([]);
 
     const params = new URLSearchParams(window.location.search);
-    const filterRes = params.get('filter');
+    const subject = params.get('subject');
+    const rating = params.get('rating');
+    const price = params.get('price');
+    
 
-    console.log(filterRes)
+    console.log(localStorage.getItem("token"));
 
-    useEffect(() => {
-      axios.get(`http://localhost:8000/results?filter=${filterRes}`).then(
-      (res) => { 
-          const courses = res.data
-          console.log(courses)
-          setCourses(courses)
-          
-      })}
-       )
+    useEffect(()=>{
+       let x=  axios.get(`http://localhost:8000/filter?subject=${subject}&rating=${rating}&price=${price}`).then(
+        (res) => { 
+            const courses = res.data;
+            setCourses(courses)
+            console.log(courses)
+            }).catch(function(error){
+                console.log(error);
+            })
+        });
+
 
         return(
-            <Grid item xs={12} sm={8} md={1} component={Paper} elevation={6} square >
+          <ThemeProvider theme={theme}>
+            <CssBaseline />
+            <Header></Header>
+            <Grid item xs={12} sm={8} md={1} elevation={6}>
             <Box
               sx={{
                 my: 2,
@@ -59,61 +82,59 @@ const Results = () => {
                 alignItems: 'center',
               }}
             >
-            <br></br>
-            <Divider></Divider>  
-            <br></br>  
+                <br></br>
+
+            <Box   noValidate sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'flex-start',
+            width: '100%',  height: '100%',
+            rowGap :8
+          }}>     
+        
             
-            {courses.map((course) =>(
-                <Paper
-                sx={{
-                  p: 7,
-                  margin: 'auto',
-                  maxWidth: 500,
-                  flexGrow: 1,
-                  backgroundColor: (theme) =>
-                    theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                }}
-                onClick ={() => window.location.href=`/course?courseId=${course._id}`}
-              key={course._id}
-              >
-                <Grid container spacing={2}>
-                  <Grid item>
-                  <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
-                   <AccountCircleIcon />
-                   </Avatar>
-                  </Grid>
-                  <Grid item xs={12} sm container>
-                    <Grid item xs container direction="column" spacing={2}>
-                      <Grid item xs>
-                        <Typography gutterBottom variant="subtitle1" component="div">
-                          {course.title}
-                        </Typography>
-                        <Typography variant="body2" gutterBottom>
-                          {course.credithours} Hours
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Rating
-                        </Typography>
-                        <Rating name="Rating" value={course.rating} readOnly />
-                      </Grid>
-                    </Grid>
-                    <Grid item>
-                      <Typography variant="subtitle1" component="div">
-                        {course.price}
-                      </Typography>
-                    </Grid>
-                  </Grid>
-                </Grid>
-              </Paper>
-              
-                ))}  
+           {courses.map((course) =>(
+            
+            <Grid item sx={{width: '70%',  height: '100%' , ml:9 }}>
+            <CardActionArea component="a" >
+              <Card sx={{ display: 'flex' , backgroundColor:'#f2eeee'}} onClick={() => window.location.href=`/course?courseId=${course._id}`} >
+              <CardContent sx={{ flex: 1 }}>
+                <Typography  variant="h3" gutterBottom >
+                   {course.title}
+                </Typography>
+                <Typography variant='h5' sx={{mr:63, mt:3,mb:3 }} color='text.secondary'> 
+                Course Details</Typography>
+                <Typography variant="h5" paragraph sx={{mr:70}}>
+                  {course.credithours} Hours
+                </Typography>
+
+                { course.price==0 ? (<Typography variant="h5" paragraph sx={{mr:55}}> Free </Typography>) : <Typography variant="h5" paragraph sx={{mr:60}}> Price : {course.price}  </Typography>
+                }
+                <Rating  sx={{mr:68}} name="Rating" value={course.rating} readOnly />
+              </CardContent>
+              <CardMedia
+                  component="img"
+                  sx={{ width : 160, display: { xs: 'none', lg: 'block' } }}
+                  image={require('./Python.png')}
+                  alt={"Image Label"}
+                />
+              </Card>
+            </CardActionArea>
+           </Grid>
+                  
+            
+            
+              ))}  
+              </Box> 
                 
-                <Copyright sx={{ mt: 5 }} />
               
               </Box>
               </Grid>
+              <Footer></Footer>
+              </ThemeProvider>
     
         )
 
 }
-export default Results;
+export default FilterResults;

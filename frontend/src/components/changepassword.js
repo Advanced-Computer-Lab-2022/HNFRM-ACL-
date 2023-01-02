@@ -10,64 +10,132 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import EditIcon from '@mui/icons-material/AddCircleOutline';
+import Container from '@mui/material/Container';
+
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import PageNotFound from './PageNotFound'
+
+import Header from '../Headers/header'
+import Footer from '../Headers/footer';
 
 
 
-function Copyright(props) {
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#800000',
+      light : '#963129',
+      dark: '#963129'
+    },
+    secondary: {
+      light: '#d32f2f',
+      main: '#ef5350',
+      contrastText: '#ffcc00',
+    },
+    custom: {
+      light: '#ffa726',
+      main: '#f57c00',
+      dark: '#ef6c00',
+      contrastText: 'rgba(0, 0, 0, 0.87)',
+    },
+    contrastThreshold: 3,
+    tonalOffset: 0.2,
+  },
+});
+
+const FormChange = () => {
+  const [open, setOpen] = useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  
+
+  
+
   return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        HNFRM
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
+    <div>
+      <Button color='primary' onClick={handleClickOpen}>
+            Enter
+      </Button>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Confirmation</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            We successfully changed your password please login again
+          </DialogContentText>
+          
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => window.location.href=`/login`}>Cancel</Button>
+          <Button onClick={() => window.location.href=`/login`}>Enter</Button>
+        </DialogActions>
+      </Dialog>
+    </div>
   );
 }
 
-const theme = createTheme();
+const { useState ,useEffect} = require("react");
 
-const { useState } = require("react");
+const Check = () =>{
+  const [username,setUsername]=useState('');
+  const [newPassword,setNewPassword]=useState('');
+  const [pol,setPol] = useState('true')
+  const [type, setType] = useState('');
 
-const Changepassword=()=>{
-   const params = new URLSearchParams(window.location.search)
-   const userId = params.get('userId')
-   const type = params.get('type')
-   const [username,setUsername]=useState('');
-   const [newPassword,setNewPassword]=useState('');
+   const changePassword =  () => {
 
-   const changePassword = async () => {
-      let res = await axios.patch(`http://localhost:8000/changepassword?type=${type}`,
+        axios.patch(`http://localhost:8000/changepassword`,
       {username:username,password:newPassword})
-      console.log(res);
-  } 
+
+      }
+      
+      
+
+    
+    
+
+    const check = async () => {
+      axios.get('http://localhost:8000/isLogin' ,{
+        headers: {
+            "token" :  localStorage.getItem("token")
+        },
+    }).then(
+    (res) => { 
+        const user = res.data;
+        setType(user.type)
+        setPol(user.policy)
+        })
+    }
+      
+      
+      
+  
    
   return (
       <ThemeProvider theme={theme}>
-        <Grid container component="main" sx={{ height: '100vh' }}>
+        <Header />
+        <Box>
+        <Container component="main" >
           <CssBaseline />
-          <Grid
-            item
-            xs={false}
-            sm={4}
-            md={3.5}
-            sx={{
-              backgroundRepeat: 'no-repeat',
-              backgroundColor: (t) =>
-                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Grid item sx= {{height:'100%' , width :'100%'}} >
+            <Paper  >
             <Box
               sx={{
-                my: 8,
-                mx: 4,
+                mt:10,
+                mb:1,
                 display: 'flex',
                 flexDirection: 'column',
                 alignItems: 'center',
+                
               }}
             >
               <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
@@ -80,7 +148,6 @@ const Changepassword=()=>{
 
               <TextField
                   margin="normal"
-                  
                   fullWidth
                   name="username"
                   label="Username"
@@ -88,35 +155,93 @@ const Changepassword=()=>{
                   id="username"
                   autoComplete=""
                   onChange ={e =>setUsername(e.target.value)}
+                  sx={{
+                    mb: 5,  
+                  }}
+                  
+                />
+
+                <TextField
+                  margin="normal"
+                  fullWidth
+                  name="oldpassword"
+                  label="Old Password"
+                  type="password"
+                  id="oldpassword"
+                  autoComplete=""
+                  sx={{
+                    mb: 5,  
+                  }}
                 />
                 
                 <TextField
                   margin="normal"
-                  
                   fullWidth
-                  name="password"
+                  name="newpassword"
                   label="New Password"
                   type="password"
-                  id="password"
+                  id="newpassword"
                   autoComplete=""
                   onChange ={e =>setNewPassword(e.target.value)}
+                  sx={{
+                    mb: 5,  
+                  }}
                 />
                 <Button
                   type="submit"
                   fullWidth
                   variant="contained"
-                  sx={{ mt: 3, mb: 2 }}
-                  onClick={changePassword}
+                  sx={{ mt: 3, mb: 9 }}
+                  onSubmit={changePassword}
+                  
                 >
                   Submit
                 </Button>
-                <Copyright sx={{ mt: 5 }} />
+                
               </Box>
             </Box>
+            </Paper>
           </Grid>
-        </Grid>
+          
+        </Container>
+        </Box>
+        <Footer/>
       </ThemeProvider>
     );
+
+}
+
+const Changepassword=()=>{
+  const [type, setType] = useState('');
+  useEffect(()=>{
+    axios.get('http://localhost:8000/isLogin' ,{
+        headers: {
+            "token" :  localStorage.getItem("token")
+        },
+    }).then(
+    (res) => { 
+        const user = res.data;
+        setType(user.type)
+        })
+    });
+
+    let Add;
+    if(type=='Instructor'){
+      Add =<Check></Check>
+    }else if(type=='Individual Trainee'){
+      Add =<Check></Check>
+    }else if(type=='Corporate Trainee'){
+      Add =<Check></Check>
+    }
+    else{
+      Add =<PageNotFound></PageNotFound>
+    }
+
+    return(
+      <Box>
+        {Add}
+      </Box>
+    )
 }
 
 export default Changepassword;

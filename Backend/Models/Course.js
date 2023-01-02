@@ -1,54 +1,51 @@
 const mongoose = require('mongoose');
 require('mongoose-double')(mongoose);
 const Schema = mongoose.Schema;
+let {subtitleSchema} = require('../Models/Subtitle');
 
 const courseSchema = new Schema({
     title :{
         type : String,
-        required : true
-    },
-    subtitles :{
-        type : [String],
-        required : true
+        required : true,
+        unique : true
     },
     summary :{
         type : String,
         required : true
     },
-    price :{
+    defaultPrice :{
         type : Number,
         required : true
     },
+    price:{
+        type:Number
+    },
     credithours :{
-        type : Number,
-        required :false
+        type : Number
     },
     rating :{
-        type :Number,
-        required :false
+        type :Number
     },
     taughtBy :{
         type: mongoose.Types.ObjectId,
         ref:'User'
     },
     reviews :{
-        type : String,
+        type : [String],
         required:false
     },
     link :{
         type: String
-        
     },
-    subtitleslinks :{
-        type:[String],
-        required:false
-    },
-    descriptions :{
-        type:[String],
-        required:false
+    subtitles :{
+        type:[mongoose.Types.ObjectId],
+        ref:'Subtitle'
     },
     subject :{
         type:String
+    },
+    subtitlesName :{
+        type:[String]
     },
     instructorName :{
         type: String
@@ -60,14 +57,11 @@ const courseSchema = new Schema({
     certificate :{
         type: String
     },
-    notes :{
-        type :[String]
-    },
-    promotion :{
-        type : mongoose.Schema.Types.Double
-    },
     numberOfRates : {
         type :Number
+    },
+    numberOfEnrolled :{
+        type:Number
     }
 
 
