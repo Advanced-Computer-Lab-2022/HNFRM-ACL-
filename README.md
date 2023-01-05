@@ -742,7 +742,397 @@ Rate Course
 }`
 
 
+`PATCH \register`
 
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Trainee.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `rating`| `Number` | Required. rating from user|
+
+-> Response
+
+`
+{
+    "_id": "63b706fffe2a043a98264812",
+    "title": "course1",
+    "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+    "defaultPrice": 4000,
+    "price": 4000,
+    "credithours": 4,
+    "rating": 3.4,
+    "taughtBy": "63b334c8ff19a5e63f57da35",
+    "reviews": [],
+    "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+    "subtitles": [
+        "63b707beaf27ca4250cf2651"
+    ],
+    "subject": "Data Science",
+    "subtitlesName": [
+        "1"
+    ],
+    "instructorName": "Instructor",
+    "numberOfRates": 1,
+    "numberOfEnrolled": 1,
+    "createdAt": "2023-01-05T17:21:03.652Z",
+    "updatedAt": "2023-01-05T17:25:14.701Z",
+    "__v": 0
+}`
+
+
+
+`PATCH \requestAccess`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Trainee.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `rating`| `Number` | Required. rating from user|
+
+->Response
+
+`
+{
+    "_id": "63b706fffe2a043a98264812",
+    "title": "course1",
+    "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+    "defaultPrice": 4000,
+    "price": 4000,
+    "credithours": 4,
+    "rating": 3.4,
+    "taughtBy": "63b334c8ff19a5e63f57da35",
+    "reviews": [],
+    "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+    "subtitles": [
+        "63b707beaf27ca4250cf2651"
+    ],
+    "subject": "Data Science",
+    "subtitlesName": [
+        "1"
+    ],
+    "instructorName": "Instructor",
+    "numberOfRates": 1,
+    "numberOfEnrolled": 0,
+    "createdAt": "2023-01-05T17:21:03.652Z",
+    "updatedAt": "2023-01-05T17:25:14.701Z",
+    "__v": 0
+}`
+
+View All Coueses
+
+`GET \courses`
+
+
+-> Response
+
+` [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b3f258b0c2558949675600",
+        "title": "ACL",
+        "summary": "Hello",
+        "defaultPrice": 1000,
+        "price": 1000,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b3edbd32863ff0d25b5f2c",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=YxWlaYCA8MU&list=RDntC3sO-VeJY&index=2",
+        "subtitles": [
+            "63b3f289b0c255894967561b"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Week 1"
+        ],
+        "instructorName": "nada",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 1,
+        "createdAt": "2023-01-03T09:16:08.017Z",
+        "updatedAt": "2023-01-03T09:28:36.946Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b3fe01d5b944794c507278",
+        "title": "Math 301",
+        "summary": "Hello",
+        "defaultPrice": 1000,
+        "price": 1000,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b3fda1d5b944794c5071d9",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=-0exw-9YJBo\"",
+        "subtitles": [
+            "63b3fe7cd5b944794c5072a0"
+        ],
+        "subject": "Math and Logic",
+        "subtitlesName": [
+            "Subtitle1"
+        ],
+        "instructorName": "Haneen10",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-03T10:05:53.192Z",
+        "updatedAt": "2023-01-05T16:35:03.100Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b706fffe2a043a98264812",
+        "title": "course1",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 4000,
+        "credithours": 4,
+        "rating": 7,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b707beaf27ca4250cf2651"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "1"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 1,
+        "numberOfEnrolled": 0,
+        "createdAt": "2023-01-05T17:21:03.652Z",
+        "updatedAt": "2023-01-05T17:25:14.701Z",
+        "__v": 0
+    }
+]`
+
+
+
+View My Coueses
+
+`GET \myCourses`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Trainee.|
+
+
+-> Response
+
+` [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    },
+   {
+    
+        "_id": "63b706fffe2a043a98264812",
+        "title": "course1",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 4000,
+        "credithours": 4,
+        "rating": 7,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b707beaf27ca4250cf2651"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "1"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 1,
+        "numberOfEnrolled": 0,
+        "createdAt": "2023-01-05T17:21:03.652Z",
+        "updatedAt": "2023-01-05T17:25:14.701Z",
+        "__v": 0
+    }
+]`
+
+
+Report Problem
+
+`POST \reportProblem`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `type`| `String` | Required. type of Problem|
+| `theProblem`| `String` | Required. body of Problem|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+-> Response
+
+`{
+    "type": "technical",
+    "status": "unsolved",
+    "followUp": [],
+    "course": "63b71ecc01917a29474c14b7",
+    "user": "63b334c8ff19a5e63f57da35",
+    "theProblem": "BlaBla",
+    "_id": "63b71ecc01917a29474c14b8",
+    "createdAt": "2023-01-05T19:02:36.050Z",
+    "updatedAt": "2023-01-05T19:02:36.050Z",
+    "__v": 0
+}`
+
+
+
+View Reported Problems
+
+`POST \reportedProblems`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+
+
+-> Response
+`
+[
+    {
+        "_id": "63b71ecc01917a29474c14b8",
+        "type": "technical",
+        "status": "unsolved",
+        "followUp": [],
+        "course": "63b71ecc01917a29474c14b7",
+        "user": "63b334c8ff19a5e63f57da35",
+        "theProblem": "BlaBla",
+        "createdAt": "2023-01-05T19:02:36.050Z",
+        "updatedAt": "2023-01-05T19:02:36.050Z",
+        "__v": 0
+    }
+]
+`
 
 
 
