@@ -1,64 +1,82 @@
 
 # HNFRM 
-HNFRM 
-is an online learning system for the advanced computer lab 
-The theme of the project, is to create an online learning system.
-Hnfrm is a web application through which individuals can learn and register to different course,
-Similar websites Coursera, Udemy.com.
+![image](https://user-images.githubusercontent.com/106152290/210184496-4342b0a8-86a8-4af3-838d-7938e55be531.png)
 
-Table of Contents
-- Motivation
+## Table of Contents
+- Project Description
 - Tools and Frameworks
-- Coding Style
-- Samples
-- Screeshots
-- Installation
 - Features
+- Coding Style
+- Installation and Setup
+- Schema Design
+- Screenshots
+- Environment Variables
 - API References
    - Login
    - Log Out
-   - View course
-   - rate course 
+   - Sign Up
+   - Create Course
+   - View Course
+   - View Courses
+   - Rate course 
+   - Rate Instructor
+   - Report Problem
+   - Add Instructor
 
-## Motivation
+
+# Project Description
+## Course
+HNFRM is an online learning system for the advanced computer lab 
+
+### Theme 
+The theme of the project, is to create an online learning system where you can sign uo as a individual trainee or enter as corporate trainee based on your company ,  where you can register tp a wide varity of courses in most of fields taught by top instructors with option of taking exams and in the end take your certificate , also the instructor can add any new course and all its material and the money will be transfered to his wallet according to the policy and contract agreed on. Similat to websites (Coursera , Udemy and Udacity)
+
+
+### Motivation
 This is the objectives of this project:
-
 In the recent period there has been a huge demand of online learning platforms,
 alot of students depend mainly on the online learning platforms,
 thats why developers decided to do it 
-this project is done using agile methodology 
+this project is done using agile methodology which involves breaking the project into sprint with each sprint has specific goals
 
-## Build Status
-users should not worry about  anything going wrong as this project is 
+
+### Build Status
+users should not worry about anything going wrong as this project is 
 functining correctly.
 
-## Coding Style
+### Coding Style
 This project is divided into two main parts, frontend and backend.
 Our backend is divide into controllers and models and there is a server page that contains all the Api.
 
 ## Tools and Frameworks
-- This project is fully implemented using the MERN Stack. MERN stands for MongoDB, Express, React, Node.
+- [React](https://reactjs.org/)
+- [Express](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [NodeJS](https://nodejs.org/en/)
+- [Postman](https://www.postman.com/)
+- [Material UI](https://mui.com/)
+- [Axios](https://axios-http.com/)
+- [NPM](https://www.npmjs.com/)
+- [Mongoose](https://mongoosejs.com/)
+- [VSCode](https://code.visualstudio.com/)
 
-- MongoDB is an open source NoSQL database management program. NoSQL is used as an alternative to traditional relational databases. NoSQL databases are quite useful for working with large sets of distributed data. MongoDB is a tool that can manage document-oriented information, store or retrieve information.
-- Express is a Node. js web application server framework, designed for building single-page, multi-page, and hybrid web applications. It is the de facto standard server framework for node.
-- ReactJS is an open-source JavaScript library that is used for building user interfaces specifically for single-page applications. It's used for handling the view layer for web and mobile apps. React also allows us to create reusable UI components.
-- NodeJS is an open-source, cross-platform, back-end JavaScript runtime environment that runs on the V8 engine and executes JavaScript code outside a web browser.
+
+
 
 ## Features
-Mainly this website provides an easy way to view and register to any course. 
-Moreover, our website allows user to pay in order to register to the courses that want.
- 
-- More Features
-   - User can write notes while watching the video 
-   - User has freedom to chose how he will pay either(creditcard or using his wallet) 
-   - User(Trainee) recieves a certificate as a pdf via mail once he finishs the course
-   - user can see the most popular courses in the system along with the discounts applied on them
+* Authentication and Authorization 
+* Easy online Payment for the Courses either by credit card or mastercard
+* Can Write and Download Notes
+* Corporate Trainee can request access to the courses they want
+* Refund option
+* User can change/reset his password
+* User can change his information
+* Reporting System
+* Admin Dashboard
 
-## Code Examples
-- we use the MRC pattern(Module-Router-Controller)
-- Here is an example of our schemas found in the models 
+## Code Examples  We use the MRC pattern(Module-Router-Controller)
+`
 {
-
 const mongoose = require('mongoose');
 
 require('mongoose-double')(mongoose);
@@ -131,14 +149,14 @@ const courseSchema = new Schema({
     }
 
 
-}, { timestamps: true });
+}, { timestamps: true })
 const Course = mongoose.model('Course', courseSchema);
 module.exports = Course;
-}
+}`
 
-- Here is an example of method found in the controller part 
 
-{
+
+`{
 
     const createCourse = async(req,res) => {
     const title = req.body.title;
@@ -176,15 +194,14 @@ module.exports = Course;
         res.status(400).json({error:error.message})
 
     }
-}}
+}}`
 
 - Here is an example on how we call it in the server.js 
 {app.post('/createCourse',requireAuth,createCourse)}
 
-- Here is an example of part of our front page as its so long we only 
-took small part to show here 
 
-{
+
+`{
     
     import axios from 'axios';
     import Avatar from '@mui/material/Avatar';
@@ -258,28 +275,24 @@ took small part to show here
     }
     export default CreateCourse;
 
-}
-
-## Screenshot
-- Home page from individual prespective 
-![image](https://user-images.githubusercontent.com/106152290/210184496-4342b0a8-86a8-4af3-838d-7938e55be531.png)
-- Indivial sidebar 
-![image](https://user-images.githubusercontent.com/106152290/210184534-02a2cad1-e724-48be-8c01-7bcf7d301cd4.png)
+}`
 
 ## Installation
 In order to run our project, you should have the following installed in your machine:
 
 -clone the file 
 sh
-$ git clone https://github.com/Advanced-Computer-Lab-2022/HNFRM-ACL-
-- Node JS
-make sure to install all the run this command in your Visual Studio Code terminal to install the latest version of npm
- - npm install npm@latest -g
+> $ git clone https://github.com/Advanced-Computer-Lab-2022/HNFRM-ACL-
+- Node JS make sure to install all the run this command in your Visual Studio Code terminal to install the latest version of npm
+ > npm install npm@latest -g
+ 
  React JS or you can use NPM
- - Install NPM Packages in the frontend directory
+ 
+ Install NPM Packages in the frontend directory
 sh
-- $ cd frontend
-- $ npm install
+> $ cd frontend
+
+> $ npm install
 - MongoDB either locally or on a cloud. You have to create .env with the dbconnectionString.
 
 ## How to Use?
@@ -288,13 +301,13 @@ run the website correctly
 1) First terminal used for the backend is run through command 
 `nodemon app`
 sh
-- $ cd src
-- $ nodemon server 
+> $ cd src
+> $ nodemon server 
 
 2) Direct the second terminal to the root of the frontend directory, then run the command `npm start`
 sh
-- $ cd frontend
-- $ npm start
+> $ cd frontend
+> $ npm start
 
 Now you can access the website at `http://localhost:3000`
 
@@ -303,6 +316,19 @@ Now you can access the website at `http://localhost:3000`
 - As an trainee he can sign in using his email and password and register to any course 
 - As an admin he can log in using email and password
 
+## Screenshot
+
+![image](https://user-images.githubusercontent.com/106152290/210184534-02a2cad1-e724-48be-8c01-7bcf7d301cd4.png)
+
+
+
+## Environment variable
+You need to add those variables to .env file
+- ATLAS_URI
+- MONGO_URI
+- SERVER_PORT
+- AUTH_EMAIL
+- AUTH_PASS
 
 ## API reference
 Our backend is divided into the following routes,
@@ -349,7 +375,7 @@ Login
     "logged Out "
 
 }
-3) view course 
+3) View course 
 
 - Route /course/
 - Request Type Get
@@ -393,6 +419,7 @@ Login
     }
 }
 
+
 3) rate course 
 
 - Route /ratecourse/
@@ -423,16 +450,7 @@ Login
     "__v": 0
 }
 
-## Credits
 
-- [Stack Overflow](https://stackoverflow.com/)
-- [GeeksForGeeks](https://www.geeksforgeeks.org/)
-
-- [Material UI](https://mui.com/)
-- [React](https://reactjs.org/)
-- [Axios](https://axios-http.com/)
-- [NPM](https://www.npmjs.com/)
-- [Mongoose](https://mongoosejs.com/)
 
 
 ## Authors
