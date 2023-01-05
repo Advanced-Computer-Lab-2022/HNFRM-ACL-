@@ -1,31 +1,24 @@
 
 # HNFRM 
-![image](https://user-images.githubusercontent.com/106152290/210184496-4342b0a8-86a8-4af3-838d-7938e55be531.png)
+![image](https://user-images.githubusercontent.com/116195301/210827477-469bbcd2-bd70-4f7f-b431-5f020e4101c5.png)
+![image](https://user-images.githubusercontent.com/116195301/210828332-ce349d03-3530-4f9e-9ab3-0fed80e8ebf8.png)
+![image](https://user-images.githubusercontent.com/116195301/210828481-bea35e75-63ff-4970-aed7-bbf8d5c8fc67.png)
+![image](https://user-images.githubusercontent.com/116195301/210828561-eecf7192-bbfc-47b8-a2f5-d26478151ab2.png)
+
+
 
 ## Table of Contents
 - Project Description
 - Tools and Frameworks
 - Features
-- Coding Style
+- Code Example
 - Installation and Setup
-- Schema Design
 - Screenshots
 - Environment Variables
 - API References
-   - Login
-   - Log Out
-   - Sign Up
-   - Create Course
-   - View Course
-   - View Courses
-   - Rate course 
-   - Rate Instructor
-   - Report Problem
-   - Add Instructor
 
 
 # Project Description
-## Course
 HNFRM is an online learning system for the advanced computer lab 
 
 ### Theme 
@@ -41,12 +34,9 @@ this project is done using agile methodology which involves breaking the project
 
 
 ### Build Status
-users should not worry about anything going wrong as this project is 
-functining correctly.
+The project is currently in development.
 
-### Coding Style
-This project is divided into two main parts, frontend and backend.
-Our backend is divide into controllers and models and there is a server page that contains all the Api.
+
 
 ## Tools and Frameworks
 - [React](https://reactjs.org/)
@@ -196,8 +186,8 @@ module.exports = Course;
     }
 }}`
 
-- Here is an example on how we call it in the server.js 
-{app.post('/createCourse',requireAuth,createCourse)}
+> Here is an example on how we call it in the server.js  {app.post('/createCourse',requireAuth,createCourse)}
+
 
 
 
@@ -281,33 +271,37 @@ module.exports = Course;
 In order to run our project, you should have the following installed in your machine:
 
 -clone the file 
-sh
-> $ git clone https://github.com/Advanced-Computer-Lab-2022/HNFRM-ACL-
+` git clone https://github.com/Advanced-Computer-Lab-2022/HNFRM-ACL- `
+
 - Node JS make sure to install all the run this command in your Visual Studio Code terminal to install the latest version of npm
- > npm install npm@latest -g
+
+ `npm install npm@latest -g `
  
  React JS or you can use NPM
  
  Install NPM Packages in the frontend directory
-sh
-> $ cd frontend
+ 
+`cd frontend` 
 
-> $ npm install
+`npm install `
+
 - MongoDB either locally or on a cloud. You have to create .env with the dbconnectionString.
 
 ## How to Use?
 After installing everything you have to open 2 terminals so that you can
 run the website correctly 
 1) First terminal used for the backend is run through command 
-`nodemon app`
-sh
-> $ cd src
-> $ nodemon server 
+
+`cd backend`
+
+`nodemon server `
 
 2) Direct the second terminal to the root of the frontend directory, then run the command `npm start`
 sh
-> $ cd frontend
-> $ npm start
+
+` cd frontend`
+
+` npm start `
 
 Now you can access the website at `http://localhost:3000`
 
@@ -317,138 +311,440 @@ Now you can access the website at `http://localhost:3000`
 - As an admin he can log in using email and password
 
 ## Screenshot
+Login 
+![image](https://user-images.githubusercontent.com/116195301/210831234-3527e036-5761-4a7a-9de8-444adf8e6bd6.png)
+Sign up
+![Screenshot (101)](https://user-images.githubusercontent.com/116195301/210831402-123e61e7-ea1b-422c-961f-c1bbd662761c.png)
+Course Before Registeration
+![Screenshot (103)](https://user-images.githubusercontent.com/116195301/210833039-a4fa90e2-a522-4b74-99d3-1eb880640e88.png)
+Define Discount
+![Screenshot (112)](https://user-images.githubusercontent.com/116195301/210833083-cca90493-ea74-41d2-a39c-c3669b844074.png)
+Instructor Courses
+![Screenshot (113)](https://user-images.githubusercontent.com/116195301/210833092-55d09c99-a9e9-4320-b48d-c9bc055239d5.png)
+Create New Course
+![Screenshot (114)](https://user-images.githubusercontent.com/116195301/210833109-a769a4cf-0842-484a-bc13-5f8730e6bded.png)
+Course after completion
+![Screenshot (115)](https://user-images.githubusercontent.com/116195301/210833122-68d2928e-c9d1-4ed0-9855-e22a502020cf.png)
+Instructor profile
+![Screenshot (116)](https://user-images.githubusercontent.com/116195301/210833134-16a2129f-07bb-446d-9486-482159033486.png)
+Certificate
+![Screenshot (117)](https://user-images.githubusercontent.com/116195301/210833146-a6bbc91b-eb03-4c70-931f-eb14f219b949.png)
+Payment by Visa or Mastercard
+![Screenshot (118)](https://user-images.githubusercontent.com/116195301/210833154-1ea6f77b-24e1-46ab-af3f-92304d5fd19d.png)
+Solve Exercise
+![Screenshot (119)](https://user-images.githubusercontent.com/116195301/210833165-d66d8d68-9bb4-4e08-9c39-0e625e0a6fb0.png)
 
-![image](https://user-images.githubusercontent.com/106152290/210184534-02a2cad1-e724-48be-8c01-7bcf7d301cd4.png)
+
 
 
 
 ## Environment variable
 You need to add those variables to .env file
-- ATLAS_URI
-- MONGO_URI
-- SERVER_PORT
-- AUTH_EMAIL
-- AUTH_PASS
+
+` ATLAS_URI`
+
+` MONGO_URI`
+
+` SERVER_PORT`
+
+` AUTH_EMAIL` 
+
+`AUTH_PASS`
 
 ## API reference
 Our backend is divided into the following routes,
 each route has a set of APIs with different functionalities.
+
 Login
-1) Login
 
-- Route /login/
-- Request Type POST
-- Request Body
+` POST \login`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required.  Bearer token is added.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `username`| `String` | Required. username of user|
+| `password`| `String` | Required. password of user|
+
+-> Response
+
+`
 {
-
-    "username":"haneen1",
-    "password": "1234"
-
-}
-- Response Body
-{
-    
-     "auth": true,
-
-     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjA5NGNmY2I2ZjBhZGI3ZWI3ZTFhNSIsImlhdCI6MTY3MjYwOTkxNywiZXhwIjoxNjcyODY5MTE3fQ.30oXcBa6jVE2B-pSutsPqjHvDZfXvGxmwwTmk3kWFK4",
-       "result": {
-
-        "_id": "63b094cfcb6f0adb7eb7e1a5",
-        "username": "Haneen1",
-        "password": "$2b$10$ZkYlAO3cTwzumqrRXB7xSuoP3BxABLMrfmid5ivzYTI5OupJLGaPC",
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjMzNGI1ZmYxOWE1ZTYzZjU3ZGExOSIsImlhdCI6MTY3MjkzNzAxMCwiZXhwIjoxNjczMTk2MjEwfQ.XiaLlVKPZ2w4808vb1s8fbVEMqEXIuAnrtS5BOvVJEk",
+    "result": {
+        "_id": "63b334b5ff19a5e63f57da19",
+        "username": "Admin",
+        "password": "$2b$10$tUIvGiUZyfG/OMKoO9mlzOc0q9ZeHj99V6UvGWNCR28nAfjzgOWJO",
         "type": "Admin",
+        "email": "haneengamall111@gmail.com",
         "reviews": [],
         "registeredCourses": [],
-        "createdAt": "2022-12-31T20:00:15.414Z",
-        "updatedAt": "2022-12-31T20:00:15.414Z",
-        "__v": 0
-    
-}
-}
-2) Logout
-
-- Route /logout/
-- Request Type Get
-- Response Body
-{
-
-    "logged Out "
-
-}
-3) View course 
-
-- Route /course/
-- Request Type Get
-- Response Body
-
-{
-    
-     "course": {
-        "_id": "63b095db52b47810343520b8",
-        "title": "Embedded Systems",
-        "summary": "BLABLABLA",
-        "defaultPrice": 4000,
-        "price": 548720,
-        "credithours": 4,
-        "rating": 3.5,
-        "taughtBy": "63b13355686ed0e66c6bb85c",
-        "reviews": [],
-        "link": "https://www.youtube.com/watch?v=9AZghsVgNvs",
-        "subtitles": [
-            "63b0974b52b47810343520e1"
-        ],
-        "subject": "Data Science",
-        "subtitlesName": [],
-        "instructorName": "Haneen12",
-        "numberOfRates": 2,
-        "numberOfEnrolled": 6,
-        "createdAt": "2022-12-31T20:04:43.025Z",
-        "updatedAt": "2023-01-01T21:15:22.167Z",
-        "__v": 0
-    },
-
-    "discount": {
-        "_id": "63b0b392d3a254c7d5d599f6",
-        "amount": 70,
-        "startDate": "2022-12-30T19:11:54.000Z",
-        "endDate": "2023-01-03T19:11:54.000Z",
-        "course": "63b095db52b47810343520b8",
-        "createdAt": "2022-12-31T22:11:30.779Z",
-        "updatedAt": "2022-12-31T22:11:30.779Z",
+        "createdAt": "2023-01-02T19:47:01.147Z",
+        "updatedAt": "2023-01-03T09:10:47.042Z",
         "__v": 0
     }
 }
+`
+ 
+Logout
 
+`GET \logout`
 
-3) rate course 
+-> Response
 
-- Route /ratecourse/
-- Request Type PATCH
-- Response Body
+`"Logged Out"`
+
+Sign up
+
+`POST \addIndividualTrainee`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required.  Bearer token is added.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `username`| `String` | Required. username of IndividualTrainee|
+| `password`| `String` | Required. password of IndividualTrainee|
+| `email`| `String` | Required. email of IndividualTrainee|
+| `firstName`| `String` | Required. first name of IndividualTrainee|
+| `lastName`| `String` | Required. last name of IndividualTrainee|
+
+-> Response
+
+`
 {
+    "auth": true,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzYjcwMWE0YzZjMDg2ODllM2RkOTM3MSIsImlhdCI6MTY3MjkzNzg5MiwiZXhwIjoxNjczMTk3MDkyfQ.yY5g_1_Vj-JA0PRNJcSkfft9h701JPJ8QorCoeD5Y8U",
+    "result": {
+        "username": "Haneen00",
+        "password": "$2b$10$ICoRXHbcVChq3YeQJfdy3.sTQuWa313V2Ai4EqJAbvIMnRG5oQ/US",
+        "type": "Individual Trainee",
+        "email": "Haneen789",
+        "firstName": "Haneen",
+        "lastName": "gamal",
+        "reviews": [],
+        "registeredCourses": [],
+        "wallet": 0,
+        "defaultWallet": 0,
+        "policy": "false",
+        "_id": "63b701a4c6c08689e3dd9371",
+        "createdAt": "2023-01-05T16:58:12.159Z",
+        "updatedAt": "2023-01-05T16:58:12.159Z",
+        "__v": 0
+    }
+}
+`
 
-    "_id": "63b095db52b47810343520b8",
-    "title": "Embedded Systems",
-    "summary": "BLABLABLA",
-    "defaultPrice": 4000,
-    "price": 548720,
-    "credithours": 4,
-    "rating": 1.8333333333333333,
-    "taughtBy": "63b13355686ed0e66c6bb85c",
+Add Admin
+
+
+`POST \addAdmin`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Admin.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `username`| `String` | Required. username of Admin|
+| `password`| `String` | Required. password of Admin|
+
+-> Response
+
+`{
+    "username": "Haneen990",
+    "password": "$2b$10$/tmGOwImoFajbhiE.a6r.OTJ6ggWMZ3V9bfEne4/qkyQWki.3vmV2",
+    "type": "Admin",
+    "email": "haneengamall111@gmail.com",
     "reviews": [],
-    "link": "https://www.youtube.com/watch?v=9AZghsVgNvs",
-    "subtitles": [
-        "63b0974b52b47810343520e1"
-    ],
+    "registeredCourses": [],
+    "_id": "63b7023ec6c08689e3dd9ab9",
+    "createdAt": "2023-01-05T17:00:46.803Z",
+    "updatedAt": "2023-01-05T17:00:46.803Z",
+    "__v": 0
+}`
+
+
+
+Add Corporate Trainee
+
+
+`POST \addCorporateTrainee`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Admin.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `username`| `String` | Required. username of Corporate Trainee|
+| `password`| `String` | Required. password of Corporate Trainee|
+
+-> Response
+
+` {
+    "username": "Haneen90",
+    "password": "$2b$10$FjJd6dtIY9U3fOLSepm9H.3cj2B0axZVFM09CbeRBhgvH.TIUarPO",
+    "type": "Corporate Trainee",
+    "email": "haneengamall111@gmail.com",
+    "reviews": [],
+    "registeredCourses": [],
+    "_id": "63b7029bc6c08689e3dd9f25",
+    "createdAt": "2023-01-05T17:02:19.151Z",
+    "updatedAt": "2023-01-05T17:02:19.151Z",
+    "__v": 0
+} `
+
+
+Add Instructor
+
+
+`POST \addInstructor`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Admin.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `username`| `String` | Required. username of Instructor|
+| `password`| `String` | Required. password of Instructor|
+
+-> Response
+
+`{
+    "username": "Hanen90",
+    "password": "$2b$10$ZZdI.m.aPvCxlmloku2vT.dRAKxvzlgYSmOZInaJRRbyLdA/tEm/q",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [],
+    "contract": "false",
+    "registeredCourses": [],
+    "wallet": 0,
+    "defaultWallet": 0,
+    "policy": "false",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "_id": "63b7032ec6c08689e3dda634",
+    "createdAt": "2023-01-05T17:04:46.236Z",
+    "updatedAt": "2023-01-05T17:04:46.236Z",
+    "__v": 0
+} `
+
+Change Password
+
+`PATCH \changePassword`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `password`| `String` | Required. password of User|
+| `newPassword`| `String` | Required. newPassword of User|
+
+-> Response
+
+`
+{
+    "_id": "63b7032ec6c08689e3dda634",
+    "username": "Hanen90",
+    "password": "$2b$10$N/icnvFRT0nAeBJDzZvoOO31p5SO.DdWXi6aB1kju8ouVtLyjDxDG",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [],
+    "contract": "false",
+    "registeredCourses": [],
+    "wallet": 0,
+    "defaultWallet": 0,
+    "policy": "false",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-05T17:04:46.236Z",
+    "updatedAt": "2023-01-05T17:06:31.370Z",
+    "__v": 0
+}`
+
+
+View Course
+
+`GET \course`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course.|
+
+-> Response
+
+`
+{
+    "course": {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    "discount": {
+        "_id": "63b3f462b0c2558949676139",
+        "amount": 50,
+        "startDate": "2023-01-03T19:11:54.000Z",
+        "endDate": "2023-01-04T19:11:54.000Z",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "createdAt": "2023-01-03T09:24:50.083Z",
+        "updatedAt": "2023-01-03T09:24:50.083Z",
+        "__v": 0
+    }
+}
+`
+
+
+Create Course
+
+`POST \createCourse`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Instructor.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `title`| `String` | Required. title of Course|
+| `summary`| `String` | Required. summary of Course|
+| `defaultPrice`| `String` | Required. summary of Course|
+| `subject`| `String` | Required. summary of Course|
+| `link`| `String` | Required. summary of Course|
+
+-> Response
+
+`
+{
+    "title": "course1",
+    "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+    "defaultPrice": 4000,
+    "price": 4000,
+    "credithours": 4,
+    "rating": 5,
+    "taughtBy": "63b334c8ff19a5e63f57da35",
+    "reviews": [],
+    "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+    "subtitles": [],
     "subject": "Data Science",
     "subtitlesName": [],
-    "instructorName": "Haneen12",
-    "numberOfRates": 3,
-    "numberOfEnrolled": 6,
-    "createdAt": "2022-12-31T20:04:43.025Z",
-    "updatedAt": "2023-01-01T22:18:35.794Z",
+    "instructorName": "Instructor",
+    "numberOfRates": 0,
+    "numberOfEnrolled": 0,
+    "_id": "63b706fffe2a043a98264812",
+    "createdAt": "2023-01-05T17:21:03.652Z",
+    "updatedAt": "2023-01-05T17:21:03.652Z",
     "__v": 0
 }
+`
+Create Subtitle
+
+`POST \createSubtitle`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Instructor.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `name`| `String` | Required. title of Subtitle|
+| `credithour`| `String` | Required. credithour of Subtitle|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+-> Response
+
+`{
+    "name": "1",
+    "videos": [],
+    "_id": "63b707beaf27ca4250cf2651",
+    "createdAt": "2023-01-05T17:24:14.283Z",
+    "updatedAt": "2023-01-05T17:24:14.283Z",
+    "__v": 0
+}`
+
+
+Rate Course
+
+`PATCH \rateCourse`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Trainee.|
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `rating`| `Number` | Required. rating from user|
+
+->Response
+
+`
+{
+    "_id": "63b706fffe2a043a98264812",
+    "title": "course1",
+    "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+    "defaultPrice": 4000,
+    "price": 4000,
+    "credithours": 4,
+    "rating": 3.4,
+    "taughtBy": "63b334c8ff19a5e63f57da35",
+    "reviews": [],
+    "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+    "subtitles": [
+        "63b707beaf27ca4250cf2651"
+    ],
+    "subject": "Data Science",
+    "subtitlesName": [
+        "1"
+    ],
+    "instructorName": "Instructor",
+    "numberOfRates": 1,
+    "numberOfEnrolled": 0,
+    "createdAt": "2023-01-05T17:21:03.652Z",
+    "updatedAt": "2023-01-05T17:25:14.701Z",
+    "__v": 0
+}`
+
+
+
+
+
 
 
 
