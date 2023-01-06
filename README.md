@@ -333,6 +333,12 @@ Payment by Visa or Mastercard
 ![Screenshot (118)](https://user-images.githubusercontent.com/116195301/210833154-1ea6f77b-24e1-46ab-af3f-92304d5fd19d.png)
 Solve Exercise
 ![Screenshot (119)](https://user-images.githubusercontent.com/116195301/210833165-d66d8d68-9bb4-4e08-9c39-0e625e0a6fb0.png)
+Menu 1 Trainee
+![Screenshot (123)](https://user-images.githubusercontent.com/116195301/210965406-029b6f12-09fa-48d6-9b22-8e32bebd0df1.png)
+Menu 2 Individual Trainee
+![Screenshot (124)](https://user-images.githubusercontent.com/116195301/210965434-6c542fd4-b007-4991-8aee-9d8003198973.png)
+Admin Menu
+![Screenshot (125)](https://user-images.githubusercontent.com/116195301/210965465-d9de4b51-051f-48de-97fa-2dd82f70557d.png)
 
 
 
@@ -341,19 +347,21 @@ Solve Exercise
 ## Environment variable
 You need to add those variables to .env file
 
-` ATLAS_URI`
+`ATLAS_URI`
 
-` MONGO_URI`
+`MONGO_URI`
 
-` SERVER_PORT`
+`SERVER_PORT`
 
-` AUTH_EMAIL` 
+`AUTH_EMAIL` 
 
 `AUTH_PASS`
 
 ## API reference
 Our backend is divided into the following routes,
 each route has a set of APIs with different functionalities.
+
+Test are done using postman and their is the routes and its tests
 
 Login
 
@@ -368,7 +376,7 @@ Login
 | `username`| `String` | Required. username of user|
 | `password`| `String` | Required. password of user|
 
--> Response
+> Response
 
 `
 {
@@ -393,7 +401,7 @@ Logout
 
 `GET \logout`
 
--> Response
+> Response
 
 `"Logged Out"`
 
@@ -413,7 +421,7 @@ Sign up
 | `firstName`| `String` | Required. first name of IndividualTrainee|
 | `lastName`| `String` | Required. last name of IndividualTrainee|
 
--> Response
+> Response
 
 `
 {
@@ -453,7 +461,7 @@ Add Admin
 | `username`| `String` | Required. username of Admin|
 | `password`| `String` | Required. password of Admin|
 
--> Response
+> Response
 
 `{
     "username": "Haneen990",
@@ -484,7 +492,7 @@ Add Corporate Trainee
 | `username`| `String` | Required. username of Corporate Trainee|
 | `password`| `String` | Required. password of Corporate Trainee|
 
--> Response
+> Response
 
 ` {
     "username": "Haneen90",
@@ -514,7 +522,7 @@ Add Instructor
 | `username`| `String` | Required. username of Instructor|
 | `password`| `String` | Required. password of Instructor|
 
--> Response
+> Response
 
 `{
     "username": "Hanen90",
@@ -550,7 +558,7 @@ Change Password
 | `password`| `String` | Required. password of User|
 | `newPassword`| `String` | Required. newPassword of User|
 
--> Response
+> Response
 
 `
 {
@@ -583,7 +591,7 @@ View Course
 | --- | -- | --- |
 | `courseId`| `String` | Required. Id of course.|
 
--> Response
+> Response
 
 `
 {
@@ -642,7 +650,7 @@ Create Course
 | `subject`| `String` | Required. summary of Course|
 | `link`| `String` | Required. summary of Course|
 
--> Response
+> Response
 
 `
 {
@@ -684,7 +692,7 @@ Create Subtitle
 | --- | -- | --- |
 | `courseId`| `String` | Required. Id of course|
 
--> Response
+> Response
 
 `{
     "name": "1",
@@ -712,7 +720,7 @@ Rate Course
 | --- | -- | --- |
 | `rating`| `Number` | Required. rating from user|
 
-->Response
+>Response
 
 `
 {
@@ -741,6 +749,8 @@ Rate Course
     "__v": 0
 }`
 
+Register
+
 
 `PATCH \register`
 
@@ -756,7 +766,7 @@ Rate Course
 | --- | -- | --- |
 | `rating`| `Number` | Required. rating from user|
 
--> Response
+> Response
 
 `
 {
@@ -785,9 +795,9 @@ Rate Course
     "__v": 0
 }`
 
+Rate Course
 
-
-`PATCH \requestAccess`
+`PATCH \rateCourse`
 
 | query | Type | Description |
 | --- | -- | --- |
@@ -801,7 +811,7 @@ Rate Course
 | --- | -- | --- |
 | `rating`| `Number` | Required. rating from user|
 
-->Response
+>Response
 
 `
 {
@@ -835,7 +845,7 @@ View All Coueses
 `GET \courses`
 
 
--> Response
+> Response
 
 ` [
     {
@@ -983,9 +993,9 @@ View My Coueses
 | `Authorization`| `String` | Required. Bearer token of the Trainee.|
 
 
--> Response
+> Response
 
-` [
+`[
     {
         "_id": "63b33a75ff19a5e63f57daa2",
         "title": "Databases",
@@ -1041,34 +1051,8 @@ View My Coueses
         "createdAt": "2023-01-02T20:22:24.770Z",
         "updatedAt": "2023-01-03T09:55:45.905Z",
         "__v": 0
-    },
-   {
-    
-        "_id": "63b706fffe2a043a98264812",
-        "title": "course1",
-        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
-        "defaultPrice": 4000,
-        "price": 4000,
-        "credithours": 4,
-        "rating": 7,
-        "taughtBy": "63b334c8ff19a5e63f57da35",
-        "reviews": [],
-        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
-        "subtitles": [
-            "63b707beaf27ca4250cf2651"
-        ],
-        "subject": "Data Science",
-        "subtitlesName": [
-            "1"
-        ],
-        "instructorName": "Instructor",
-        "numberOfRates": 1,
-        "numberOfEnrolled": 0,
-        "createdAt": "2023-01-05T17:21:03.652Z",
-        "updatedAt": "2023-01-05T17:25:14.701Z",
-        "__v": 0
     }
-]`
+] `
 
 
 Report Problem
@@ -1088,7 +1072,7 @@ Report Problem
 | --- | -- | --- |
 | `courseId`| `String` | Required. Id of course|
 
--> Response
+> Response
 
 `{
     "type": "technical",
@@ -1107,7 +1091,7 @@ Report Problem
 
 View Reported Problems
 
-`POST \reportedProblems`
+`GET \reportedProblems`
  
 | Headers | Type | Description |
 | --- | -- | --- |
@@ -1116,7 +1100,8 @@ View Reported Problems
 
 
 
--> Response
+> Response
+
 `
 [
     {
@@ -1133,6 +1118,1295 @@ View Reported Problems
     }
 ]
 `
+
+
+isLogin 
+
+`GET \isLogin`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+> Response
+
+`
+{
+    "_id": "63b334c8ff19a5e63f57da35",
+    "username": "Instructor",
+    "password": "$2b$10$YtRmAFz4bTlm/HJuxM/Hm.KjnI8czvz9JUji5eoQa0nUs1I65zcnW",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [],
+    "contract": "true",
+    "registeredCourses": [],
+    "wallet": 3960,
+    "defaultWallet": 11000,
+    "policy": "true",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-02T19:47:20.850Z",
+    "updatedAt": "2023-01-03T10:53:35.530Z",
+    "__v": 0
+`
+
+Accept Policy
+
+`POST \policy`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `accepted`| `String` | Required. Accepted or Not for Policy|
+
+
+> Response
+
+`
+{
+    "_id": "63b334c8ff19a5e63f57da35",
+    "username": "Instructor",
+    "password": "$2b$10$YtRmAFz4bTlm/HJuxM/Hm.KjnI8czvz9JUji5eoQa0nUs1I65zcnW",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [],
+    "contract": "true",
+    "registeredCourses": [],
+    "wallet": 3960,
+    "defaultWallet": 11000,
+    "policy": "true",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-02T19:47:20.850Z",
+    "updatedAt": "2023-01-03T10:53:35.530Z",
+    "__v": 0
+}
+`
+
+
+
+Accept Contract
+
+`POST \contract`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the Instructor.|
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `accepted`| `String` | Required. Accepted or Not for Contract|
+
+
+> Response
+
+`
+{
+    "_id": "63b334c8ff19a5e63f57da35",
+    "username": "Instructor",
+    "password": "$2b$10$YtRmAFz4bTlm/HJuxM/Hm.KjnI8czvz9JUji5eoQa0nUs1I65zcnW",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [],
+    "contract": "true",
+    "registeredCourses": [],
+    "wallet": 3960,
+    "defaultWallet": 11000,
+    "policy": "true",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-02T19:47:20.850Z",
+    "updatedAt": "2023-01-03T10:53:35.530Z",
+    "__v": 0
+}
+`
+
+
+Change Currency 
+
+`PATCH \change`
+
+`require('currency-converter-lt')`
+
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `change`| `String` | Required. Code of country for Currency converter|
+
+
+> Response
+
+`
+{
+    "status": true
+}
+`
+
+Write Review to Instructor 
+
+`PATCH \writeReviewInstructor`
+
+
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `review`| `String` | Required. Review to be Written to Instructor|
+
+
+| query | Type | Description |
+| --- | -- | --- |
+| `instructorId`| `String` | Required. Id of instructor|
+
+
+> Response
+
+`
+{
+    "_id": "63b334c8ff19a5e63f57da35",
+    "username": "Instructor",
+    "password": "$2b$10$YtRmAFz4bTlm/HJuxM/Hm.KjnI8czvz9JUji5eoQa0nUs1I65zcnW",
+    "type": "Instructor",
+    "email": "haneengamall111@gmail.com",
+    "biography": "",
+    "rating": 5,
+    "reviews": [
+        null,
+        "1234"
+    ],
+    "contract": "true",
+    "registeredCourses": [],
+    "wallet": 5440,
+    "defaultWallet": 11000,
+    "policy": "true",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-02T19:47:20.850Z",
+    "updatedAt": "2023-01-06T06:31:49.093Z",
+    "__v": 0
+}
+`
+
+
+
+Write Review to Course 
+
+`PATCH \writeReviewCourse`
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `review`| `String` | Required. Review to be Written to Course|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+
+> Response
+
+`
+{
+    "_id": "63b706fffe2a043a98264812",
+    "title": "course1",
+    "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+    "defaultPrice": 4000,
+    "price": 5440,
+    "credithours": 4,
+    "rating": 3,
+    "taughtBy": "63b334c8ff19a5e63f57da35",
+    "reviews": [
+        "1234"
+    ],
+    "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+    "subtitles": [
+        "63b707beaf27ca4250cf2651"
+    ],
+    "subject": "Data Science",
+    "subtitlesName": [
+        "1"
+    ],
+    "instructorName": "Instructor",
+    "numberOfRates": 1,
+    "numberOfEnrolled": 0,
+    "createdAt": "2023-01-05T17:21:03.652Z",
+    "updatedAt": "2023-01-06T06:36:14.625Z",
+    "__v": 0
+}
+`
+
+Edit Instructor Info
+
+`PATCH \edit`
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `email`| `String` | Required. email of Instructor|
+| `biography`| `String` | Required. biography of Instructor|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+
+> Response
+
+`
+{
+    "_id": "63b334c8ff19a5e63f57da35",
+    "username": "Instructor",
+    "password": "$2b$10$YtRmAFz4bTlm/HJuxM/Hm.KjnI8czvz9JUji5eoQa0nUs1I65zcnW",
+    "type": "Instructor",
+    "email": "haneengamall11@gmail.com",
+    "biography": "Bla12Bla",
+    "rating": 5,
+    "reviews": [
+        null,
+        "1234"
+    ],
+    "contract": "true",
+    "registeredCourses": [],
+    "wallet": 5440,
+    "defaultWallet": 11000,
+    "policy": "true",
+    "loggedFirst": "false",
+    "numberOfRates": 0,
+    "createdAt": "2023-01-02T19:47:20.850Z",
+    "updatedAt": "2023-01-06T06:31:49.093Z",
+    "__v": 0
+}
+`
+
+
+View Reported Problems
+
+`GET /prevReportedProblems`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+
+
+> Response
+
+`
+[
+    {
+        "_id": "63b71ecc01917a29474c14b8",
+        "type": "technical",
+        "status": "unsolved",
+        "followUp": [],
+        "course": "63b71ecc01917a29474c14b7",
+        "user": "63b334c8ff19a5e63f57da35",
+        "theProblem": "BlaBla",
+        "createdAt": "2023-01-05T19:02:36.050Z",
+        "updatedAt": "2023-01-05T19:02:36.050Z",
+        "__v": 0
+    }
+]
+`
+
+Add Follow Up
+
+`PATCH \followUp`
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `problem`| `String` | Required. problem ID of Problem|
+| `followUp`| `String` | Required. followup of Problem|
+
+
+> Response 
+
+`
+{
+    "_id": "63b71ecc01917a29474c14b8",
+    "type": "technical",
+    "status": "unsolved",
+    "followUp": [
+        "123"
+    ],
+    "course": "63b71ecc01917a29474c14b7",
+    "user": "63b334c8ff19a5e63f57da35",
+    "theProblem": "BlaBla",
+    "createdAt": "2023-01-05T19:02:36.050Z",
+    "updatedAt": "2023-01-06T06:44:59.021Z",
+    "__v": 0
+}
+`
+
+
+Request Refund
+
+`PATCH \requestRefund`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+> Response
+
+`
+{
+    "type": "refund",
+    "amount": 5440,
+    "user": "63b334c8ff19a5e63f57da35",
+    "course": "63b33a75ff19a5e63f57daa2",
+    "accepted": "false",
+    "_id": "63b7c56af4620a79baa07db7",
+    "createdAt": "2023-01-06T06:53:30.933Z",
+    "updatedAt": "2023-01-06T06:53:30.933Z",
+    "__v": 0
+}`
+
+
+View Refund Requests
+
+`GET \refundRequests`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+> Response
+
+`
+[
+    {
+        "_id": "63b7c56af4620a79baa07db7",
+        "type": "refund",
+        "amount": 5440,
+        "user": "63b334c8ff19a5e63f57da35",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "accepted": "false",
+        "createdAt": "2023-01-06T06:53:30.933Z",
+        "updatedAt": "2023-01-06T06:53:30.933Z",
+        "__v": 0
+    }
+]`
+
+
+
+Refund Request
+
+`PATCH \refund`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `state`| `String` | Required. whether Problem accepted or not|
+
+
+
+
+> Response
+
+`
+[
+    {
+        "_id": "63b7c56af4620a79baa07db7",
+        "type": "refund",
+        "amount": 5440,
+        "user": "63b334c8ff19a5e63f57da35",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "accepted": "true",
+        "createdAt": "2023-01-06T06:53:30.933Z",
+        "updatedAt": "2023-01-06T06:53:30.933Z",
+        "__v": 0
+    }
+]`
+
+
+Solve Problem
+
+`PATCH \solve`
+
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `problem`| `String` | Required. problem ID of Problem|
+| `status`| `String` | Required. status of Problem|
+
+> Response
+
+`
+{
+    "_id": "63b71ecc01917a29474c14b8",
+    "type": "technical",
+    "status": "accepted",
+    "followUp": [
+        "123"
+    ],
+    "course": "63b71ecc01917a29474c14b7",
+    "user": "63b334c8ff19a5e63f57da35",
+    "theProblem": "BlaBla",
+    "createdAt": "2023-01-05T19:02:36.050Z",
+    "updatedAt": "2023-01-06T07:01:55.872Z",
+    "__v": 0
+}`
+
+Request Access
+
+`PATCH \requestAccess`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of course|
+
+
+> Response
+
+`
+{
+    "type": "access",
+    "user": "63b334c8ff19a5e63f57da35",
+    "course": "63b33a75ff19a5e63f57daa2",
+    "accepted": "false",
+    "_id": "63b7c927f4620a79baa07dbb",
+    "createdAt": "2023-01-06T07:09:27.816Z",
+    "updatedAt": "2023-01-06T07:09:27.816Z",
+    "__v": 0
+}
+`
+
+Course Requests
+
+`GET \courseRequests`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+> Response
+
+`
+[
+    {
+        "_id": "63b7c927f4620a79baa07dbb",
+        "type": "access",
+        "user": "63b334c8ff19a5e63f57da35",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "accepted": "false",
+        "createdAt": "2023-01-06T07:09:27.816Z",
+        "updatedAt": "2023-01-06T07:09:27.816Z",
+        "__v": 0
+    }
+`
+
+
+Grant Access
+
+`PATCH \grant`
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `state`| `String` | Required. state of Request|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `requestId`| `String` | Required. Id of Request|
+
+> Response
+
+`
+{
+        "_id": "63b7c927f4620a79baa07dbb",
+        "type": "access",
+        "user": "63b334c8ff19a5e63f57da35",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "accepted": "true",
+        "createdAt": "2023-01-06T07:09:27.816Z",
+        "updatedAt": "2023-01-06T07:09:27.816Z",
+        "__v": 0
+    }
+`
+
+
+Filter all courses
+
+`GET \filter`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `price`| `String` | Required. Price to be filter|
+| `rating`| `String` | Required. Rating to be filter|
+| `subject`| `String` | Required. Subject to be filter|
+
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+Filter all Instructor Courses
+
+`GET \filterInstructor`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `price`| `String` | Required. Price to be filter|
+| `rating`| `String` | Required. Rating to be filter|
+| `subject`| `String` | Required. Subject to be filter|
+
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+Search all courses
+
+`GET \search`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `search`| `String` | Required. Search to be searched|
+
+
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+
+Search all courses
+
+`GET \searchInstructor`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `search`| `String` | Required. Search to be searched|
+
+
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+
+View Trainee Courses
+
+`GET \traineeViewCourses`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+
+
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+
+isRegister
+
+`GET \isRegister`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+
+> Response
+
+`{
+status:true
+}
+`
+
+Most Enrolled
+
+`GET \enrolled`
+
+> Response
+
+`
+ [
+    {
+        "_id": "63b33a75ff19a5e63f57daa2",
+        "title": "Databases",
+        "summary": "A database is an organized collection of structured information, or data, typically stored electronically in a computer system",
+        "defaultPrice": 4000,
+        "price": 3960,
+        "credithours": 4,
+        "rating": 0.8333333333333334,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=Zc14ZkWVhhs&t=32s",
+        "subtitles": [
+            "63b33b08ff19a5e63f57dac2"
+        ],
+        "subject": "Data Science",
+        "subtitlesName": [
+            "ER DIAGRAM"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 3,
+        "numberOfEnrolled": 4,
+        "createdAt": "2023-01-02T20:11:33.860Z",
+        "updatedAt": "2023-01-03T10:49:54.854Z",
+        "__v": 0
+    },
+    {
+        "_id": "63b33d006529cf9017236009",
+        "title": "Advanced Computer Lab",
+        "summary": "Website using MernStack",
+        "defaultPrice": 3500,
+        "price": 3500,
+        "credithours": 4,
+        "rating": 5,
+        "taughtBy": "63b334c8ff19a5e63f57da35",
+        "reviews": [],
+        "link": "https://www.youtube.com/watch?v=jeNXbJq5o5g",
+        "subtitles": [
+            "63b33d836529cf9017236027",
+            "63b33e246529cf9017236041",
+            "63b33e8a6529cf9017236059",
+            "63b33efb6529cf9017236073"
+        ],
+        "subject": "Computer Science",
+        "subtitlesName": [
+            "Mongodb",
+            "Express JS",
+            "Node JS",
+            "React JS"
+        ],
+        "instructorName": "Instructor",
+        "numberOfRates": 0,
+        "numberOfEnrolled": 3,
+        "createdAt": "2023-01-02T20:22:24.770Z",
+        "updatedAt": "2023-01-03T09:55:45.905Z",
+        "__v": 0
+    }
+]`
+
+
+View Subtitle
+
+`GET \viewSubtitle`
+
+| query | Type | Description |
+| --- | -- | --- |
+| `subtitleId`| `String` | Required. Subtitle Id of Subtitle|
+
+> Response
+
+`
+{
+    "_id": "63b33b08ff19a5e63f57dac2",
+    "name": "ER DIAGRAM",
+    "credithour": "1",
+    "videos": [
+        "63b33a9dff19a5e63f57daad",
+        "63b33ab0ff19a5e63f57daaf"
+    ],
+    "exams": "63b33ab1ff19a5e63f57dab1",
+    "createdAt": "2023-01-02T20:14:00.020Z",
+    "updatedAt": "2023-01-02T20:14:00.020Z",
+    "__v": 0
+}
+`
+
+Upload Link
+
+`POST \uploadLink`
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `link`| `String` | Required. link of Video|
+| `description`| `String` | Required. description of Video|
+| `subtitle`| `String` | Required. name of Subtitle|
+
+
+> Response
+
+`
+{
+    "link": "https://www.youtube.com/watch?v=1FGFtyTkjZk",
+    "description": "blabla",
+    "subtitle": "ER DIAGRAM",
+    "_id": "63b7d01bc52b3f70a3ac5554",
+    "createdAt": "2023-01-06T07:39:07.039Z",
+    "updatedAt": "2023-01-06T07:39:07.039Z",
+    "__v": 0
+}`
+
+
+Set Discount
+
+`POST \discount`
+
+| Body | Type | Description |
+| --- | -- | --- |
+| `discount`| `String` | Required. Discount Amount|
+| `startDate`| `String` | Required. startdate of Discount|
+| `endDate`| `String` | Required. enddate of Discount|
+
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of Course|
+
+
+> Response
+
+
+
+`
+{
+        "_id": "63b3f462b0c2558949676139",
+        "amount": 50,
+        "startDate": "2023-01-03T19:11:54.000Z",
+        "endDate": "2023-01-04T19:11:54.000Z",
+        "course": "63b33a75ff19a5e63f57daa2",
+        "createdAt": "2023-01-03T09:24:50.083Z",
+        "updatedAt": "2023-01-03T09:24:50.083Z",
+        "__v": 0
+ }`
+ 
+ IsTaught
+ 
+ `GET \isTaught`
+ 
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+ 
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of Course|
+
+> Response
+
+`
+{status:true}`
+
+
+View Video
+
+ `GET \viewVideo`
+
+
+| query | Type | Description |
+| --- | -- | --- |
+| `subtitleId`| `String` | Required. Id of Subtitle|
+
+
+
+
+> Response
+
+` {
+    "subtitle": {
+        "_id": "63b33b08ff19a5e63f57dac2",
+        "name": "ER DIAGRAM",
+        "credithour": "1",
+        "videos": [
+            "63b33a9dff19a5e63f57daad",
+            "63b33ab0ff19a5e63f57daaf"
+        ],
+        "exams": "63b33ab1ff19a5e63f57dab1",
+        "createdAt": "2023-01-02T20:14:00.020Z",
+        "updatedAt": "2023-01-02T20:14:00.020Z",
+        "__v": 0
+    },
+    "results": [
+        {
+            "_id": "63b33a9dff19a5e63f57daad",
+            "link": "https://www.youtube.com/watch?v=QpdhBUYk7Kk",
+            "description": "Entity Relationship Diagram (ERD) Tutorial - Part 1",
+            "subtitle": "ER DIAGRAM",
+            "createdAt": "2023-01-02T20:12:13.217Z",
+            "updatedAt": "2023-01-02T20:12:13.217Z",
+            "__v": 0
+        },
+        {
+            "_id": "63b33ab0ff19a5e63f57daaf",
+            "link": "https://www.youtube.com/watch?v=-CuY5ADwn24",
+            "description": "Entity Relationship Diagram (ERD) Tutorial - Part 2",
+            "subtitle": "ER DIAGRAM",
+            "createdAt": "2023-01-02T20:12:32.635Z",
+            "updatedAt": "2023-01-02T20:12:32.635Z",
+            "__v": 0
+        }
+    ]
+} `
+ 
+ 
+Get Progress
+
+ `GET \getProgress`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+ 
+| query | Type | Description |
+| --- | -- | --- |
+| `courseId`| `String` | Required. Id of Course|
+
+> Response
+
+`
+{
+    "value": 33.33333333333334
+}` 
+
+Create Student Answer
+
+ `POST \createStudentAnswer`
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+ 
+| query | Type | Description |
+| --- | -- | --- |
+| `examId`| `String` | Required. Id of Exam|
+
+> Response
+
+
+`{
+    "answers": [],
+    "grade": 0,
+    "exam": "63b33ab1ff19a5e63f57dab1",
+    "user": "63b334c8ff19a5e63f57da35",
+    "_id": "63b7dafb604a70cfd5108271",
+    "createdAt": "2023-01-06T08:25:31.490Z",
+    "updatedAt": "2023-01-06T08:25:31.490Z",
+    "__v": 0
+}`
+
+
+Get Student Answer and Grade
+
+ `GET \studentAnswers`
+
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+ 
+| query | Type | Description |
+| --- | -- | --- |
+| `examId`| `String` | Required. Id of Exam|
+
+
+> Response
+
+`
+{
+    "_id": "63b406ddd5b944794c50da3e",
+    "answers": [
+        "10",
+        "11",
+        "12"
+    ],
+    "grade": 3,
+    "exam": "63b3fe15d5b944794c50728f",
+    "user": "63b401edd5b944794c50933b",
+    "createdAt": "2023-01-03T10:43:41.651Z",
+    "updatedAt": "2023-01-03T10:50:23.425Z",
+    "__v": 0
+}
+`
+
+
+Get Correct Answers
+
+| Headers | Type | Description |
+| --- | -- | --- |
+| `Authorization`| `String` | Required. Bearer token of the User.|
+ 
+| query | Type | Description |
+| --- | -- | --- |
+| `examId`| `String` | Required. Id of Exam|
+
+
+> Response
+
+`
+{
+    "_id": "63b3fe15d5b944794c50728f",
+    "questions": [
+        "63b3fe5ed5b944794c507291",
+        "63b3fe66d5b944794c507295",
+        "63b3fe73d5b944794c507299"
+    ],
+    "correctAnswers": [
+        "10",
+        "11",
+        "12"
+    ],
+    "subtitle": "Subtitle1",
+    "createdAt": "2023-01-03T10:06:13.849Z",
+    "updatedAt": "2023-01-03T10:07:47.975Z",
+    "__v": 0
+}
+`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
