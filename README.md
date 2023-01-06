@@ -2405,10 +2405,14 @@ If you have any suggestion or faced any issue please contract us at [Haneen Elza
 
 ## Credits
 
-[Mongoose Doc](https://mongoosejs.com/docs/)
-[NPM Doc](https://docs.npmjs.com/)
-[React Doc](https://beta.reactjs.org/)
-[Material UI Doc](https://mui.com/material-ui/getting-started/overview/)
+* [Mongoose Doc](https://mongoosejs.com/docs/)
+
+* [NPM Doc](https://docs.npmjs.com/)
+
+* [React Doc](https://beta.reactjs.org/)
+
+* [Material UI Doc](https://mui.com/material-ui/getting-started/overview/)
+
 
 
 
