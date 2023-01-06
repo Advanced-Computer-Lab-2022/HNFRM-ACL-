@@ -18,6 +18,7 @@
 - API References and Tests
 - How to Use
 - Contribute
+- Credits
 
 
 # Project Description
@@ -359,7 +360,7 @@ You need to add those variables to .env file
 
 `AUTH_PASS`
 
-## API reference
+## API reference and tests
 Our backend is divided into the following routes,
 each route has a set of APIs with different functionalities.
 
