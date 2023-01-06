@@ -15,7 +15,9 @@
 - Installation and Setup
 - Screenshots
 - Environment Variables
-- API References
+- API References and Tests
+- How to Use
+- Contribute
 
 
 # Project Description
@@ -2380,11 +2382,33 @@ Get Correct Answers
     "__v": 0
 }
 `
+## How to use
+
+First as a guest you can search for any course and filter by price , subject or rating , then you can sign up as a Individual Trainee or if you're a already exists user you can login either as individual trainee , corporate trainee , instructor or admin
+
+If you signed up as a individual trainee , you must accept the terms and policy then you can register for any course either by credit card or using your wallet then after registering each week you have a class you have to watch all videos and Write then download notes while watching videos to take the week exam , if you're under 50% progress you can refund , the admin then either would accept your request or not ,after completing the course you can download your certificate or send it via email. you can report problem whether the course by clicking on report , then you choose the type of problem , the admin would solve it , if not solved in time you send a follow up to it , individual trainee can change his password
+
+If you logged in as a corporate trainee , you can enter the courses that you have access to only , if you don't have access you can request access , then the process inside is the same as the individual trainee except that you can't request a refund , corporate trainee can change his password
+
+
+If you logged in as a instructor , if for the first time you must accept payment term and the contract , you can search and filter your courses according to their price and subject , you can create a course and define a discount for your courses , any new trainee registered for your course the course price is transferred into your wallet, if trainee refund then it would withdrawn from your wallet , you can report issue with the course , Instructor can change his password , edit his email and biography
+
+
+If you logged in as admin , you can add admin , instructor , corporate trainee to database system , also you solve the problem mark it as solved or pending , you accept or reject the corporate trainee request according to its company / the individual trainee request of refund and also can set promotion for courses
 
 
 
+## Contribute
+
+If you have any suggestion or faced any issue please contract us at [Haneen Elzawawy](Haneen.elzawawy@student.guc.edu.eg)
 
 
+## Credits
+
+[Mongoose Doc](https://mongoosejs.com/docs/)
+[NPM Doc](https://docs.npmjs.com/)
+[React Doc](https://beta.reactjs.org/)
+[Material UI Doc](https://mui.com/material-ui/getting-started/overview/)
 
 
 
